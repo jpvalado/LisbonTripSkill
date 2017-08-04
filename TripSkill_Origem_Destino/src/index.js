@@ -328,8 +328,7 @@ function horacompare(actual, actualfim, compare){
 
 
 function horario(origem_id, destino_id){
-
-    var now = new Date();
+var now = new Date();
 
     var time = dateFormat(now, "HH:MM:ss");
     var date = dateFormat(now, "yyyymmdd");
@@ -373,7 +372,7 @@ function horario(origem_id, destino_id){
         var validDate = dateCheck(convertData((calnd[0].start_date).toString()),convertData((calnd[0].end_date).toString()),convertData(date.toString()));
 
         if (  validDate == true &&  ((calnd[0][weekDay] == 1 && exc.length == 0) || (calnd[0][weekDay] == 0 && exc.length > 0))){
-            if (freq.lenghth > 0){
+            if (freq.length > 0){
                 var step = Number(freq[0].headway_secs)
 
                 var end = Number(seconds(freq[0].end_time))
@@ -585,3 +584,4 @@ function buildResponse(sessionAttributes, speechletResponse) {
 function capitalizeFirst(s) {
     return s.charAt(0).toUpperCase() + s.slice(1)
 }
+
