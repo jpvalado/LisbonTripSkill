@@ -2,7 +2,6 @@
 //var gtfsToPouch = require('gtfs-to-pouch')
 //var queryPouchGtfs = require('query-pouch-gtfs')
 
-var jsonQuery = require('json-query');
 var _ = require('underscore');
 var dateFormat = require('dateformat');
 const durastamp = require('time-funcs/durastamp')
