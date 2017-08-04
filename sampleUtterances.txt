@@ -1,0 +1,10 @@
+TripIntent {Way} {Station} 
+TripIntent in {Way} way tell me the train from {Station} 
+TripIntent tell me the train from {Station} in {Way} way
+ListIntent {Station} next stops in {Way} way
+ListIntent list {Station} next stops in {Way} way
+ListIntent tell me {Station} next stops in {Way} way
+AMAZON.HelpIntent tell me those stations again
+AMAZON.HelpIntent tell me the stations 
+AMAZON.HelpIntent what are the stations again
+AMAZON.HelpIntent what are the stations 
