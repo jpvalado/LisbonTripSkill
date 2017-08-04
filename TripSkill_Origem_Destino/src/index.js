@@ -208,9 +208,9 @@ function onIntent(intentRequest, session, callback) {
     // dispatch custom intents to handlers here
     if (intentName == "TripIntent") {
         handleTripResponse(intent, session, callback)
-    } /*else if (intentName =="ListIntent") {
+    } else if (intentName =="ListIntent") {
         handleListResponse(intent, session, callback)
-    } */else if (intentName == "AMAZON.YesIntent") {
+    } else if (intentName == "AMAZON.YesIntent") {
         handleYesResponse(intent, session, callback)
     } else if (intentName == "AMAZON.NoIntent") {
         handleNoResponse(intent, session, callback)
@@ -409,6 +409,68 @@ var now = new Date();
     return(_.sortBy(horario));
 }
 
+function nextSops(origem_id, destino_id){
+
+    var trpOri = _.where(stop_times, {stop_id: parseInt(origem_id)});
+    var trpDest = _.where(stop_times, {stop_id: parseInt(destino_id)});
+
+    var trp = []
+    
+    
+    var i = 0;
+    var j = 0;
+
+    while(i < trpDest.length){
+        while(j < trpOri.length){
+            if(_.isEqual(trpOri[j].trip_id, trpDest[i].trip_id)){
+                if(Number(trpOri[j].stop_sequence) < Number(trpDest[i].stop_sequence)){
+                    trp.push(trpDest[i])
+                }
+            }
+               
+            
+            j = j+1
+        }
+        i = i+1
+        j = 0
+    }
+
+      
+    var max = []
+    var i = 0
+    while(i < trp.length){
+        if(max.length == 0){
+            var max = trp[i]
+        }
+
+        else if(trp[i].stop_sequence > max.stop_sequence){
+           var max = trp[i]
+        }
+        i = i + 1
+    }
+
+    
+    var tp_id =  max.trip_id
+
+    var min = _.where(stop_times, {trip_id: tp_id, stop_id: parseInt(origem_id)});
+
+    var j = Number(min[0].stop_sequence)
+    var paragens = []
+    j= j +1
+
+    while(j < max.stop_sequence + 1){
+        var aux = _.where(stop_times, {trip_id: tp_id, stop_sequence: j})
+        var par = _.where(stops, {stop_id: aux[0].stop_id})
+        paragens.push(par[0].stop_name)
+
+        j=j+1
+
+    }
+
+    return paragens;    
+}
+
+
 function handleTripResponse(intent, session, callback){
     var origin = intent.slots.Origin.value.toLowerCase()
     var destination = intent.slots.Destination.value.toLowerCase()
@@ -452,53 +514,50 @@ function handleTripResponse(intent, session, callback){
     callback(session.attributes, buildSpeechletResponse(header, speechOutput, repromptText, shouldEndSession))
 }
 
-/*
-function handleListResponse(intent, session, callback){
-    var station = intent.slots.Station.value.toLowerCase()
-    var way = intent.slots.Way.value.toLowerCase()
 
-     if (!ways[way]){
+function handleListResponse(intent, session, callback){
+
+    var origin = intent.slots.Origin.value.toLowerCase()
+    var destination = intent.slots.Destination.value.toLowerCase()
+
+     if (!stations[destination]){
         var speechOutput = "that way isn't in that route. Try asking another one, like Orange or Melon."
         var repromptText = "try asking about another start station and way"
         var header = "invalid way"
-    } else if (!stations[station]){
+    } else if (!stations[origin]){
         var speechOutput = "that station isn't in that route. Try asking another one, like orange, pear, grapes, lemon, onion, apple, ananas, banana, carrot, potato, fig, watermelon, cherry, peach, tomato, lettuce or melon."
         var repromptText = "try asking about another start station"
         var header = "invalid start station"
-    } else if (station == way){
+    } else if (origin == destination){
         var speechOutput = "that station and way is the same."
         var repromptText = "try asking about another start station and"
         var header = "invalid start station is the same end way"
     } else {
-        var name = stations[station].name
-        var numb = stations[station].c_way
-        var way_nr = ways[way].c_way
-        var way_name = ways[way].name
-        
-        var speechOutput = capitalizeFirst(name) + " next stops are:"
-        var i = numb
-        
-        if (way_name == "cais do sodre" ){
-            while (Number(i) != Number(way_nr)){
-                var i = Number(i) + 1
-                var speechOutput = speechOutput + "\n" +  stations[st[Number(i)-1]].name
-            }
-        } else if (way_name == "cascais" ){
-            while (Number(i) != Number(way_nr)){
-                var i = Number(i) - 1
-                var speechOutput = speechOutput + "\n" +  stations[st[Number(i)-1]].name
-            }
+        var nameO = stations[origin].name 
+        var nameD = stations[destination].name 
+        var idO = stations[origin].stop_id
+        var idD = stations[destination].stop_id
+        var stp = ""
+        var paragens = nextSops(idO, idD);
+        var k = 0;
+        while (k != paragens.length){
+            var stp = stp + paragens[k] + "\n"
+            var k = Number(k) + 1
         }
+        
 
-     
+        var speechOutput = capitalizeFirst(nameO) + " next stops to " + capitalizeFirst(nameD) + " are: \n" + stp
+
         var repromptText = "Do you want other information?"
-        var header = capitalizeFirst(name) + " next stops"
+        var header = capitalizeFirst(nameO) + " next stops to " + capitalizeFirst(nameD)
     }
+    
 
     var shouldEndSession = false
 
     callback(session.attributes, buildSpeechletResponse(header, speechOutput, repromptText, shouldEndSession))
-}*/
+}
+
 function handleYesResponse(intent, session, callback){
     var speechOutput = "Great! which way and start station?"
     var shouldEndSession = false
@@ -585,3 +644,38 @@ function capitalizeFirst(s) {
     return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
+
+
+//TESTES
+/*
+function nomes(origem_id, destino_id){
+
+var o = _.where(stops, {stop_id:  parseInt(origem_id)} );
+var p = _.where(stops, {stop_id:  parseInt(destino_id) });
+
+console.log(o[0].stop_name)
+console.log(p[0].stop_name)
+}
+
+var origem_idc = '11060137';
+var destino_idc = '11066050';
+
+var destino_ide = '11066050';
+var origem_ide = '11060004';
+
+var origem_idf = '11066076';
+var destino_idf= '11060004';
+
+var origem_id = stations["banana"].stop_id;
+var destino_id = stations["peach"].stop_id;
+
+nomes(origem_idc, destino_idc)
+console.log(horario(origem_idc, destino_idc))
+nomes(origem_ide, destino_ide)
+console.log(horario(origem_ide, destino_ide))
+nomes(origem_idf, destino_idf)
+console.log(horario(origem_idf, destino_idf))
+nomes(origem_id, destino_id)
+console.log(horario(origem_id, destino_id))
+console.log(nextSops(origem_id, destino_id))
+*/
