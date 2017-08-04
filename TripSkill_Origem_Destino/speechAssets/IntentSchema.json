@@ -1,0 +1,26 @@
+{
+	"intents" : [ {
+		"intent": "TripIntent",
+		"slots": [
+			{
+				"name": "Origin",
+				"type": "LIST_OF_STATIONS"
+			}, {
+				"name": "Destination",
+				"type": "LIST_OF_STATIONS"
+			}
+		]
+	}, {
+		"intent": "AMAZON.YesIntent"
+	}, {
+		"intent": "AMAZON.NoIntent"
+	}, {
+		"intent": "AMAZON.HelpIntent"
+	}, {
+		"intent": "AMAZON.StopIntent"
+	}, {
+		"intent": "AMAZON.CancelIntent"
+	}
+
+	]
+}
