@@ -303,14 +303,14 @@ function horacompare(actual, actualfim, compare){
     var css = compare.substring(6,8);
 
 
-    /*if (css >= 30){
+    if (css >= 30){
         cmm = Number(cmm) + 1
         cmm = cmm.toString();
         if(cmm.length == 1){
             cmm = 0 + cmm;
         }
 
-    }*/
+    }
 
     if (ahh >= chh && chh <= afhh){
         a = chh +":"+cmm;
@@ -373,7 +373,7 @@ function horario(origem_id, destino_id){
         var validDate = dateCheck(convertData((calnd[0].start_date).toString()),convertData((calnd[0].end_date).toString()),convertData(date.toString()));
 
         if (  validDate == true &&  ((calnd[0][weekDay] == 1 && exc.length == 0) || (calnd[0][weekDay] == 0 && exc.length > 0))){
-            if (freq.lenght > 0){
+            if (freq.lenghth > 0){
                 var step = Number(freq[0].headway_secs)
 
                 var end = Number(seconds(freq[0].end_time))
