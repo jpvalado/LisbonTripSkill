@@ -326,16 +326,30 @@ function horacompare(actual, actualfim, compare){
     }   
 }
 
+function idCheck(str){
+
+    if (!str.match(/[a-z]/i)) {
+        str = parseInt(str)
+        return str
+    } 
+    return str;
+}
 
 function horario(origem_id, destino_id){
+
+
+    var origem_id = idCheck(origem_id)
+    var destino_id = idCheck(destino_id)
+     
+
 var now = new Date();
 
     var time = dateFormat(now, "HH:MM:ss");
     var date = dateFormat(now, "yyyymmdd");
     var weekDay = dateFormat(now, "dddd").toLowerCase();
 
-    var trpOri = _.where(stop_times, {stop_id: parseInt(origem_id)});
-    var trpDest = _.where(stop_times, {stop_id: parseInt(destino_id)});
+    var trpOri = _.where(stop_times, {stop_id: origem_id});
+    var trpDest = _.where(stop_times, {stop_id: destino_id});
 
     var trp = []
     
@@ -409,10 +423,17 @@ var now = new Date();
     return(_.sortBy(horario));
 }
 
+
+
 function nextSops(origem_id, destino_id){
 
-    var trpOri = _.where(stop_times, {stop_id: parseInt(origem_id)});
-    var trpDest = _.where(stop_times, {stop_id: parseInt(destino_id)});
+    var origem_id = idCheck(origem_id)
+    var destino_id = idCheck(destino_id)
+
+    
+
+    var trpOri = _.where(stop_times, {stop_id: origem_id});
+    var trpDest = _.where(stop_times, {stop_id: destino_id});
 
     var trp = []
     
@@ -452,7 +473,7 @@ function nextSops(origem_id, destino_id){
     
     var tp_id =  max.trip_id
 
-    var min = _.where(stop_times, {trip_id: tp_id, stop_id: parseInt(origem_id)});
+    var min = _.where(stop_times, {trip_id: tp_id, stop_id: origem_id});
 
     var j = Number(min[0].stop_sequence)
     var paragens = []
@@ -648,17 +669,22 @@ function capitalizeFirst(s) {
 
 //TESTES
 /*
+
 function nomes(origem_id, destino_id){
 
-var o = _.where(stops, {stop_id:  parseInt(origem_id)} );
-var p = _.where(stops, {stop_id:  parseInt(destino_id) });
+var o = _.where(stops, {stop_id:  idCheck(origem_id)} );
+var p = _.where(stops, {stop_id:  idCheck(destino_id) });
 
 console.log(o[0].stop_name)
 console.log(p[0].stop_name)
 }
 
-var origem_idc = '11060137';
-var destino_idc = '11066050';
+var origem_ida = 'M44';
+var destino_ida = 'M46';
+
+
+var origem_idc = "11060137";
+var destino_idc = "11066050";
 
 var destino_ide = '11066050';
 var origem_ide = '11060004';
@@ -669,10 +695,14 @@ var destino_idf= '11060004';
 var origem_id = stations["banana"].stop_id;
 var destino_id = stations["peach"].stop_id;
 
+
+nomes(origem_ida, destino_ida)
+console.log(horario(origem_ida, destino_ida))
+console.log(nextSops(origem_ida, destino_ida))
+console.log("--------------------------------")
 nomes(origem_idc, destino_idc)
 console.log(horario(origem_idc, destino_idc))
 console.log(nextSops(origem_idc, destino_idc))
-console.log("--------------------------------")
 nomes(origem_ide, destino_ide)
 console.log(horario(origem_ide, destino_ide))
 console.log(nextSops(origem_ide, destino_ide))
@@ -683,5 +713,4 @@ console.log(nextSops(origem_idf, destino_idf))
 console.log("--------------------------------")
 nomes(origem_id, destino_id)
 console.log(horario(origem_id, destino_id))
-console.log(nextSops(origem_id, destino_id))
-*/
+console.log(nextSops(origem_id, destino_id))*/
