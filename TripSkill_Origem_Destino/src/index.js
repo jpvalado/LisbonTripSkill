@@ -13,8 +13,9 @@ var stop_times;
 var stops;
 var trips;
 
-var origin;
-var destination;
+var Service = 0;
+var origin = [];
+var destination = [];
 
 function data(agency_nr){
     var fs = require('fs');
@@ -528,9 +529,9 @@ function nextSops(origem_id, destino_id){
 
 function handleServiceSelect(intent, session, callback){
 
-    service = intent.slots.Service.value
+    service = parseInt(intent.slots.Service.value)
 
-    data(parseInt(service))
+    data(service)
 
     var name = _.where(agency, {agency_id: parseInt(service)})[0].agency_name
     
@@ -568,48 +569,69 @@ function handleOriDest(intent, session, callback){
 
 
 function handleTripResponse(intent, session, callback){
-    /*if (intent.slots.Origin.value == null){
-        origin = intent.slots.Origin.value.toLowerCase()
-        destination = intent.slots.Destination.value.toLowerCase()
-    }*/
+    var originX = intent.slots.Origin.value
+    var destinationY = intent.slots.Destination.value
 
-     if (!stations[destination]){
-        var speechOutput = "that way isn't in that route. Try asking another one, like Orange or Melon."
-        var repromptText = "try asking about another start station and way"
-        var header = "invalid way"
-    } else if (!stations[origin]){
-        var speechOutput = "that station isn't in that route. Try asking another one, like orange, pear, grapes, lemon, onion, apple, ananas, banana, carrot, potato, fig, watermelon, cherry, peach, tomato, lettuce or melon."
-        var repromptText = "try asking about another start station"
-        var header = "invalid start station"
-    } else if (origin == destination){
-        var speechOutput = "that station and way is the same."
-        var repromptText = "try asking about another start station and"
-        var header = "invalid start station is the same end way"
-    } else {
-        var nameO = stations[origin].name 
-        var nameD = stations[destination].name 
-        var idO = stations[origin].stop_id
-        var idD = stations[destination].stop_id
-        var time ="";
+    
+    if(originX !=null && destinationY != null ){
+        origin = originX.toLowerCase();
+        destination = destinationY.toLowerCase();
+    }
+
+        
+    if(Service == 0){
+        var speechOutput = "please first select your service"
+        var repromptText = speechOutput
+        var header = "invalid service"
+
+    } else if(destination.length == 0 && origin.length == 0){
+        var speechOutput = "please first select your origin and destination stations"
+        var repromptText = speechOutput
+        var header = "invalid origin and destination"
+    }
+    else{
+
+        if (!stations[destination]){
+            var speechOutput = "that way isn't in that route. Try asking another one, like Orange or Melon."
+            var repromptText = "try asking about another start station and way"
+            var header = "invalid way"
+        } else if (!stations[origin]){
+            var speechOutput = "that station isn't in that route. Try asking another one, like orange, pear, grapes, lemon, onion, apple, ananas, banana, carrot, potato, fig, watermelon, cherry, peach, tomato, lettuce or melon."
+            var repromptText = "try asking about another start station"
+            var header = "invalid start station"
+        } else if (origin == destination){
+            var speechOutput = "that station and way is the same."
+            var repromptText = "try asking about another start station and"
+            var header = "invalid start station is the same end way"
+        } else {
+            var nameO = stations[origin].name 
+            var nameD = stations[destination].name 
+            var idO = stations[origin].stop_id
+            var idD = stations[destination].stop_id
+            var time ="";
 
        
 
 
-        var horas = horario(idO, idD);
+            var horas = horario(idO, idD);
         
-        var k = 0;
-        while (k != horas.length){
-            var time = time + horas[k] + "\n"
-            var k = Number(k) + 1
+            var k = 0;
+            while (k != horas.length){
+                var time = time + horas[k] + "\n"
+                var k = Number(k) + 1
+            }
+        
+            var speechOutput =  capitalizeFirst(nameO) +  " " +"next trains to " + capitalizeFirst(nameD) + " are:\n" + time + "\n Do you want other route?"
+
+            //procura dos proximos horarios dada uma estação e sentido, query sobre o GTFS 
+
+            var repromptText = "Do you want other route?"
+            var header = capitalizeFirst(nameO) + " " +  capitalizeFirst(nameD)
         }
-        
-        var speechOutput =  capitalizeFirst(nameO) +  " " +"next trains to " + capitalizeFirst(nameD) + " are:\n" + time + "\n Do you want other route?"
-
-        //procura dos proximos horarios dada uma estação e sentido, query sobre o GTFS 
-
-        var repromptText = "Do you want other route?"
-        var header = capitalizeFirst(nameO) + " " +  capitalizeFirst(nameD)
     }
+
+    origin = []
+    destination = []
 
     var shouldEndSession = false
 
@@ -618,46 +640,64 @@ function handleTripResponse(intent, session, callback){
 
 
 function handleListResponse(intent, session, callback){
+    var originX = intent.slots.Origin.value
+    var destinationY = intent.slots.Destination.value
 
-    /*if (intent.slots.Origin.value == null){
-        origin = intent.slots.Origin.value.toLowerCase()
-        destination = intent.slots.Destination.value.toLowerCase()
-    }*/
+    
+    if(originX !=null && destinationY != null ){
+        origin = originX.toLowerCase();
+        destination = destinationY.toLowerCase();
+    }
 
-     if (!stations[destination]){
-        var speechOutput = "that way isn't in that route. Try asking another one, like Orange or Melon."
-        var repromptText = "try asking about another start station and way"
-        var header = "invalid way"
-    } else if (!stations[origin]){
-        var speechOutput = "that station isn't in that route. Try asking another one, like orange, pear, grapes, lemon, onion, apple, ananas, banana, carrot, potato, fig, watermelon, cherry, peach, tomato, lettuce or melon."
-        var repromptText = "try asking about another start station"
-        var header = "invalid start station"
-    } else if (origin == destination){
-        var speechOutput = "that station and way is the same."
-        var repromptText = "try asking about another start station and"
-        var header = "invalid start station is the same end way"
-    } else {
-        var nameO = stations[origin].name 
-        var nameD = stations[destination].name 
-        var idO = stations[origin].stop_id
-        var idD = stations[destination].stop_id
-        var stp = ""
-        var paragens = nextSops(idO, idD);
-        var k = 0;
-        while (k != paragens.length){
-            var stp = stp + paragens[k] + "\n"
-            var k = Number(k) + 1
-        }
+
+   if(Service == 0){
+        var speechOutput = "please first select your service"
+        var repromptText = speechOutput
+        var header = "invalid service"
+    } else if(destination.length == 0 && origin.length == 0){
+        var speechOutput = "please first select your origin and destination stations"
+        var repromptText = speechOutput
+        var header = "invalid origin and destination"
+    }
+    else{
+
+        if (!stations[destination]){
+            var speechOutput = "that way isn't in that route. Try asking another one, like Orange or Melon."
+            var repromptText = "try asking about another start station and way"
+            var header = "invalid way"
+        } else if (!stations[origin]){
+            var speechOutput = "that station isn't in that route. Try asking another one, like orange, pear, grapes, lemon, onion, apple, ananas, banana, carrot, potato, fig, watermelon, cherry, peach, tomato, lettuce or melon."
+            var repromptText = "try asking about another start station"
+            var header = "invalid start station"
+        } else if (origin == destination){
+            var speechOutput = "that station and way is the same."
+            var repromptText = "try asking about another start station and"
+            var header = "invalid start station is the same end way"
+        } else {
+            var nameO = stations[origin].name 
+            var nameD = stations[destination].name 
+            var idO = stations[origin].stop_id
+            var idD = stations[destination].stop_id
+            var stp = ""
+            var paragens = nextSops(idO, idD);
+            var k = 0;
+            while (k != paragens.length){
+                var stp = stp + paragens[k] + "\n"
+                var k = Number(k) + 1
+            }
         
 
-        var speechOutput = capitalizeFirst(nameO) + " next stops to " + capitalizeFirst(nameD) + " are: \n" + stp
+            var speechOutput = capitalizeFirst(nameO) + " next stops to " + capitalizeFirst(nameD) + " are: \n" + stp
 
-        var repromptText = "Do you want other information?"
-        var header = capitalizeFirst(nameO) + " next stops to " + capitalizeFirst(nameD)
+            var repromptText = "Do you want other information?"
+            var header = capitalizeFirst(nameO) + " next stops to " + capitalizeFirst(nameD)
+        }
     }
     
 
     var shouldEndSession = false
+    origin = []
+    destination = []
 
     callback(session.attributes, buildSpeechletResponse(header, speechOutput, repromptText, shouldEndSession))
 }
@@ -679,7 +719,7 @@ function handleGetHelpRequest(intent, session, callback) {
         session.attributes = {};
     }
 
-    var speechOutput = "i can tell you route from one station in one way"
+    var speechOutput = "i can tell you route from one station in one way \n anytime first you can choose the service: \n2 - Metro de Lisboa \n 3 - CP \n  Next choose origin and destination stations \n in the end, schedule from origin or next stops until destination"
 
     var repromptText = speechOutput
 
