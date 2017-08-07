@@ -51,125 +51,104 @@ var stations = {
     "orange" : {
         "name": "cascais",
         "stop_id": "11069260",
-        "c_way": "1",
-        "cs_way":"17"
+        "agency_id": "3"
     },
      "pear" : {
         "name": "monte estoril",
         "stop_id": "11069252",
-        "c_way": "2",
-        "cs_way":"16"
+        "agency_id": "3"
     },
     "grapes" : {
         "name": "estoril",
         "stop_id": "11069245",
-        "c_way": "3",
-        "cs_way":"15"
+        "agency_id": "3"
     },
     "lemon" : {
         "name": "sao joao do estoril",
         "stop_id": "11069237",
-        "c_way": "4",
-        "cs_way":"14"
+        "agency_id": "3"
     },
     "onion" : {
         "name": "sao pedro do estoril",
         "stop_id": "11069229",
-        "c_way": "5",
-        "cs_way":"13"
+        "agency_id": "3"
     },
     "apple" : {
         "name": "parede",
         "stop_id": "11069203",
-        "c_way": "6",
-        "cs_way":"12"
+        "agency_id": "3"
     },
     "ananas" : {
         "name": "carcavelos",
         "stop_id": "11069187",
-        "c_way": "7",
-        "cs_way":"11"
+        "agency_id": "3"
     },
     "banana" : {
         "name": "oeiras",
         "stop_id": "11069179",
-        "c_way": "8",
-        "cs_way":"10"
+        "agency_id": "3"
     },
     "carrot" : {
         "name": "santo amaro de oeiras",
         "stop_id": "11069161",
-        "c_way": "9",
-        "cs_way":"9"
+        "agency_id": "3"
     },
     "potato" : {
         "name": "paço de arcos",
         "stop_id": "11069146",
-        "c_way": "10",
-        "cs_way":"8"
+        "agency_id": "3"
     },
     "fig" : {
         "name": "caxias",
         "stop_id": "11069120",
-        "c_way": "11",
-        "cs_way":"7"
+        "agency_id": "3"
     },
     "watermelon" : {
         "name": "cruz quebrada",
         "stop_id": "11069104",
-        "c_way": "12",
-        "cs_way":"6"
+        "agency_id": "3"
     },
     "cherry" : {
         "name": "alges",
         "stop_id": "11069088",
-        "c_way": "13",
-        "cs_way":"5"
+        "agency_id": "3"
     },
     "peach" : {
         "name": "belem",
         "stop_id": "11069054",
-        "c_way": "14",
-        "cs_way":"4"
+        "agency_id": "3"
     },
     "tomato" : {
         "name": "alcantara",
         "stop_id": "11069039",
-        "c_way": "15",
-        "cs_way":"3"
+        "agency_id": "3"
     },
     "lettuce" : {
         "name": "santos",
         "stop_id": "11069013",
-        "c_way": "16",
-        "cs_way":"2"
+        "agency_id": "3"
     },
     "melon" : {
         "name": "cais do sodre",
         "stop_id": "11069005",
-        "c_way": "17",
-        "cs_way":"1"
-    }
-}
-
-var ways = {
-    "orange" : {
-        "name": "cascais",
-        "stop_id": "11069260",
-        "routes":["414","874","5508","6877"],
-        "c_way": "1",
-        "cs_way":"17"
+        "agency_id": "3"
     },
-     "melon" : {
-        "name": "cais do sodre",
-        "stop_id": "11069005",
-        "routes":["401","873","412", "2420", "6876"],
-        "c_way": "17",
-        "cs_way":"1"
+
+    /*METRO*/
+
+    "stolen sir" : {
+        "name": "Senhor Roubado",
+        "stop_id": "M41",
+        "agency_id": "2"
+    },
+    "mouse" : {
+        "name": "Rato",
+        "stop_id": "M19",
+        "agency_id": "2"
     }
+
 }
 
-var st = ["orange", "pear", "grapes", "lemon", "onion", "apple", "ananas", "banana", "carrot", "potato", "fig", "watermelon", "cherry", "peach", "tomato", "lettuce" , "melon" ]
 
 // Route the incoming request based on type (LaunchRequest, IntentRequest,
 // etc.) The JSON body of the request is provided in the event parameter.
@@ -597,13 +576,16 @@ function handleTripResponse(intent, session, callback){
         var header = "invalid origin and destination"
     }
     else{
-
-        if (!stations[destination]){
-            var speechOutput = "that way isn't in that route. Try asking another one, like Orange or Melon."
+        if(parseInt(stations[destination].agency_id) != parseInt(service) || parseInt(stations[origin].agency_id) != parseInt(service)){
+            var speechOutput = "that way isn't in that service. Try asking another one or change the service."
+            var repromptText = "try asking about another start station and way or change the service"
+            var header = "invalid way"
+        } else if (!stations[destination]){
+            var speechOutput = "that way isn't in that route. Try asking another one"
             var repromptText = "try asking about another start station and way"
             var header = "invalid way"
         } else if (!stations[origin]){
-            var speechOutput = "that station isn't in that route. Try asking another one, like orange, pear, grapes, lemon, onion, apple, ananas, banana, carrot, potato, fig, watermelon, cherry, peach, tomato, lettuce or melon."
+            var speechOutput = "that station isn't in that route."
             var repromptText = "try asking about another start station"
             var header = "invalid start station"
         } else if (origin == destination){
@@ -667,13 +649,16 @@ function handleListResponse(intent, session, callback){
         var header = "invalid origin and destination"
     }
     else{
-
-        if (!stations[destination]){
-            var speechOutput = "that way isn't in that route. Try asking another one, like Orange or Melon."
+        if(parseInt(stations[destination].agency_id) != parseInt(service) || parseInt(stations[origin].agency_id) != parseInt(service)){
+            var speechOutput = "that way isn't in that service. Try asking another one or change the service."
+            var repromptText = "try asking about another start station and way or change the service"
+            var header = "invalid way"
+        } else if (!stations[destination]){
+            var speechOutput = "that way isn't in that route. Try asking another one"
             var repromptText = "try asking about another start station and way"
             var header = "invalid way"
         } else if (!stations[origin]){
-            var speechOutput = "that station isn't in that route. Try asking another one, like orange, pear, grapes, lemon, onion, apple, ananas, banana, carrot, potato, fig, watermelon, cherry, peach, tomato, lettuce or melon."
+            var speechOutput = "that station isn't in that route."
             var repromptText = "try asking about another start station"
             var header = "invalid start station"
         } else if (origin == destination){

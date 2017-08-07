@@ -18,6 +18,8 @@ LIST_OF_STATIONS: {
 	tomato
 	lettuce
 	melon
+	stolen sir
+	mouse
 
 }
 
