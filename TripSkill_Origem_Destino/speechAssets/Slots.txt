@@ -1,0 +1,29 @@
+SLOTS
+
+LIST_OF_STATIONS: {
+	orange
+	pear
+	grapes
+	lemon
+	onion
+	apple
+	ananas
+	banana
+	carrot
+	potato
+	fig
+	watermelon
+	cherry
+	peach
+	tomato
+	lettuce
+	melon
+
+}
+
+
+
+LIST_OF_SERVICES: {
+	two
+	three
+}

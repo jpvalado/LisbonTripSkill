@@ -1,4 +1,5 @@
-TripIntent {Origin} {Destination} 
+ServiceIntent {Service}
+TripIntent {Origin} {Destination}
 TripIntent {Origin} {Destination} times
 TripIntent next train from {Origin} to {Destination}
 TripIntent tell me the train from {Origin} to {Destination}
@@ -7,6 +8,6 @@ ListIntent {Origin} next stops to {Destination}
 ListIntent list {Origin} next stops to {Destination}
 ListIntent tell me {Origin} next stops to {Destination}
 AMAZON.HelpIntent tell me those stations again
-AMAZON.HelpIntent tell me the stations 
+AMAZON.HelpIntent tell me the stations
 AMAZON.HelpIntent what are the stations again
-AMAZON.HelpIntent what are the stations 
+AMAZON.HelpIntent what are the stations

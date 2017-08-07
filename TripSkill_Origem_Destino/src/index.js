@@ -4,17 +4,41 @@ const durastamp = require('time-funcs/durastamp')
 const timestamp = require('time-funcs/timestamp')
 var TimeFormat = require('hh-mm-ss')
 
-var fs = require('fs');
-var agency = JSON.parse(fs.readFileSync('data/CP/agency.json','utf8'));
-var calendar = JSON.parse(fs.readFileSync('data/CP/calendar.json','utf8'));
-var calendar_dates = JSON.parse(fs.readFileSync('data/CP/calendar_dates.json','utf8'));
-var frequencies = JSON.parse(fs.readFileSync('data/CP/frequencies.json','utf8'));
-var routes = JSON.parse(fs.readFileSync('data/CP/routes.json','utf8'));
-var shapes = JSON.parse(fs.readFileSync('data/CP/shapes.json','utf8'));
-var stop_times = JSON.parse(fs.readFileSync('data/CP/stop_times.json','utf8'));
-var stops = JSON.parse(fs.readFileSync('data/CP/stops.json','utf8'));
-var trips = JSON.parse(fs.readFileSync('data/CP/trips.json','utf8'));
+var agency;
+var calendar;
+var calendar_dates; 
+var routes;
+var shapes;
+var stop_times;
+var stops;
+var trips;
 
+function data(agency_nr){
+    var fs = require('fs');
+    if (agency_nr == 1){
+        /*espaço para a Carris*/
+    }else if (agency_nr == 2){
+        agency = JSON.parse(fs.readFileSync('data/Metro/agency.json','utf8'));
+        calendar = JSON.parse(fs.readFileSync('data/Metro/calendar.json','utf8'));
+        calendar_dates = JSON.parse(fs.readFileSync('data/Metro/calendar_dates.json','utf8'));
+        frequencies = JSON.parse(fs.readFileSync('data/Metro/frequencies.json','utf8'));
+        routes = JSON.parse(fs.readFileSync('data/Metro/routes.json','utf8'));
+        shapes = JSON.parse(fs.readFileSync('data/Metro/shapes.json','utf8'));
+        stop_times = JSON.parse(fs.readFileSync('data/Metro/stop_times.json','utf8'));
+        stops = JSON.parse(fs.readFileSync('data/Metro/stops.json','utf8'));
+        trips = JSON.parse(fs.readFileSync('data/Metro/trips.json','utf8'));
+    }else if (agency_nr == 3){
+        agency = JSON.parse(fs.readFileSync('data/CP/agency.json','utf8'));
+        calendar = JSON.parse(fs.readFileSync('data/CP/calendar.json','utf8'));
+        calendar_dates = JSON.parse(fs.readFileSync('data/CP/calendar_dates.json','utf8'));
+        frequencies = JSON.parse(fs.readFileSync('data/CP/frequencies.json','utf8'));
+        routes = JSON.parse(fs.readFileSync('data/CP/routes.json','utf8'));
+        shapes = JSON.parse(fs.readFileSync('data/CP/shapes.json','utf8'));
+        stop_times = JSON.parse(fs.readFileSync('data/CP/stop_times.json','utf8'));
+        stops = JSON.parse(fs.readFileSync('data/CP/stops.json','utf8'));
+        trips = JSON.parse(fs.readFileSync('data/CP/trips.json','utf8'));
+    }
+}
 
 
 //porque não há PT-PT na alexa
@@ -206,7 +230,9 @@ function onIntent(intentRequest, session, callback) {
     var intentName = intentRequest.intent.name;
 
     // dispatch custom intents to handlers here
-    if (intentName == "TripIntent") {
+    if (intentName == "ServiceIntent"){
+        handleServiceSelect(intent, session, callback)
+    } else if(intentName == "TripIntent") {
         handleTripResponse(intent, session, callback)
     } else if (intentName =="ListIntent") {
         handleListResponse(intent, session, callback)
@@ -236,9 +262,14 @@ function onSessionEnded(sessionEndedRequest, session) {
 // ------- Skill specific logic -------
 
 function getWelcomeResponse(callback) {
-    var speechOutput = "Welcome Trip Skill! I can tell you a route from a origin station in one way"
 
-    var reprompt = "which way and origin station are you interested in?"
+     /*escolha do serviço*/
+        data(3)
+
+
+    var speechOutput = "Welcome Trip Skill! I can tell you a route from a origin station in one way.\n Please, first select the service: \n 2 - Metro de Lisboa \n 3 - CP "
+
+    var reprompt = "Please, first select the service: \n 2 - Metro de Lisboa \n 3 - CP "
     
     var header = "Trip Skill"
 
@@ -492,6 +523,27 @@ function nextSops(origem_id, destino_id){
 }
 
 
+function handleServiceSelect(intent, session, callback){
+
+    service = intent.slots.Service.value
+
+    data(parseInt(service))
+
+    var name = _.where(agency, {agency_id: parseInt(service)})[0].agency_name
+    
+    var speechOutput = "You choose service number " + service + " " + name + ".\n" + "Now, choose your origin and destination stations"
+
+    var repromptText = "service reprompt Do you want other information?"
+    var header = "You choose service number " + service + " " + name
+    
+    
+
+    var shouldEndSession = false
+
+    callback(session.attributes, buildSpeechletResponse(header, speechOutput, repromptText, shouldEndSession))
+}
+
+
 function handleTripResponse(intent, session, callback){
     var origin = intent.slots.Origin.value.toLowerCase()
     var destination = intent.slots.Destination.value.toLowerCase()
@@ -514,6 +566,10 @@ function handleTripResponse(intent, session, callback){
         var idO = stations[origin].stop_id
         var idD = stations[destination].stop_id
         var time ="";
+
+       
+
+
         var horas = horario(idO, idD);
         
         var k = 0;
