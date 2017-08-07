@@ -13,7 +13,7 @@ var stop_times;
 var stops;
 var trips;
 
-var Service = 0;
+var service = 0;
 var origin = [];
 var destination = [];
 
@@ -550,18 +550,25 @@ function handleServiceSelect(intent, session, callback){
 
 function handleOriDest(intent, session, callback){
 
-    origin = intent.slots.Origin.value.toLowerCase()
-    destination = intent.slots.Destination.value.toLowerCase()
+    if(service == 0){
+        var speechOutput = "please first select your service"
+        var repromptText = speechOutput
+        var header = "invalid service"
+    }
+    else{
 
-    var nameO = stations[origin].name 
-    var nameD = stations[destination].name 
+        origin = intent.slots.Origin.value.toLowerCase()
+        destination = intent.slots.Destination.value.toLowerCase()
+
+        var nameO = stations[origin].name 
+        var nameD = stations[destination].name 
     
-    var speechOutput = "Your origin station is " + capitalizeFirst(nameO) + " and destinantion station is " + capitalizeFirst(nameD) +"\n Now you want, next times from origin or the stations until destinantion?"
+        var speechOutput = "Your origin station is " + capitalizeFirst(nameO) + " and destinantion station is " + capitalizeFirst(nameD) +"\n Now you want, next times from origin or the stations until destinantion?"
 
-    var repromptText = "You want, next times from origin or the stations until destinantion?"
-    var header = "origin station is " + nameO + "and destinantion station is " + nameD
+        var repromptText = "You want, next times from origin or the stations until destinantion?"
+        var header = "origin station is " + nameO + "and destinantion station is " + nameD
     
-
+    }
     var shouldEndSession = false
 
     callback(session.attributes, buildSpeechletResponse(header, speechOutput, repromptText, shouldEndSession))
@@ -579,7 +586,7 @@ function handleTripResponse(intent, session, callback){
     }
 
         
-    if(Service == 0){
+    if(service == 0){
         var speechOutput = "please first select your service"
         var repromptText = speechOutput
         var header = "invalid service"
@@ -650,7 +657,7 @@ function handleListResponse(intent, session, callback){
     }
 
 
-   if(Service == 0){
+   if(service == 0){
         var speechOutput = "please first select your service"
         var repromptText = speechOutput
         var header = "invalid service"
