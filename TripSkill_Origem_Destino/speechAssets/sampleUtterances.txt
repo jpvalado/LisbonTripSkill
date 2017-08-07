@@ -1,15 +1,17 @@
 ServiceIntent {Service}
 OriDestIntent {Origin} {Destination}
-TripIntent times.
+OriDestIntent from {Origin} to {Destination}
+OriDestIntent {Origin} to {Destination}
+TripIntent times
 TripIntent next times
 TripIntent next train
 TripIntent {Origin} {Destination} times
 TripIntent next train from {Origin} to {Destination}
 TripIntent tell me the train from {Origin} to {Destination}
+ListIntent stops
 ListIntent stations
 ListIntent next stations
 ListIntent next stops
-ListIntent stops
 ListIntent {Origin} {Destination} stops
 ListIntent {Origin} next stops to {Destination}
 ListIntent list {Origin} next stops to {Destination}
