@@ -5,15 +5,15 @@ const timestamp = require('time-funcs/timestamp')
 var TimeFormat = require('hh-mm-ss')
 
 var fs = require('fs');
-var agency = JSON.parse(fs.readFileSync('agency.json','utf8'));
-var calendar = JSON.parse(fs.readFileSync('calendar.json','utf8'));
-var calendar_dates = JSON.parse(fs.readFileSync('calendar_dates.json','utf8'));
-var frequencies = JSON.parse(fs.readFileSync('frequencies.json','utf8'));
-var routes = JSON.parse(fs.readFileSync('routes.json','utf8'));
-var shapes = JSON.parse(fs.readFileSync('shapes.json','utf8'));
-var stop_times = JSON.parse(fs.readFileSync('stop_times.json','utf8'));
-var stops = JSON.parse(fs.readFileSync('stops.json','utf8'));
-var trips = JSON.parse(fs.readFileSync('trips.json','utf8'));
+var agency = JSON.parse(fs.readFileSync('data/CP/agency.json','utf8'));
+var calendar = JSON.parse(fs.readFileSync('data/CP/calendar.json','utf8'));
+var calendar_dates = JSON.parse(fs.readFileSync('data/CP/calendar_dates.json','utf8'));
+var frequencies = JSON.parse(fs.readFileSync('data/CP/frequencies.json','utf8'));
+var routes = JSON.parse(fs.readFileSync('data/CP/routes.json','utf8'));
+var shapes = JSON.parse(fs.readFileSync('data/CP/shapes.json','utf8'));
+var stop_times = JSON.parse(fs.readFileSync('data/CP/stop_times.json','utf8'));
+var stops = JSON.parse(fs.readFileSync('data/CP/stops.json','utf8'));
+var trips = JSON.parse(fs.readFileSync('data/CP/trips.json','utf8'));
 
 
 
