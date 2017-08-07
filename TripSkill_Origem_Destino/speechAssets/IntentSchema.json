@@ -20,6 +20,19 @@
           "type": "LIST_OF_STATIONS"
         }
       ],
+      "intent": "OriDestIntent"
+    },
+    {
+      "slots": [
+        {
+          "name": "Origin",
+          "type": "LIST_OF_STATIONS"
+        },
+        {
+          "name": "Destination",
+          "type": "LIST_OF_STATIONS"
+        }
+      ],
       "intent": "TripIntent"
     },
     {

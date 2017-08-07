@@ -1,0 +1,90 @@
+[
+  {
+    "agency_id": 2,
+    "route_id": 168,
+    "route_short_name": "",
+    "route_long_name": "Verde - CAIS DO SODRE",
+    "route_desc": "",
+    "route_type": 1,
+    "route_url": "",
+    "route_color": "",
+    "route_text_color": ""
+  },
+  {
+    "agency_id": 2,
+    "route_id": 170,
+    "route_short_name": "",
+    "route_long_name": "Vermelha - AEROPORTO",
+    "route_desc": "",
+    "route_type": 1,
+    "route_url": "",
+    "route_color": "",
+    "route_text_color": ""
+  },
+  {
+    "agency_id": 2,
+    "route_id": 169,
+    "route_short_name": "",
+    "route_long_name": "Verde - TELHEIRAS",
+    "route_desc": "",
+    "route_type": 1,
+    "route_url": "",
+    "route_color": "",
+    "route_text_color": ""
+  },
+  {
+    "agency_id": 2,
+    "route_id": 171,
+    "route_short_name": "",
+    "route_long_name": "Vermelha - S. SEBASTIÃO",
+    "route_desc": "",
+    "route_type": 1,
+    "route_url": "",
+    "route_color": "",
+    "route_text_color": ""
+  },
+  {
+    "agency_id": 2,
+    "route_id": 164,
+    "route_short_name": "",
+    "route_long_name": "Amarela - ODIVELAS",
+    "route_desc": "",
+    "route_type": 1,
+    "route_url": "",
+    "route_color": "",
+    "route_text_color": ""
+  },
+  {
+    "agency_id": 2,
+    "route_id": 165,
+    "route_short_name": "",
+    "route_long_name": "Amarela - RATO",
+    "route_desc": "",
+    "route_type": 1,
+    "route_url": "",
+    "route_color": "",
+    "route_text_color": ""
+  },
+  {
+    "agency_id": 2,
+    "route_id": 166,
+    "route_short_name": "",
+    "route_long_name": "Azul - STª APOLÓNIA",
+    "route_desc": "",
+    "route_type": 1,
+    "route_url": "",
+    "route_color": "",
+    "route_text_color": ""
+  },
+  {
+    "agency_id": 2,
+    "route_id": 167,
+    "route_short_name": "",
+    "route_long_name": "Azul - REBOLEIRA",
+    "route_desc": "",
+    "route_type": 1,
+    "route_url": "",
+    "route_color": "",
+    "route_text_color": ""
+  }
+]

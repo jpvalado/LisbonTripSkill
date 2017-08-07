@@ -13,6 +13,9 @@ var stop_times;
 var stops;
 var trips;
 
+var origin;
+var destination;
+
 function data(agency_nr){
     var fs = require('fs');
     if (agency_nr == 1){
@@ -232,7 +235,9 @@ function onIntent(intentRequest, session, callback) {
     // dispatch custom intents to handlers here
     if (intentName == "ServiceIntent"){
         handleServiceSelect(intent, session, callback)
-    } else if(intentName == "TripIntent") {
+    } else if(intentName == "OriDestIntent"){
+        handleOriDest(intent, session, callback)
+    }else if(intentName == "TripIntent") {
         handleTripResponse(intent, session, callback)
     } else if (intentName =="ListIntent") {
         handleListResponse(intent, session, callback)
@@ -263,13 +268,11 @@ function onSessionEnded(sessionEndedRequest, session) {
 
 function getWelcomeResponse(callback) {
 
-     /*escolha do serviço*/
-        data(3)
 
 
-    var speechOutput = "Welcome Trip Skill! I can tell you a route from a origin station in one way.\n Please, first select the service: \n 2 - Metro de Lisboa \n 3 - CP "
+    var speechOutput = "Welcome Trip Skill! I can tell you a route from a origin station in one way.\n Please, first select the service: \n 2 - Metro de Lisboa \n 3 - CP  \n Say the number"
 
-    var reprompt = "Please, first select the service: \n 2 - Metro de Lisboa \n 3 - CP "
+    var reprompt = "Please, first select the service: \n 2 - Metro de Lisboa \n 3 - CP \n Say the number"
     
     var header = "Trip Skill"
 
@@ -531,9 +534,9 @@ function handleServiceSelect(intent, session, callback){
 
     var name = _.where(agency, {agency_id: parseInt(service)})[0].agency_name
     
-    var speechOutput = "You choose service number " + service + " " + name + ".\n" + "Now, choose your origin and destination stations"
+    var speechOutput = "You choose service number " + service + " " + name + ".\n" + "Now, what is your origin and destination stations?"
 
-    var repromptText = "service reprompt Do you want other information?"
+    var repromptText = "what is your origin and destination stations?"
     var header = "You choose service number " + service + " " + name
     
     
@@ -544,9 +547,31 @@ function handleServiceSelect(intent, session, callback){
 }
 
 
+function handleOriDest(intent, session, callback){
+
+    origin = intent.slots.Origin.value.toLowerCase()
+    destination = intent.slots.Destination.value.toLowerCase()
+
+    var nameO = stations[origin].name 
+    var nameD = stations[destination].name 
+    
+    var speechOutput = "Your origin station is " + capitalizeFirst(nameO) + " and destinantion station is " + capitalizeFirst(nameD) +"\n Now you want, next times from origin or the stations until destinantion?"
+
+    var repromptText = "You want, next times from origin or the stations until destinantion?"
+    var header = "origin station is " + nameO + "and destinantion station is " + nameD
+    
+
+    var shouldEndSession = false
+
+    callback(session.attributes, buildSpeechletResponse(header, speechOutput, repromptText, shouldEndSession))
+}
+
+
 function handleTripResponse(intent, session, callback){
-    var origin = intent.slots.Origin.value.toLowerCase()
-    var destination = intent.slots.Destination.value.toLowerCase()
+    /*if (intent.slots.Origin.value == null){
+        origin = intent.slots.Origin.value.toLowerCase()
+        destination = intent.slots.Destination.value.toLowerCase()
+    }*/
 
      if (!stations[destination]){
         var speechOutput = "that way isn't in that route. Try asking another one, like Orange or Melon."
@@ -594,8 +619,10 @@ function handleTripResponse(intent, session, callback){
 
 function handleListResponse(intent, session, callback){
 
-    var origin = intent.slots.Origin.value.toLowerCase()
-    var destination = intent.slots.Destination.value.toLowerCase()
+    /*if (intent.slots.Origin.value == null){
+        origin = intent.slots.Origin.value.toLowerCase()
+        destination = intent.slots.Destination.value.toLowerCase()
+    }*/
 
      if (!stations[destination]){
         var speechOutput = "that way isn't in that route. Try asking another one, like Orange or Melon."
