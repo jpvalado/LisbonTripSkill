@@ -108,7 +108,7 @@ TripListIntent next stops and times from {Origin} to {Destination}
 TripListIntent next stations and times from {Origin} to {Destination}
 TripListIntent next stops and schedule from {Origin} to {Destination}
 TripListIntent next stations and schedule from {Origin} to {Destination}
-AMAZON.HelpIntent tell me those stations again
-AMAZON.HelpIntent tell me the stations
-AMAZON.HelpIntent what are the stations again
-AMAZON.HelpIntent what are the stations
+ServicesHelpIntent what are the services
+ServicesHelpIntent what are the available services
+ServicesHelpIntent available services
+ServicesHelpIntent services

@@ -219,10 +219,12 @@ function onIntent(intentRequest, session, callback) {
         handleOriDest(intent, session, callback)
     } else if(intentName == "TripIntent") {
         handleTripResponse(intent, session, callback)
-    } else if (intentName =="ListIntent") {
+    } else if (intentName == "ListIntent") {
         handleListResponse(intent, session, callback)
-    } else if (intentName =="TripListIntent"){
+    } else if (intentName == "TripListIntent"){
         handleTripListResponse(intent, session, callback)
+    } else if (intentName == "ServicesHelpIntent") {
+        handleServicesHelpResponse(intent, session, callback)
     } else if (intentName == "AMAZON.YesIntent") {
         handleYesResponse(intent, session, callback)
     } else if (intentName == "AMAZON.NoIntent") {
@@ -775,11 +777,22 @@ function handleTripListResponse(intent, session, callback){
     callback(session.attributes, buildSpeechletResponse(header, speechOutput, repromptText, shouldEndSession))
 }
 
+function handleServicesHelpResponse(intent, session, callback){
+
+    var speechOutput = "The available services are: \n 2 - Metro de Lisboa \n 3 - CP. \n To choose one say the number."
+
+    var shouldEndSession = false
+
+    callback(session.attributes, buildSpeechletResponse(header, speechOutput, speechOutput, shouldEndSession))
+    //callback(session.attributes, buildSpeechletResponse("Services", "The available services are: \n 2 - Metro de Lisboa \n 3 - CP. \n To choose one say the number.", "The available services are: \n 2 - Metro de Lisboa \n 3 - CP. \n To choose one say the number.", false))
+}
+
 function handleYesResponse(intent, session, callback){
     var speechOutput = "Great! which way and start station?"
     var shouldEndSession = false
 
-    callback(session.attributes, buildSpeechletResponseWithoutCard(speechOutput, repromptText, shouldEndSession))
+    callback(session.attributes, buildSpeechletResponseWithoutCard(speechOutput, speechOutput, shouldEndSession))
+
 }
 
 function handleNoResponse(intent, session, callback){
