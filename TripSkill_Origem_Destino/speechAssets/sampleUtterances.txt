@@ -1,21 +1,113 @@
 ServiceIntent {Service}
+ServiceIntent Service {Service}
+ServiceIntent Service number {Service}
 OriDestIntent {Origin} {Destination}
+OriDestIntent {Origin} and {Destination}
 OriDestIntent from {Origin} to {Destination}
 OriDestIntent {Origin} to {Destination}
 TripIntent times
 TripIntent next times
 TripIntent next train
 TripIntent {Origin} {Destination} times
+TripIntent {Origin} {Destination} next times
+TripIntent {Origin} to {Destination} times
+TripIntent {Origin} to {Destination} next times
+TripIntent from {Origin} to {Destination} times
+TripIntent from {Origin} to {Destination} next times
 TripIntent next train from {Origin} to {Destination}
+TripIntent next times from {Origin} to {Destination}
+TripIntent schedule from {Origin} to {Destination}
+TripIntent schedule {Origin} to {Destination}
+TripIntent schedule {Origin} {Destination}
+TripIntent {Origin} {Destination} schedule
+TripIntent {Origin} to {Destination} schedule
+TripIntent from {Origin} to {Destination} schedule
 TripIntent tell me the train from {Origin} to {Destination}
+TripIntent tell me the schedule from {Origin} to {Destination}
+TripIntent tell me the train from {Origin} to {Destination} stations
+TripIntent tell me the schedule from {Origin} to {Destination} stations
 ListIntent stops
 ListIntent stations
 ListIntent next stations
 ListIntent next stops
+ListIntent stations from {Origin} to {Destination}
 ListIntent {Origin} {Destination} stops
+ListIntent {Origin} {Destination} stations
+ListIntent {Origin} to {Destination} stops
+ListIntent {Origin} to {Destination} stations
+ListIntent from {Origin} to {Destination} stops
+ListIntent from {Origin} to {Destination} stations
 ListIntent {Origin} next stops to {Destination}
+ListIntent {Origin} next stations to {Destination}
 ListIntent list {Origin} next stops to {Destination}
+ListIntent list {Origin} next stations to {Destination}
 ListIntent tell me {Origin} next stops to {Destination}
+ListIntent tell me {Origin} next stations to {Destination}
+TripListIntent both
+TripListIntent times and stops
+TripListIntent times and stations
+TripListIntent stops and times
+TripListIntent stations and times
+TripListIntent schedule and stops
+TripListIntent schedule and stations
+TripListIntent stops and schedule
+TripListIntent stations and schedule
+TripListIntent next times and stops
+TripListIntent next times and stations
+TripListIntent next schedule and stops
+TripListIntent next schedule and stations
+TripListIntent next stops and times
+TripListIntent next stations and times
+TripListIntent next stops and schedule
+TripListIntent next stations and schedule
+TripListIntent {Origin} {Destination} times and stops
+TripListIntent {Origin} {Destination} times and stations
+TripListIntent {Origin} {Destination} stops and times
+TripListIntent {Origin} {Destination} stations and times
+TripListIntent {Origin} {Destination} schedule and stops
+TripListIntent {Origin} {Destination} schedule and stations
+TripListIntent {Origin} {Destination} stops and schedule
+TripListIntent {Origin} {Destination} stations and schedule
+TripListIntent {Origin} {Destination} next times and stops
+TripListIntent {Origin} {Destination} next times and stations
+TripListIntent {Origin} {Destination} next schedule and stops
+TripListIntent {Origin} {Destination} next schedule and stations
+TripListIntent {Origin} {Destination} next stops and times
+TripListIntent {Origin} {Destination} next stations and times
+TripListIntent {Origin} {Destination} next stops and schedule
+TripListIntent {Origin} {Destination} next stations and schedule
+TripListIntent from {Origin} to {Destination} times and stops
+TripListIntent from {Origin} to {Destination} times and stations
+TripListIntent from {Origin} to {Destination} stops and times
+TripListIntent from {Origin} to {Destination} stations and times
+TripListIntent from {Origin} to {Destination} schedule and stops
+TripListIntent from {Origin} to {Destination} schedule and stations
+TripListIntent from {Origin} to {Destination} stops and schedule
+TripListIntent from {Origin} to {Destination} stations and schedule
+TripListIntent from {Origin} to {Destination} next times and stops
+TripListIntent from {Origin} to {Destination} next times and stations
+TripListIntent from {Origin} to {Destination} next schedule and stops
+TripListIntent from {Origin} to {Destination} next schedule and stations
+TripListIntent from {Origin} to {Destination} next stops and times
+TripListIntent from {Origin} to {Destination} next stations and times
+TripListIntent from {Origin} to {Destination} next stops and schedule
+TripListIntent from {Origin} to {Destination} next stations and schedule
+TripListIntent times and stops from {Origin} to {Destination}
+TripListIntent times and stations from {Origin} to {Destination}
+TripListIntent stops and times from {Origin} to {Destination}
+TripListIntent stations and times from {Origin} to {Destination}
+TripListIntent schedule and stops from {Origin} to {Destination}
+TripListIntent schedule and stations from {Origin} to {Destination}
+TripListIntent stops and schedule from {Origin} to {Destination}
+TripListIntent stations and schedule from {Origin} to {Destination}
+TripListIntent next times and stops from {Origin} to {Destination}
+TripListIntent next times and stations from {Origin} to {Destination}
+TripListIntent next schedule and stops from {Origin} to {Destination}
+TripListIntent next schedule and stations from {Origin} to {Destination}
+TripListIntent next stops and times from {Origin} to {Destination}
+TripListIntent next stations and times from {Origin} to {Destination}
+TripListIntent next stops and schedule from {Origin} to {Destination}
+TripListIntent next stations and schedule from {Origin} to {Destination}
 AMAZON.HelpIntent tell me those stations again
 AMAZON.HelpIntent tell me the stations
 AMAZON.HelpIntent what are the stations again

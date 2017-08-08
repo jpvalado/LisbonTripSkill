@@ -217,10 +217,12 @@ function onIntent(intentRequest, session, callback) {
         handleServiceSelect(intent, session, callback)
     } else if(intentName == "OriDestIntent"){
         handleOriDest(intent, session, callback)
-    }else if(intentName == "TripIntent") {
+    } else if(intentName == "TripIntent") {
         handleTripResponse(intent, session, callback)
     } else if (intentName =="ListIntent") {
         handleListResponse(intent, session, callback)
+    } else if (intentName =="TripListIntent"){
+        handleTripListResponse(intent, session, callback)
     } else if (intentName == "AMAZON.YesIntent") {
         handleYesResponse(intent, session, callback)
     } else if (intentName == "AMAZON.NoIntent") {
@@ -530,7 +532,7 @@ function handleServiceSelect(intent, session, callback){
 function handleOriDest(intent, session, callback){
 
     if(service == 0){
-        var speechOutput = "please first select your service"
+        var speechOutput = "please first select your service: \n 2 - Metro de Lisboa \n 3 - CP \n Say the number"
         var repromptText = speechOutput
         var header = "invalid service"
     }
@@ -542,9 +544,9 @@ function handleOriDest(intent, session, callback){
         var nameO = stations[origin].name 
         var nameD = stations[destination].name 
     
-        var speechOutput = "Your origin station is " + capitalizeFirst(nameO) + " and destinantion station is " + capitalizeFirst(nameD) +"\n Now you want, next times from origin or the stations until destinantion?"
+        var speechOutput = "Your origin station is " + capitalizeFirst(nameO) + " and destinantion station is " + capitalizeFirst(nameD) +".\n Now, you want, next times from origin, or the stations until destinantion, or both?"
 
-        var repromptText = "You want, next times from origin or the stations until destinantion?"
+        var repromptText = "You want, next times from origin, or the stations until destinantion, or both?"
         var header = "origin station is " + nameO + "and destinantion station is " + nameD
     
     }
@@ -566,7 +568,7 @@ function handleTripResponse(intent, session, callback){
 
         
     if(service == 0){
-        var speechOutput = "please first select your service"
+        var speechOutput = "please first select your service: \n 2 - Metro de Lisboa \n 3 - CP \n Say the number"
         var repromptText = speechOutput
         var header = "invalid service"
 
@@ -610,11 +612,11 @@ function handleTripResponse(intent, session, callback){
                 var k = Number(k) + 1
             }
         
-            var speechOutput =  capitalizeFirst(nameO) +  " " +"next trains to " + capitalizeFirst(nameD) + " are:\n" + time + "\n Do you want other route?"
+            var speechOutput =  capitalizeFirst(nameO) +  " " +"next trains to " + capitalizeFirst(nameD) + " are:\n" + time  + "\n for other route tell me the origin and destination, or change the service: \n 2 - Metro de Lisboa \n 3 - CP. \n Say the number"
 
             //procura dos proximos horarios dada uma estação e sentido, query sobre o GTFS 
 
-            var repromptText = "Do you want other route?"
+            var repromptText = "for other route tell me the origin and destination, or change the service: \n 2 - Metro de Lisboa \n 3 - CP. \n Say the number"
             var header = capitalizeFirst(nameO) + " " +  capitalizeFirst(nameD)
         }
     }
@@ -640,7 +642,7 @@ function handleListResponse(intent, session, callback){
 
 
    if(service == 0){
-        var speechOutput = "please first select your service"
+        var speechOutput = "please first select your service: \n 2 - Metro de Lisboa \n 3 - CP \n Say the number"
         var repromptText = speechOutput
         var header = "invalid service"
     } else if(destination.length == 0 && origin.length == 0){
@@ -679,9 +681,10 @@ function handleListResponse(intent, session, callback){
             }
         
 
-            var speechOutput = capitalizeFirst(nameO) + " next stops to " + capitalizeFirst(nameD) + " are: \n" + stp
+            var speechOutput = capitalizeFirst(nameO) + " next stops to " + capitalizeFirst(nameD) + " are: \n" + stp + "\n for other route tell me the origin and destination, or change the service: \n 2 - Metro de Lisboa \n 3 - CP. \n Say the number"
 
-            var repromptText = "Do you want other information?"
+
+            var repromptText = "for other route tell me the origin and destination, or change the service: \n 2 - Metro de Lisboa \n 3 - CP. \n Say the number"
             var header = capitalizeFirst(nameO) + " next stops to " + capitalizeFirst(nameD)
         }
     }
@@ -690,6 +693,84 @@ function handleListResponse(intent, session, callback){
     var shouldEndSession = false
     origin = []
     destination = []
+
+    callback(session.attributes, buildSpeechletResponse(header, speechOutput, repromptText, shouldEndSession))
+}
+
+
+
+function handleTripListResponse(intent, session, callback){
+    var originX = intent.slots.Origin.value
+    var destinationY = intent.slots.Destination.value
+
+    
+    if(originX !=null && destinationY != null ){
+        origin = originX.toLowerCase();
+        destination = destinationY.toLowerCase();
+    }
+
+        
+    if(service == 0){
+        var speechOutput = "please first select your service: \n 2 - Metro de Lisboa \n 3 - CP. \n Say the number"
+        var repromptText = speechOutput
+        var header = "invalid service"
+
+    } else if(destination.length == 0 && origin.length == 0){
+        var speechOutput = "please first select your origin and destination stations"
+        var repromptText = speechOutput
+        var header = "invalid origin and destination"
+    }
+    else{
+        if(parseInt(stations[destination].agency_id) != parseInt(service) || parseInt(stations[origin].agency_id) != parseInt(service)){
+            var speechOutput = "that way isn't in that service. Try asking another one or change the service."
+            var repromptText = "try asking about another start station and way or change the service"
+            var header = "invalid way"
+        } else if (!stations[destination]){
+            var speechOutput = "that way isn't in that route. Try asking another one"
+            var repromptText = "try asking about another start station and way"
+            var header = "invalid way"
+        } else if (!stations[origin]){
+            var speechOutput = "that station isn't in that route."
+            var repromptText = "try asking about another start station"
+            var header = "invalid start station"
+        } else if (origin == destination){
+            var speechOutput = "that station and way is the same."
+            var repromptText = "try asking about another start station and"
+            var header = "invalid start station is the same end way"
+        } else {
+            var nameO = stations[origin].name 
+            var nameD = stations[destination].name 
+            var idO = stations[origin].stop_id
+            var idD = stations[destination].stop_id
+            var time ="";
+            var horas = horario(idO, idD);
+            var k = 0;
+            while (k != horas.length){
+                var time = time + horas[k] + "\n"
+                var k = Number(k) + 1
+            }
+
+            var stp = ""
+            var paragens = nextSops(idO, idD);
+            var k = 0;
+            while (k != paragens.length){
+                var stp = stp + paragens[k] + "\n"
+                var k = Number(k) + 1
+            }
+        
+            var speechOutput =  capitalizeFirst(nameO) +  " " +"next trains to " + capitalizeFirst(nameD) + " are:\n" + time + ".\n And next stop stations are: \n" + stp + "\n" + "for other route tell me the origin and destination, or change the service: \n 2 - Metro de Lisboa \n 3 - CP. \n Say the number"
+
+            //procura dos proximos horarios dada uma estação e sentido, query sobre o GTFS 
+
+            var repromptText = "for other route tell me the origin and destination, or change the service: \n 2 - Metro de Lisboa \n 3 - CP. \n Say the number"
+            var header = capitalizeFirst(nameO) + " " +  capitalizeFirst(nameD)
+        }
+    }
+
+    origin = []
+    destination = []
+
+    var shouldEndSession = false
 
     callback(session.attributes, buildSpeechletResponse(header, speechOutput, repromptText, shouldEndSession))
 }
@@ -711,7 +792,7 @@ function handleGetHelpRequest(intent, session, callback) {
         session.attributes = {};
     }
 
-    var speechOutput = "i can tell you route from one station in one way \n anytime first you can choose the service: \n2 - Metro de Lisboa \n 3 - CP \n  Next choose origin and destination stations \n in the end, schedule from origin or next stops until destination"
+    var speechOutput = "i can tell you a route from one origint to destination station\n anytime, first you can choose the service: \n2 - Metro de Lisboa, \n 3 - CP. \n  Next, choose origin and destination stations. \n In the end, schedule from origin or next stops until destination"
 
     var repromptText = speechOutput
 
