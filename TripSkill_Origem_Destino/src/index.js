@@ -588,10 +588,10 @@ function handleOriDest(intent, session, callback){
             var header = "invalid way"
         } else {
     
-            var speechOutput = "Your origin station is " + nameO.toUpperCase() + " and destinantion station is " + nameD.toUpperCase() +".\n Now, you want, next times from origin, or the stations until destinantion, or both?"
+            var speechOutput = "Your origin station is " + nameO.toUpperCase() + " and destination station is " + nameD.toUpperCase() +".\n Now, you want, next times from origin, or the stations until destination, or both?"
 
-            var repromptText = "You want, next times from origin, or the stations until destinantion, or both?"
-            var header = "origin station is " + nameO.toUpperCase() + " and destinantion station is " + nameD.toUpperCase()
+            var repromptText = "You want, next times from origin, or the stations until destination, or both?"
+            var header = "origin station is " + nameO.toUpperCase() + " and destination station is " + nameD.toUpperCase()
         }
     
     }
@@ -642,7 +642,7 @@ function handleTripResponse(intent, session, callback){
             var repromptText = "try asking about another origin station"
             var header = "invalid start station"
         } else if (origin == destination){
-            var speechOutput = "that origin and destinantion stations are the same.\ntry asking about another origin and destination"
+            var speechOutput = "that origin and destination stations are the same.\ntry asking about another origin and destination"
             var repromptText = "try asking about another origin and destination"
             var header = "invalid start station is the same end way"
         } else {
@@ -721,7 +721,7 @@ function handleListResponse(intent, session, callback){
             var repromptText = "try asking about another origin station"
             var header = "invalid start station"
         } else if (origin == destination){
-            var speechOutput = "that origin and destinantion stations are the same.\ntry asking about another origin and destination"
+            var speechOutput = "that origin and destination stations are the same.\ntry asking about another origin and destination"
             var repromptText = "try asking about another origin and destination"
             var header = "invalid start station is the same end way"
         } else {
@@ -796,7 +796,7 @@ function handleTripListResponse(intent, session, callback){
             var repromptText = "try asking about another origin station"
             var header = "invalid start station"
         } else if (origin == destination){
-            var speechOutput = "that origin and destinantion stations are the same.\ntry asking about another origin and destination"
+            var speechOutput = "that origin and destination stations are the same.\ntry asking about another origin and destination"
             var repromptText = "try asking about another origin and destination"
             var header = "invalid start station is the same end way"
         } else {
