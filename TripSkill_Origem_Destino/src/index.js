@@ -576,10 +576,10 @@ function handleOriDest(intent, session, callback){
             var header = "invalid way"
         } else {
     
-            var speechOutput = "Your origin station is " + capitalizeFirst(nameO) + " and destinantion station is " + capitalizeFirst(nameD) +".\n Now, you want, next times from origin, or the stations until destinantion, or both?"
+            var speechOutput = "Your origin station is " + nameO.toUpperCase() + " and destinantion station is " + nameD.toUpperCase() +".\n Now, you want, next times from origin, or the stations until destinantion, or both?"
 
             var repromptText = "You want, next times from origin, or the stations until destinantion, or both?"
-            var header = "origin station is " + nameO + " and destinantion station is " + nameD
+            var header = "origin station is " + nameO.toUpperCase() + " and destinantion station is " + nameD.toUpperCase()
         }
     
     }
@@ -651,12 +651,12 @@ function handleTripResponse(intent, session, callback){
                 var k = Number(k) + 1
             }
         
-            var speechOutput =  capitalizeFirst(nameO) +  " " +"next trains to " + capitalizeFirst(nameD) + " are:\n" + time  + "\n for other route tell me the origin and destination, or change the service:" + srvlist + "Say the number"
+            var speechOutput =  nameO.toUpperCase() +  " " +"next trains to " + nameD.toUpperCase() + " are:\n" + time  + "\n for other route tell me the origin and destination, or change the service:" + srvlist + "Say the number"
 
             //procura dos proximos horarios dada uma estação e sentido, query sobre o GTFS 
 
             var repromptText = "for other route tell me the origin and destination, or change the service:" + srvlist + "Say the number"
-            var header = capitalizeFirst(nameO) + " " +  capitalizeFirst(nameD)
+            var header = nameO.toUpperCase() + " " +  nameD.toUpperCase()
         }
     }
 
@@ -720,16 +720,16 @@ function handleListResponse(intent, session, callback){
             var paragens = nextSops(idO, idD);
             var k = 0;
             while (k != paragens.length){
-                var stp = stp + paragens[k] + "\n"
+                var stp = stp + paragens[k].toUpperCase() + "\n"
                 var k = Number(k) + 1
             }
         
 
-            var speechOutput = capitalizeFirst(nameO) + " next stops to " + capitalizeFirst(nameD) + " are: \n" + stp + "\n for other route tell me the origin and destination, or change the service:" + srvlist + "Say the number"
+            var speechOutput = nameO.toUpperCase() + " next stops to " + nameD.toUpperCase() + " are: \n" + stp + "\n for other route tell me the origin and destination, or change the service:" + srvlist + "Say the number"
 
 
             var repromptText = "for other route tell me the origin and destination, or change the service:" + srvlist + "Say the number"
-            var header = capitalizeFirst(nameO) + " next stops to " + capitalizeFirst(nameD)
+            var header = nameO.toUpperCase() + " next stops to " + nameD.toUpperCase()
         }
     }
     
@@ -803,16 +803,16 @@ function handleTripListResponse(intent, session, callback){
             var paragens = nextSops(idO, idD);
             var k = 0;
             while (k != paragens.length){
-                var stp = stp + paragens[k] + "\n"
+                var stp = stp + paragens[k].toUpperCase() + "\n"
                 var k = Number(k) + 1
             }
         
-            var speechOutput =  capitalizeFirst(nameO) +  " " +"next trains to " + capitalizeFirst(nameD) + " are:\n" + time + ".\n And next stop stations are: \n" + stp + "\n" + "for other route tell me the origin and destination, or change the service: \n 2 - Metro de Lisboa \n 3 - CP. \n Say the number"
+            var speechOutput =  nameO.toUpperCase() +  " " +"next trains to " + nameD.toUpperCase() + " are:\n" + time + ".\n And next stop stations are: \n" + stp + "\n" + "for other route tell me the origin and destination, or change the service: \n 2 - Metro de Lisboa \n 3 - CP. \n Say the number"
 
             //procura dos proximos horarios dada uma estação e sentido, query sobre o GTFS 
 
             var repromptText = "for other route tell me the origin and destination, or change the service:" + srvlist + "Say the number"
-            var header = capitalizeFirst(nameO) + " " +  capitalizeFirst(nameD)
+            var header = nameO.toUpperCase() + " " +  nameD.toUpperCase()
         }
     }
 
