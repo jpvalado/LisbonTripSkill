@@ -41,9 +41,20 @@ function data(agency_nr){
         stop_times = JSON.parse(fs.readFileSync('data/CP/stop_times.json','utf8'));
         stops = JSON.parse(fs.readFileSync('data/CP/stops.json','utf8'));
         trips = JSON.parse(fs.readFileSync('data/CP/trips.json','utf8'));
+    }else if (agency_nr == 13){
+        agency = JSON.parse(fs.readFileSync('data/Fertagus/agency.json','utf8'));
+        calendar = JSON.parse(fs.readFileSync('data/Fertagus/calendar.json','utf8'));
+        calendar_dates = JSON.parse(fs.readFileSync('data/Fertagus/calendar_dates.json','utf8'));
+        frequencies = JSON.parse(fs.readFileSync('data/Fertagus/frequencies.json','utf8'));
+        routes = JSON.parse(fs.readFileSync('data/Fertagus/routes.json','utf8'));
+        shapes = JSON.parse(fs.readFileSync('data/Fertagus/shapes.json','utf8'));
+        stop_times = JSON.parse(fs.readFileSync('data/Fertagus/stop_times.json','utf8'));
+        stops = JSON.parse(fs.readFileSync('data/Fertagus/stops.json','utf8'));
+        trips = JSON.parse(fs.readFileSync('data/Fertagus/trips.json','utf8'));
     }
 }
 
+var srvlist = "\n 2 - Metro de Lisboa \n 3 - CP \n 13 - Fertagus.\n"
 
 //porque não há PT-PT na alexa
 
@@ -51,27 +62,22 @@ var stations = {
     "orange" : {
         "name": "cascais",
         "stop_id": "11069260",
-        "agency_id": "3"
     },
      "pear" : {
         "name": "monte estoril",
         "stop_id": "11069252",
-        "agency_id": "3"
     },
     "grapes" : {
         "name": "estoril",
         "stop_id": "11069245",
-        "agency_id": "3"
     },
     "lemon" : {
         "name": "sao joao do estoril",
         "stop_id": "11069237",
-        "agency_id": "3"
     },
     "onion" : {
         "name": "sao pedro do estoril",
         "stop_id": "11069229",
-        "agency_id": "3"
     },
     "apple" : {
         "name": "parede",
@@ -81,57 +87,46 @@ var stations = {
     "ananas" : {
         "name": "carcavelos",
         "stop_id": "11069187",
-        "agency_id": "3"
     },
     "banana" : {
         "name": "oeiras",
         "stop_id": "11069179",
-        "agency_id": "3"
     },
     "carrot" : {
         "name": "santo amaro de oeiras",
         "stop_id": "11069161",
-        "agency_id": "3"
     },
     "potato" : {
         "name": "paço de arcos",
         "stop_id": "11069146",
-        "agency_id": "3"
     },
     "fig" : {
         "name": "caxias",
         "stop_id": "11069120",
-        "agency_id": "3"
     },
     "watermelon" : {
         "name": "cruz quebrada",
         "stop_id": "11069104",
-        "agency_id": "3"
     },
     "cherry" : {
         "name": "alges",
         "stop_id": "11069088",
-        "agency_id": "3"
     },
     "peach" : {
         "name": "belem",
         "stop_id": "11069054",
-        "agency_id": "3"
     },
     "tomato" : {
         "name": "alcantara",
         "stop_id": "11069039",
-        "agency_id": "3"
     },
     "lettuce" : {
         "name": "santos",
         "stop_id": "11069013",
-        "agency_id": "3"
     },
     "melon" : {
         "name": "cais do sodre",
         "stop_id": "11069005",
-        "agency_id": "3"
     },
 
     /*METRO*/
@@ -139,12 +134,35 @@ var stations = {
     "stolen sir" : {
         "name": "Senhor Roubado",
         "stop_id": "M41",
-        "agency_id": "2"
     },
     "mouse" : {
         "name": "Rato",
         "stop_id": "M19",
-        "agency_id": "2"
+    },
+
+
+    /*FERTAGUS*/
+
+    "cat" : {
+        "name": "Pragal",
+        "stop_id": "11017087",
+    },
+    "dog" : {
+        "name": "Campolide",
+        "stop_id": "11060004",
+        
+    },
+
+    /*CP Sintra*/
+
+    "rabbit" : {
+        "name": "Entrecampos",
+        "stop_id": "11066050",
+    },
+    
+    "duck" : {
+        "name": "Massama-Barcarena",
+        "stop_id": "11060137",
     }
 
 }
@@ -254,9 +272,9 @@ function getWelcomeResponse(callback) {
 
 
 
-    var speechOutput = "Welcome Trip Skill! I can tell you a route from a origin station in one way.\n Please, first select the service: \n 2 - Metro de Lisboa \n 3 - CP  \n Say the number"
+    var speechOutput = "Welcome Trip Skill! I can tell you a route from a origin station in one way.\n Please, first select the service:" + srvlist + "Say the number"
 
-    var reprompt = "Please, first select the service: \n 2 - Metro de Lisboa \n 3 - CP \n Say the number"
+    var reprompt = "Please, first select the service: " + srvlist +"Say the number"
     
     var header = "Trip Skill"
 
@@ -534,7 +552,7 @@ function handleServiceSelect(intent, session, callback){
 function handleOriDest(intent, session, callback){
 
     if(service == 0){
-        var speechOutput = "please first select your service: \n 2 - Metro de Lisboa \n 3 - CP \n Say the number"
+        var speechOutput = "please first select your service:" + srvlist + "Say the number"
         var repromptText = speechOutput
         var header = "invalid service"
     }
@@ -545,11 +563,24 @@ function handleOriDest(intent, session, callback){
 
         var nameO = stations[origin].name 
         var nameD = stations[destination].name 
-    
-        var speechOutput = "Your origin station is " + capitalizeFirst(nameO) + " and destinantion station is " + capitalizeFirst(nameD) +".\n Now, you want, next times from origin, or the stations until destinantion, or both?"
 
-        var repromptText = "You want, next times from origin, or the stations until destinantion, or both?"
-        var header = "origin station is " + nameO + "and destinantion station is " + nameD
+        var idO = stations[origin].stop_id
+        var idD = stations[destination].stop_id
+        
+        var o = _.where(stops, {stop_id: idCheck(idO)})
+        var d = _.where(stops, {stop_id: idCheck(idD)})
+        //if(parseInt(stations[destination].agency_id) != parseInt(service) || parseInt(stations[origin].agency_id) != parseInt(service)){
+        if( o.length == 0 || d.length == 0){
+            var speechOutput = "that way isn't in that service. Try asking another one or change the service."
+            var repromptText = "try asking about another origin and destination station or change the service"
+            var header = "invalid way"
+        } else {
+    
+            var speechOutput = "Your origin station is " + capitalizeFirst(nameO) + " and destinantion station is " + capitalizeFirst(nameD) +".\n Now, you want, next times from origin, or the stations until destinantion, or both?"
+
+            var repromptText = "You want, next times from origin, or the stations until destinantion, or both?"
+            var header = "origin station is " + nameO + " and destinantion station is " + nameD
+        }
     
     }
     var shouldEndSession = false
@@ -570,7 +601,7 @@ function handleTripResponse(intent, session, callback){
 
         
     if(service == 0){
-        var speechOutput = "please first select your service: \n 2 - Metro de Lisboa \n 3 - CP \n Say the number"
+        var speechOutput = "please first select your service:" + srvlist + "Say the number"
         var repromptText = speechOutput
         var header = "invalid service"
 
@@ -580,21 +611,27 @@ function handleTripResponse(intent, session, callback){
         var header = "invalid origin and destination"
     }
     else{
-        if(parseInt(stations[destination].agency_id) != parseInt(service) || parseInt(stations[origin].agency_id) != parseInt(service)){
+        var idO = stations[origin].stop_id
+        var idD = stations[destination].stop_id
+        
+        var o = _.where(stops, {stop_id: idCheck(idO)})
+        var d = _.where(stops, {stop_id: idCheck(idD)})
+        //if(parseInt(stations[destination].agency_id) != parseInt(service) || parseInt(stations[origin].agency_id) != parseInt(service)){
+        if( o.length == 0 || d.length == 0){
             var speechOutput = "that way isn't in that service. Try asking another one or change the service."
-            var repromptText = "try asking about another start station and way or change the service"
+            var repromptText = "try asking about another origin and destination station or change the service"
             var header = "invalid way"
         } else if (!stations[destination]){
             var speechOutput = "that way isn't in that route. Try asking another one"
-            var repromptText = "try asking about another start station and way"
+            var repromptText = "try asking about another destination station"
             var header = "invalid way"
         } else if (!stations[origin]){
-            var speechOutput = "that station isn't in that route."
-            var repromptText = "try asking about another start station"
+            var speechOutput = "that station isn't in that route.\ntry asking about another origin station"
+            var repromptText = "try asking about another origin station"
             var header = "invalid start station"
         } else if (origin == destination){
-            var speechOutput = "that station and way is the same."
-            var repromptText = "try asking about another start station and"
+            var speechOutput = "that origin and destinantion stations are the same.\ntry asking about another origin and destination"
+            var repromptText = "try asking about another origin and destination"
             var header = "invalid start station is the same end way"
         } else {
             var nameO = stations[origin].name 
@@ -614,11 +651,11 @@ function handleTripResponse(intent, session, callback){
                 var k = Number(k) + 1
             }
         
-            var speechOutput =  capitalizeFirst(nameO) +  " " +"next trains to " + capitalizeFirst(nameD) + " are:\n" + time  + "\n for other route tell me the origin and destination, or change the service: \n 2 - Metro de Lisboa \n 3 - CP. \n Say the number"
+            var speechOutput =  capitalizeFirst(nameO) +  " " +"next trains to " + capitalizeFirst(nameD) + " are:\n" + time  + "\n for other route tell me the origin and destination, or change the service:" + srvlist + "Say the number"
 
             //procura dos proximos horarios dada uma estação e sentido, query sobre o GTFS 
 
-            var repromptText = "for other route tell me the origin and destination, or change the service: \n 2 - Metro de Lisboa \n 3 - CP. \n Say the number"
+            var repromptText = "for other route tell me the origin and destination, or change the service:" + srvlist + "Say the number"
             var header = capitalizeFirst(nameO) + " " +  capitalizeFirst(nameD)
         }
     }
@@ -644,7 +681,7 @@ function handleListResponse(intent, session, callback){
 
 
    if(service == 0){
-        var speechOutput = "please first select your service: \n 2 - Metro de Lisboa \n 3 - CP \n Say the number"
+        var speechOutput = "please first select your service:" + srvlist + "Say the number"
         var repromptText = speechOutput
         var header = "invalid service"
     } else if(destination.length == 0 && origin.length == 0){
@@ -653,27 +690,32 @@ function handleListResponse(intent, session, callback){
         var header = "invalid origin and destination"
     }
     else{
-        if(parseInt(stations[destination].agency_id) != parseInt(service) || parseInt(stations[origin].agency_id) != parseInt(service)){
+        var idO = stations[origin].stop_id
+        var idD = stations[destination].stop_id
+        
+        var o = _.where(stops, {stop_id: idCheck(idO)})
+        var d = _.where(stops, {stop_id: idCheck(idD)})
+        //if(parseInt(stations[destination].agency_id) != parseInt(service) || parseInt(stations[origin].agency_id) != parseInt(service)){
+       if( o.length == 0 || d.length == 0){
             var speechOutput = "that way isn't in that service. Try asking another one or change the service."
-            var repromptText = "try asking about another start station and way or change the service"
+            var repromptText = "try asking about another origin and destination station or change the service"
             var header = "invalid way"
         } else if (!stations[destination]){
             var speechOutput = "that way isn't in that route. Try asking another one"
-            var repromptText = "try asking about another start station and way"
+            var repromptText = "try asking about another destination station"
             var header = "invalid way"
         } else if (!stations[origin]){
-            var speechOutput = "that station isn't in that route."
-            var repromptText = "try asking about another start station"
+            var speechOutput = "that station isn't in that route.\ntry asking about another origin station"
+            var repromptText = "try asking about another origin station"
             var header = "invalid start station"
         } else if (origin == destination){
-            var speechOutput = "that station and way is the same."
-            var repromptText = "try asking about another start station and"
+            var speechOutput = "that origin and destinantion stations are the same.\ntry asking about another origin and destination"
+            var repromptText = "try asking about another origin and destination"
             var header = "invalid start station is the same end way"
         } else {
             var nameO = stations[origin].name 
             var nameD = stations[destination].name 
-            var idO = stations[origin].stop_id
-            var idD = stations[destination].stop_id
+
             var stp = ""
             var paragens = nextSops(idO, idD);
             var k = 0;
@@ -683,10 +725,10 @@ function handleListResponse(intent, session, callback){
             }
         
 
-            var speechOutput = capitalizeFirst(nameO) + " next stops to " + capitalizeFirst(nameD) + " are: \n" + stp + "\n for other route tell me the origin and destination, or change the service: \n 2 - Metro de Lisboa \n 3 - CP. \n Say the number"
+            var speechOutput = capitalizeFirst(nameO) + " next stops to " + capitalizeFirst(nameD) + " are: \n" + stp + "\n for other route tell me the origin and destination, or change the service:" + srvlist + "Say the number"
 
 
-            var repromptText = "for other route tell me the origin and destination, or change the service: \n 2 - Metro de Lisboa \n 3 - CP. \n Say the number"
+            var repromptText = "for other route tell me the origin and destination, or change the service:" + srvlist + "Say the number"
             var header = capitalizeFirst(nameO) + " next stops to " + capitalizeFirst(nameD)
         }
     }
@@ -713,7 +755,7 @@ function handleTripListResponse(intent, session, callback){
 
         
     if(service == 0){
-        var speechOutput = "please first select your service: \n 2 - Metro de Lisboa \n 3 - CP. \n Say the number"
+        var speechOutput = "please first select your service:" + srvlist + "Say the number"
         var repromptText = speechOutput
         var header = "invalid service"
 
@@ -723,27 +765,32 @@ function handleTripListResponse(intent, session, callback){
         var header = "invalid origin and destination"
     }
     else{
-        if(parseInt(stations[destination].agency_id) != parseInt(service) || parseInt(stations[origin].agency_id) != parseInt(service)){
+        var idO = stations[origin].stop_id
+        var idD = stations[destination].stop_id
+        
+        var o = _.where(stops, {stop_id: idCheck(idO)})
+        var d = _.where(stops, {stop_id: idCheck(idD)})
+        //if(parseInt(stations[destination].agency_id) != parseInt(service) || parseInt(stations[origin].agency_id) != parseInt(service)){
+       if( o.length == 0 || d.length == 0){
             var speechOutput = "that way isn't in that service. Try asking another one or change the service."
-            var repromptText = "try asking about another start station and way or change the service"
+            var repromptText = "try asking about another origin and destination station or change the service"
             var header = "invalid way"
         } else if (!stations[destination]){
             var speechOutput = "that way isn't in that route. Try asking another one"
-            var repromptText = "try asking about another start station and way"
+            var repromptText = "try asking about another destination station"
             var header = "invalid way"
         } else if (!stations[origin]){
-            var speechOutput = "that station isn't in that route."
-            var repromptText = "try asking about another start station"
+            var speechOutput = "that station isn't in that route.\ntry asking about another origin station"
+            var repromptText = "try asking about another origin station"
             var header = "invalid start station"
         } else if (origin == destination){
-            var speechOutput = "that station and way is the same."
-            var repromptText = "try asking about another start station and"
+            var speechOutput = "that origin and destinantion stations are the same.\ntry asking about another origin and destination"
+            var repromptText = "try asking about another origin and destination"
             var header = "invalid start station is the same end way"
         } else {
             var nameO = stations[origin].name 
             var nameD = stations[destination].name 
-            var idO = stations[origin].stop_id
-            var idD = stations[destination].stop_id
+           
             var time ="";
             var horas = horario(idO, idD);
             var k = 0;
@@ -764,7 +811,7 @@ function handleTripListResponse(intent, session, callback){
 
             //procura dos proximos horarios dada uma estação e sentido, query sobre o GTFS 
 
-            var repromptText = "for other route tell me the origin and destination, or change the service: \n 2 - Metro de Lisboa \n 3 - CP. \n Say the number"
+            var repromptText = "for other route tell me the origin and destination, or change the service:" + srvlist + "Say the number"
             var header = capitalizeFirst(nameO) + " " +  capitalizeFirst(nameD)
         }
     }
@@ -779,7 +826,7 @@ function handleTripListResponse(intent, session, callback){
 
 function handleServicesHelpResponse(intent, session, callback){
 
-    var speechOutput = "The available services are: \n 2 - Metro de Lisboa \n 3 - CP. \n To choose one say the number."
+    var speechOutput = "The available services are:" + srvlist + "To choose one say the number."
 
     var shouldEndSession = false
 
@@ -805,7 +852,7 @@ function handleGetHelpRequest(intent, session, callback) {
         session.attributes = {};
     }
 
-    var speechOutput = "i can tell you a route from one origint to destination station\n anytime, first you can choose the service: \n2 - Metro de Lisboa, \n 3 - CP. \n  Next, choose origin and destination stations. \n In the end, schedule from origin or next stops until destination"
+    var speechOutput = "i can tell you a route from one origint to destination station\n anytime, first you can choose the service:" + srvlist + "Next, choose origin and destination stations. \n In the end, schedule from origin or next stops until destination"
 
     var repromptText = speechOutput
 
@@ -877,8 +924,8 @@ function capitalizeFirst(s) {
 
 
 //TESTES
-/*
 
+/*
 function nomes(origem_id, destino_id){
 
 var o = _.where(stops, {stop_id:  idCheck(origem_id)} );
@@ -904,11 +951,15 @@ var destino_idf= '11060004';
 var origem_id = stations["banana"].stop_id;
 var destino_id = stations["peach"].stop_id;
 
+var origem_idg = '11017228';
+var destino_idg= '11066076';
 
+data(2)
 nomes(origem_ida, destino_ida)
 console.log(horario(origem_ida, destino_ida))
 console.log(nextSops(origem_ida, destino_ida))
 console.log("--------------------------------")
+data(3)
 nomes(origem_idc, destino_idc)
 console.log(horario(origem_idc, destino_idc))
 console.log(nextSops(origem_idc, destino_idc))
@@ -922,4 +973,9 @@ console.log(nextSops(origem_idf, destino_idf))
 console.log("--------------------------------")
 nomes(origem_id, destino_id)
 console.log(horario(origem_id, destino_id))
-console.log(nextSops(origem_id, destino_id))*/
+console.log(nextSops(origem_id, destino_id))
+data(13)
+nomes(origem_idg, destino_idg)
+console.log(horario(origem_idg, destino_idg))
+console.log(nextSops(origem_idg, destino_idg))
+*/

@@ -4,7 +4,7 @@
       "slots": [
         {
           "name": "Service",
-          "type": "LIST_OF_SERVICES"
+          "type": "AMAZON.NUMBER"
         }
       ],
       "intent": "ServiceIntent"
