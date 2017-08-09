@@ -564,8 +564,8 @@ function handleOriDest(intent, session, callback){
         origin = intent.slots.Origin.value
         destination = intent.slots.Destination.value
 
-        var ori = _.where(stations, {ID: origin})
-        var dest = _.where(stations, {ID: destination})
+        var ori = _.where(stations, {id: origin})
+        var dest = _.where(stations, {id: destination})
 
         var nameO = ori[0].stop_name 
         var nameD = dest[0].stop_name 

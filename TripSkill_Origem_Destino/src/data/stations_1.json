@@ -2,616 +2,616 @@
   {
     "stop_id": "M49",
     "stop_name": "AEROPORTO",
-    "ID": 1
+    "id": 1
   },
   {
     "stop_id": 11061002,
     "stop_name": "Agualva-Cacém",
-    "ID": 2
+    "id": 2
   },
   {
     "stop_id": "M23",
     "stop_name": "ALAMEDA",
-    "ID": 3
+    "id": 3
   },
   {
     "stop_id": 11067025,
     "stop_name": "Alcântara",
-    "ID": 4
+    "id": 4
   },
   {
     "stop_id": 11069039,
     "stop_name": "Alcântara-Mar",
-    "ID": 5
+    "id": 5
   },
   {
     "stop_id": "M43",
     "stop_name": "ALFORNELOS",
-    "ID": 6
+    "id": 6
   },
   {
     "stop_id": 11069088,
     "stop_name": "Algés",
-    "ID": 7
+    "id": 7
   },
   {
     "stop_id": 11061069,
     "stop_name": "Algueirão",
-    "ID": 8
+    "id": 8
   },
   {
     "stop_id": 11031237,
     "stop_name": "Alhandra",
-    "ID": 9
+    "id": 9
   },
   {
     "stop_id": 11095075,
     "stop_name": "Alhos Vedros",
-    "ID": 10
+    "id": 10
   },
   {
     "stop_id": "M04",
     "stop_name": "ALTO DOS MOINHOS",
-    "ID": 11
+    "id": 11
   },
   {
     "stop_id": "M20",
     "stop_name": "ALVALADE",
-    "ID": 12
+    "id": 12
   },
   {
     "stop_id": 11031187,
     "stop_name": "Alverca",
-    "ID": 13
+    "id": 13
   },
   {
     "stop_id": 11060087,
     "stop_name": "Amadora",
-    "ID": 14
+    "id": 14
   },
   {
     "stop_id": "M44",
     "stop_name": "AMADORA ESTE",
-    "ID": 15
+    "id": 15
   },
   {
     "stop_id": "M40",
     "stop_name": "AMEIXOEIRA",
-    "ID": 16
+    "id": 16
   },
   {
     "stop_id": "M25",
     "stop_name": "ANJOS",
-    "ID": 17
+    "id": 17
   },
   {
     "stop_id": "M22",
     "stop_name": "AREEIRO",
-    "ID": 18
+    "id": 18
   },
   {
     "stop_id": "M24",
     "stop_name": "ARROIOS",
-    "ID": 19
+    "id": 19
   },
   {
     "stop_id": "M11",
-    "stop_name": "AVENIDA",
-    "ID": 20
+    "stop_name": "AVENidA",
+    "id": 20
   },
   {
     "stop_id": 11033001,
     "stop_name": "Azambuja",
-    "ID": 21
+    "id": 21
   },
   {
     "stop_id": 11095059,
     "stop_name": "Baixa da Banheira",
-    "ID": 22
+    "id": 22
   },
   {
     "stop_id": "M29",
     "stop_name": "BAIXA-CHIADO",
-    "ID": 23
+    "id": 23
   },
   {
     "stop_id": 11095000,
     "stop_name": "Barreiro",
-    "ID": 24
+    "id": 24
   },
   {
     "stop_id": 11095026,
     "stop_name": "Barreiro A",
-    "ID": 25
+    "id": 25
   },
   {
     "stop_id": "M32",
     "stop_name": "BELA VISTA",
-    "ID": 26
+    "id": 26
   },
   {
     "stop_id": 11069054,
     "stop_name": "Belém",
-    "ID": 27
+    "id": 27
   },
   {
     "stop_id": 11060046,
     "stop_name": "Benfica",
-    "ID": 28
+    "id": 28
   },
   {
     "stop_id": 11031070,
     "stop_name": "Bobadela",
-    "ID": 29
+    "id": 29
   },
   {
     "stop_id": 11031005,
     "stop_name": "Braço de Prata",
-    "ID": 30
+    "id": 30
   },
   {
     "stop_id": "M35",
     "stop_name": "CABO RUIVO",
-    "ID": 31
+    "id": 31
   },
   {
     "stop_id": "M30",
     "stop_name": "CAIS DO SODRE",
-    "ID": 32
+    "id": 32
   },
   {
     "stop_id": 11069005,
     "stop_name": "Cais do Sodré",
-    "ID": 33
+    "id": 33
   },
   {
     "stop_id": "M13",
     "stop_name": "CAMPO GRANDE",
-    "ID": 34
+    "id": 34
   },
   {
     "stop_id": "M16",
     "stop_name": "CAMPO PEQUENO",
-    "ID": 35
+    "id": 35
   },
   {
     "stop_id": 11060004,
     "stop_name": "Campolide",
-    "ID": 36
+    "id": 36
   },
   {
     "stop_id": 11069187,
     "stop_name": "Carcavelos",
-    "ID": 37
+    "id": 37
   },
   {
     "stop_id": "M02",
-    "stop_name": "CARNIDE",
-    "ID": 38
+    "stop_name": "CARNidE",
+    "id": 38
   },
   {
     "stop_id": 11031336,
     "stop_name": "Carregado",
-    "ID": 39
+    "id": 39
   },
   {
     "stop_id": 11069260,
     "stop_name": "Cascais",
-    "ID": 40
+    "id": 40
   },
   {
     "stop_id": 11031310,
     "stop_name": "Castanheira do Ribatejo",
-    "ID": 41
+    "id": 41
   },
   {
     "stop_id": 11069120,
     "stop_name": "Caxias",
-    "ID": 42
+    "id": 42
   },
   {
     "stop_id": "M33",
     "stop_name": "CHELAS",
-    "ID": 43
+    "id": 43
   },
   {
     "stop_id": "M14",
-    "stop_name": "CIDADE UNIVERSITÁRIA",
-    "ID": 44
+    "stop_name": "CidADE UNIVERSITÁRIA",
+    "id": 44
   },
   {
     "stop_id": 11017228,
     "stop_name": "Coina",
-    "ID": 45
+    "id": 45
   },
   {
     "stop_id": "M03",
     "stop_name": "COLÉGIO MILITAR-LUZ",
-    "ID": 46
+    "id": 46
   },
   {
     "stop_id": 11017137,
     "stop_name": "Corroios",
-    "ID": 47
+    "id": 47
   },
   {
     "stop_id": 11069104,
     "stop_name": "Cruz Quebrada",
-    "ID": 48
+    "id": 48
   },
   {
     "stop_id": "M48",
     "stop_name": "ENCARNAÇÃO",
-    "ID": 49
+    "id": 49
   },
   {
     "stop_id": 11066050,
     "stop_name": "Entrecampos",
-    "ID": 50
+    "id": 50
   },
   {
     "stop_id": "M15",
     "stop_name": "ENTRECAMPOS",
-    "ID": 51
+    "id": 51
   },
   {
     "stop_id": 11031401,
     "stop_name": "Espadanal de Azambuja",
-    "ID": 52
+    "id": 52
   },
   {
     "stop_id": 11069245,
     "stop_name": "Estoril",
-    "ID": 53
+    "id": 53
   },
   {
     "stop_id": 11017186,
     "stop_name": "Fogueteiro",
-    "ID": 54
+    "id": 54
   },
   {
     "stop_id": 11017152,
     "stop_name": "Foros de Amora",
-    "ID": 55
+    "id": 55
   },
   {
     "stop_id": "M26",
     "stop_name": "INTENDENTE",
-    "ID": 56
+    "id": 56
   },
   {
     "stop_id": "M06",
     "stop_name": "JARDIM ZOOLÓGICO",
-    "ID": 57
+    "id": 57
   },
   {
     "stop_id": "M05",
     "stop_name": "LARANJEIRAS",
-    "ID": 58
+    "id": 58
   },
   {
     "stop_id": 11095042,
     "stop_name": "Lavradio",
-    "ID": 59
+    "id": 59
   },
   {
     "stop_id": "M39",
     "stop_name": "LUMIAR",
-    "ID": 60
+    "id": 60
   },
   {
     "stop_id": "M10",
     "stop_name": "MARQUÊS DE POMBAL",
-    "ID": 61
+    "id": 61
   },
   {
     "stop_id": "M27",
     "stop_name": "MARTIM MONIZ",
-    "ID": 62
+    "id": 62
   },
   {
     "stop_id": 11066019,
     "stop_name": "Marvila",
-    "ID": 63
+    "id": 63
   },
   {
     "stop_id": 11060137,
     "stop_name": "Massamá-Barcarena",
-    "ID": 64
+    "id": 64
   },
   {
     "stop_id": 11061051,
     "stop_name": "Mercês",
-    "ID": 65
+    "id": 65
   },
   {
     "stop_id": 11062042,
     "stop_name": "Mira Sintra-Meleças",
-    "ID": 66
+    "id": 66
   },
   {
     "stop_id": 11095109,
     "stop_name": "Moita",
-    "ID": 67
+    "id": 67
   },
   {
     "stop_id": 11060111,
     "stop_name": "Monte Abraão",
-    "ID": 68
+    "id": 68
   },
   {
     "stop_id": 11069252,
     "stop_name": "Monte Estoril",
-    "ID": 69
+    "id": 69
   },
   {
     "stop_id": 11031047,
     "stop_name": "Moscavide",
-    "ID": 70
+    "id": 70
   },
   {
     "stop_id": "M47",
-    "stop_name": "MOSCAVIDE",
-    "ID": 71
+    "stop_name": "MOSCAVidE",
+    "id": 71
   },
   {
     "stop_id": "M42",
     "stop_name": "ODIVELAS",
-    "ID": 72
+    "id": 72
   },
   {
     "stop_id": 11069179,
     "stop_name": "Oeiras",
-    "ID": 73
+    "id": 73
   },
   {
     "stop_id": "M31",
     "stop_name": "OLAIAS",
-    "ID": 74
+    "id": 74
   },
   {
     "stop_id": "M34",
     "stop_name": "OLIVAIS",
-    "ID": 75
+    "id": 75
   },
   {
     "stop_id": 11031039,
     "stop_name": "Oriente",
-    "ID": 76
+    "id": 76
   },
   {
     "stop_id": "M36",
     "stop_name": "ORIENTE",
-    "ID": 77
+    "id": 77
   },
   {
     "stop_id": 11069146,
     "stop_name": "Paço de Arcos",
-    "ID": 78
+    "id": 78
   },
   {
     "stop_id": 11068080,
     "stop_name": "Palmela",
-    "ID": 79
+    "id": 79
   },
   {
     "stop_id": 11069203,
     "stop_name": "Parede",
-    "ID": 80
+    "id": 80
   },
   {
     "stop_id": "M09",
     "stop_name": "PARQUE",
-    "ID": 81
+    "id": 81
   },
   {
     "stop_id": 11017095,
     "stop_name": "Penalva",
-    "ID": 82
+    "id": 82
   },
   {
     "stop_id": 11095125,
     "stop_name": "Penteado",
-    "ID": 83
+    "id": 83
   },
   {
     "stop_id": "M18",
     "stop_name": "PICOAS",
-    "ID": 84
+    "id": 84
   },
   {
     "stop_id": 11068007,
     "stop_name": "Pinhal Novo",
-    "ID": 85
+    "id": 85
   },
   {
     "stop_id": "M01",
     "stop_name": "PONTINHA",
-    "ID": 86
+    "id": 86
   },
   {
     "stop_id": 11061093,
     "stop_name": "Portela de Sintra",
-    "ID": 87
+    "id": 87
   },
   {
     "stop_id": 11031146,
     "stop_name": "Póvoa",
-    "ID": 88
+    "id": 88
   },
   {
     "stop_id": "M07",
     "stop_name": "PRAÇA DE ESPANHA",
-    "ID": 89
+    "id": 89
   },
   {
     "stop_id": 11068130,
     "stop_name": "Praça do Quebedo",
-    "ID": 90
+    "id": 90
   },
   {
     "stop_id": 11017087,
     "stop_name": "Pragal",
-    "ID": 91
+    "id": 91
   },
   {
     "stop_id": 11091058,
     "stop_name": "Praias do Sado A",
-    "ID": 92
+    "id": 92
   },
   {
     "stop_id": 11060103,
     "stop_name": "Queluz-Belas",
-    "ID": 93
+    "id": 93
   },
   {
     "stop_id": "M38",
     "stop_name": "QUINTA DAS CONCHAS",
-    "ID": 94
+    "id": 94
   },
   {
     "stop_id": "M19",
     "stop_name": "RATO",
-    "ID": 95
+    "id": 95
   },
   {
     "stop_id": 11060095,
     "stop_name": "Reboleira",
-    "ID": 96
+    "id": 96
   },
   {
     "stop_id": "M50",
     "stop_name": "REBOLEIRA",
-    "ID": 97
+    "id": 97
   },
   {
     "stop_id": "M12",
     "stop_name": "RESTAURADORES",
-    "ID": 98
+    "id": 98
   },
   {
     "stop_id": 11061044,
     "stop_name": "Rio de Mouro",
-    "ID": 99
+    "id": 99
   },
   {
     "stop_id": "M21",
     "stop_name": "ROMA",
-    "ID": 100
+    "id": 100
   },
   {
     "stop_id": 11066035,
     "stop_name": "Roma-Areeiro",
-    "ID": 101
+    "id": 101
   },
   {
     "stop_id": 11059006,
     "stop_name": "Rossio",
-    "ID": 102
+    "id": 102
   },
   {
     "stop_id": "M28",
     "stop_name": "ROSSIO",
-    "ID": 103
+    "id": 103
   },
   {
     "stop_id": 11031062,
     "stop_name": "Sacavém",
-    "ID": 104
+    "id": 104
   },
   {
     "stop_id": "M17",
     "stop_name": "SALDANHA",
-    "ID": 105
+    "id": 105
   },
   {
     "stop_id": 11030007,
     "stop_name": "Santa Apolónia",
-    "ID": 106
+    "id": 106
   },
   {
     "stop_id": "M46",
     "stop_name": "SANTA APOLÓNIA",
-    "ID": 107
+    "id": 107
   },
   {
     "stop_id": 11060038,
     "stop_name": "Santa Cruz/Damaia",
-    "ID": 108
+    "id": 108
   },
   {
     "stop_id": 11031112,
     "stop_name": "Santa Iria",
-    "ID": 109
+    "id": 109
   },
   {
     "stop_id": 11069161,
     "stop_name": "Santo Amaro de Oeiras",
-    "ID": 110
+    "id": 110
   },
   {
     "stop_id": 11069013,
     "stop_name": "Santos",
-    "ID": 111
+    "id": 111
   },
   {
     "stop_id": 11069237,
     "stop_name": "São João do Estoril",
-    "ID": 112
+    "id": 112
   },
   {
     "stop_id": 11069229,
     "stop_name": "São Pedro do Estoril",
-    "ID": 113
+    "id": 113
   },
   {
     "stop_id": "M08",
     "stop_name": "SÃO SEBASTIÃO",
-    "ID": 114
+    "id": 114
   },
   {
     "stop_id": 11066076,
     "stop_name": "Sete Rios",
-    "ID": 115
+    "id": 115
   },
   {
     "stop_id": 11068122,
     "stop_name": "Setúbal",
-    "ID": 116
+    "id": 116
   },
   {
     "stop_id": 11061101,
     "stop_name": "Sintra",
-    "ID": 117
+    "id": 117
   },
   {
     "stop_id": "M41",
     "stop_name": "SR. ROUBADO",
-    "ID": 118
+    "id": 118
   },
   {
     "stop_id": "M37",
     "stop_name": "TELHEIRAS",
-    "ID": 119
+    "id": 119
   },
   {
     "stop_id": "M45",
     "stop_name": "TERREIRO DO PAÇO",
-    "ID": 120
+    "id": 120
   },
   {
     "stop_id": 11068049,
     "stop_name": "Venda do Alcaide",
-    "ID": 121
+    "id": 121
   },
   {
     "stop_id": 11031278,
     "stop_name": "Vila Franca de Xira",
-    "ID": 122
+    "id": 122
   },
   {
     "stop_id": 11031377,
     "stop_name": "Vila Nova da Rainha",
-    "ID": 123
+    "id": 123
   }
 ]
