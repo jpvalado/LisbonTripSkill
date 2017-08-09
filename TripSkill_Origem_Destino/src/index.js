@@ -16,9 +16,10 @@ var trips;
 var service = 0;
 var origin = [];
 var destination = [];
+var fs = require('fs');
 
 function data(agency_nr){
-    var fs = require('fs');
+    
     if (agency_nr == 1){
         /*espaço para a Carris*/
     }else if (agency_nr == 2){
@@ -58,7 +59,9 @@ var srvlist = "\n 2 - Metro de Lisboa \n 3 - CP \n 13 - Fertagus.\n"
 
 //porque não há PT-PT na alexa
 
-var stations = {
+var stations = JSON.parse(fs.readFileSync('data/stations_1.json','utf8'));
+
+/*{
     "orange" : {
         "name": "cascais",
         "stop_id": "11069260",
@@ -130,7 +133,7 @@ var stations = {
     },
 
     /*METRO*/
-
+/*
     "stolen sir" : {
         "name": "Senhor Roubado",
         "stop_id": "M41",
@@ -138,10 +141,10 @@ var stations = {
     "mouse" : {
         "name": "Rato",
         "stop_id": "M19",
-    },
+    },*/
 
 
-    /*FERTAGUS*/
+    /*FERTAGUS
 
     "cat" : {
         "name": "Pragal",
@@ -151,9 +154,9 @@ var stations = {
         "name": "Campolide",
         "stop_id": "11060004",
         
-    },
+    },*/
 
-    /*CP Sintra*/
+    /*CP Sintra
 
     "rabbit" : {
         "name": "Entrecampos",
@@ -166,7 +169,7 @@ var stations = {
     }
 
 }
-
+*/
 
 // Route the incoming request based on type (LaunchRequest, IntentRequest,
 // etc.) The JSON body of the request is provided in the event parameter.
@@ -558,14 +561,23 @@ function handleOriDest(intent, session, callback){
     }
     else{
 
-        origin = intent.slots.Origin.value.toLowerCase()
-        destination = intent.slots.Destination.value.toLowerCase()
+        origin = intent.slots.Origin.value
+        destination = intent.slots.Destination.value
 
-        var nameO = stations[origin].name 
-        var nameD = stations[destination].name 
+        var ori = _.where(stations, {ID: origin})
+        var dest = _.where(stations, {ID: destination})
+
+        var nameO = ori[0].stop_name 
+        var nameD = dest[0].stop_name 
+
+        var idO =  ori[0].stop_id
+        var idD = dest[0].stop_id
+
+        /*var nameO = stations[origin].stop_name 
+        var nameD = stations[destination].stop_name 
 
         var idO = stations[origin].stop_id
-        var idD = stations[destination].stop_id
+        var idD = stations[destination].stop_id */
         
         var o = _.where(stops, {stop_id: idCheck(idO)})
         var d = _.where(stops, {stop_id: idCheck(idD)})
@@ -979,3 +991,22 @@ nomes(origem_idg, destino_idg)
 console.log(horario(origem_idg, destino_idg))
 console.log(nextSops(origem_idg, destino_idg))
 */
+
+
+/*
+
+var ori = _.where(stations, {ID: 37})
+var dest = _.where(stations, {ID: 40})
+
+var nameO = ori[0].stop_name 
+var nameD = dest[0].stop_name 
+
+var idO =  ori[0].stop_id
+var idD = dest[0].stop_id
+
+console.log(ori)
+console.log(dest)
+console.log(nameO)
+console.log(nameD)
+console.log(idO)
+console.log(idD) */
