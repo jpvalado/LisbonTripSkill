@@ -3,6 +3,7 @@ var dateFormat = require('dateformat');
 const durastamp = require('time-funcs/durastamp')
 const timestamp = require('time-funcs/timestamp')
 var TimeFormat = require('hh-mm-ss')
+var fs = require('fs');
 
 var agency;
 var calendar;
@@ -16,7 +17,15 @@ var trips;
 var service = 0;
 var origin = [];
 var destination = [];
-var fs = require('fs');
+
+var ori;
+var dest;
+var nameO;
+var nameD;
+var idO;
+var idD;
+var o;
+var d;
 
 function data(agency_nr){
     
@@ -61,115 +70,6 @@ var srvlist = "\n 2 - Metro de Lisboa \n 3 - CP \n 13 - Fertagus.\n"
 
 var stations = JSON.parse(fs.readFileSync('data/stations_1.json','utf8'));
 
-/*{
-    "orange" : {
-        "name": "cascais",
-        "stop_id": "11069260",
-    },
-     "pear" : {
-        "name": "monte estoril",
-        "stop_id": "11069252",
-    },
-    "grapes" : {
-        "name": "estoril",
-        "stop_id": "11069245",
-    },
-    "lemon" : {
-        "name": "sao joao do estoril",
-        "stop_id": "11069237",
-    },
-    "onion" : {
-        "name": "sao pedro do estoril",
-        "stop_id": "11069229",
-    },
-    "apple" : {
-        "name": "parede",
-        "stop_id": "11069203",
-        "agency_id": "3"
-    },
-    "ananas" : {
-        "name": "carcavelos",
-        "stop_id": "11069187",
-    },
-    "banana" : {
-        "name": "oeiras",
-        "stop_id": "11069179",
-    },
-    "carrot" : {
-        "name": "santo amaro de oeiras",
-        "stop_id": "11069161",
-    },
-    "potato" : {
-        "name": "paço de arcos",
-        "stop_id": "11069146",
-    },
-    "fig" : {
-        "name": "caxias",
-        "stop_id": "11069120",
-    },
-    "watermelon" : {
-        "name": "cruz quebrada",
-        "stop_id": "11069104",
-    },
-    "cherry" : {
-        "name": "alges",
-        "stop_id": "11069088",
-    },
-    "peach" : {
-        "name": "belem",
-        "stop_id": "11069054",
-    },
-    "tomato" : {
-        "name": "alcantara",
-        "stop_id": "11069039",
-    },
-    "lettuce" : {
-        "name": "santos",
-        "stop_id": "11069013",
-    },
-    "melon" : {
-        "name": "cais do sodre",
-        "stop_id": "11069005",
-    },
-
-    /*METRO*/
-/*
-    "stolen sir" : {
-        "name": "Senhor Roubado",
-        "stop_id": "M41",
-    },
-    "mouse" : {
-        "name": "Rato",
-        "stop_id": "M19",
-    },*/
-
-
-    /*FERTAGUS
-
-    "cat" : {
-        "name": "Pragal",
-        "stop_id": "11017087",
-    },
-    "dog" : {
-        "name": "Campolide",
-        "stop_id": "11060004",
-        
-    },*/
-
-    /*CP Sintra
-
-    "rabbit" : {
-        "name": "Entrecampos",
-        "stop_id": "11066050",
-    },
-    
-    "duck" : {
-        "name": "Massama-Barcarena",
-        "stop_id": "11060137",
-    }
-
-}
-*/
 
 // Route the incoming request based on type (LaunchRequest, IntentRequest,
 // etc.) The JSON body of the request is provided in the event parameter.
@@ -289,6 +189,23 @@ function getWelcomeResponse(callback) {
     }
 
     callback(sessionAttributes, buildSpeechletResponse(header, speechOutput, reprompt, shouldEndSession))
+}
+
+function initSt(origin, destination){
+        ori = _.where(stations, {id: parseInt(origin)})
+        dest = _.where(stations, {id: parseInt(destination)})
+
+        
+        nameO = ori[0].stop_name
+ 
+        nameD = dest[0].stop_name 
+
+        idO =  ori[0].stop_id
+               
+        idD = dest[0].stop_id
+        
+        o = _.where(stops, {stop_id: idCheck(idO.toString())})
+        d = _.where(stops, {stop_id: idCheck(idD.toString())})
 }
 
 function seconds(time){
@@ -564,26 +481,10 @@ function handleOriDest(intent, session, callback){
         origin = intent.slots.Origin.value
         destination = intent.slots.Destination.value
 
-        var ori = _.where(stations, {id: origin})
-        var dest = _.where(stations, {id: destination})
-
-        var nameO = ori[0].stop_name 
-        var nameD = dest[0].stop_name 
-
-        var idO =  ori[0].stop_id
-        var idD = dest[0].stop_id
-
-        /*var nameO = stations[origin].stop_name 
-        var nameD = stations[destination].stop_name 
-
-        var idO = stations[origin].stop_id
-        var idD = stations[destination].stop_id */
-        
-        var o = _.where(stops, {stop_id: idCheck(idO)})
-        var d = _.where(stops, {stop_id: idCheck(idD)})
-        //if(parseInt(stations[destination].agency_id) != parseInt(service) || parseInt(stations[origin].agency_id) != parseInt(service)){
+        initSt(origin, destination)
+  
         if( o.length == 0 || d.length == 0){
-            var speechOutput = "that way isn't in that service. Try asking another one or change the service."
+            var speechOutput = ori.length + "\n"+dest.length +"\n"+"that way isn't in that service. Try asking another one or change the service."
             var repromptText = "try asking about another origin and destination station or change the service"
             var header = "invalid way"
         } else {
@@ -595,9 +496,13 @@ function handleOriDest(intent, session, callback){
         }
     
     }
+
+    
     var shouldEndSession = false
 
     callback(session.attributes, buildSpeechletResponse(header, speechOutput, repromptText, shouldEndSession))
+
+
 }
 
 
@@ -607,55 +512,38 @@ function handleTripResponse(intent, session, callback){
 
     
     if(originX !=null && destinationY != null ){
-        origin = originX.toLowerCase();
-        destination = destinationY.toLowerCase();
+        origin = originX;
+        destination = destinationY;
+        initSt(origin, destination)
     }
 
-        
-    if(service == 0){
+
+   if(service == 0){
         var speechOutput = "please first select your service:" + srvlist + "Say the number"
         var repromptText = speechOutput
         var header = "invalid service"
-
     } else if(destination.length == 0 && origin.length == 0){
         var speechOutput = "please first select your origin and destination stations"
         var repromptText = speechOutput
         var header = "invalid origin and destination"
     }
     else{
-        var idO = stations[origin].stop_id
-        var idD = stations[destination].stop_id
         
-        var o = _.where(stops, {stop_id: idCheck(idO)})
-        var d = _.where(stops, {stop_id: idCheck(idD)})
-        //if(parseInt(stations[destination].agency_id) != parseInt(service) || parseInt(stations[origin].agency_id) != parseInt(service)){
         if( o.length == 0 || d.length == 0){
             var speechOutput = "that way isn't in that service. Try asking another one or change the service."
             var repromptText = "try asking about another origin and destination station or change the service"
             var header = "invalid way"
-        } else if (!stations[destination]){
-            var speechOutput = "that way isn't in that route. Try asking another one"
-            var repromptText = "try asking about another destination station"
-            var header = "invalid way"
-        } else if (!stations[origin]){
-            var speechOutput = "that station isn't in that route.\ntry asking about another origin station"
-            var repromptText = "try asking about another origin station"
-            var header = "invalid start station"
-        } else if (origin == destination){
+        }  else if (origin == destination){
             var speechOutput = "that origin and destination stations are the same.\ntry asking about another origin and destination"
             var repromptText = "try asking about another origin and destination"
             var header = "invalid start station is the same end way"
         } else {
-            var nameO = stations[origin].name 
-            var nameD = stations[destination].name 
-            var idO = stations[origin].stop_id
-            var idD = stations[destination].stop_id
+            //var nameO = stations[origin].name 
+            //var nameD = stations[destination].name 
+            //var idO = stations[origin].stop_id
+            //var idD = stations[destination].stop_id
             var time ="";
-
-       
-
-
-            var horas = horario(idO, idD);
+            var horas = horario(idO.toString(), idD.toString());
         
             var k = 0;
             while (k != horas.length){
@@ -687,8 +575,9 @@ function handleListResponse(intent, session, callback){
 
     
     if(originX !=null && destinationY != null ){
-        origin = originX.toLowerCase();
-        destination = destinationY.toLowerCase();
+        origin = originX;
+        destination = destinationY;
+        initSt(origin, destination)
     }
 
 
@@ -702,34 +591,20 @@ function handleListResponse(intent, session, callback){
         var header = "invalid origin and destination"
     }
     else{
-        var idO = stations[origin].stop_id
-        var idD = stations[destination].stop_id
-        
-        var o = _.where(stops, {stop_id: idCheck(idO)})
-        var d = _.where(stops, {stop_id: idCheck(idD)})
-        //if(parseInt(stations[destination].agency_id) != parseInt(service) || parseInt(stations[origin].agency_id) != parseInt(service)){
+       
        if( o.length == 0 || d.length == 0){
             var speechOutput = "that way isn't in that service. Try asking another one or change the service."
             var repromptText = "try asking about another origin and destination station or change the service"
             var header = "invalid way"
-        } else if (!stations[destination]){
-            var speechOutput = "that way isn't in that route. Try asking another one"
-            var repromptText = "try asking about another destination station"
-            var header = "invalid way"
-        } else if (!stations[origin]){
-            var speechOutput = "that station isn't in that route.\ntry asking about another origin station"
-            var repromptText = "try asking about another origin station"
-            var header = "invalid start station"
         } else if (origin == destination){
             var speechOutput = "that origin and destination stations are the same.\ntry asking about another origin and destination"
             var repromptText = "try asking about another origin and destination"
             var header = "invalid start station is the same end way"
         } else {
-            var nameO = stations[origin].name 
-            var nameD = stations[destination].name 
+           
 
             var stp = ""
-            var paragens = nextSops(idO, idD);
+            var paragens = nextSops(idO.toString(), idD.toString());
             var k = 0;
             while (k != paragens.length){
                 var stp = stp + paragens[k].toUpperCase() + "\n"
@@ -761,8 +636,8 @@ function handleTripListResponse(intent, session, callback){
 
     
     if(originX !=null && destinationY != null ){
-        origin = originX.toLowerCase();
-        destination = destinationY.toLowerCase();
+        origin = originX;
+        destination = destinationY;
     }
 
         
@@ -777,34 +652,21 @@ function handleTripListResponse(intent, session, callback){
         var header = "invalid origin and destination"
     }
     else{
-        var idO = stations[origin].stop_id
-        var idD = stations[destination].stop_id
-        
-        var o = _.where(stops, {stop_id: idCheck(idO)})
-        var d = _.where(stops, {stop_id: idCheck(idD)})
-        //if(parseInt(stations[destination].agency_id) != parseInt(service) || parseInt(stations[origin].agency_id) != parseInt(service)){
+        initSt(origin, destination)
+
        if( o.length == 0 || d.length == 0){
             var speechOutput = "that way isn't in that service. Try asking another one or change the service."
             var repromptText = "try asking about another origin and destination station or change the service"
             var header = "invalid way"
-        } else if (!stations[destination]){
-            var speechOutput = "that way isn't in that route. Try asking another one"
-            var repromptText = "try asking about another destination station"
-            var header = "invalid way"
-        } else if (!stations[origin]){
-            var speechOutput = "that station isn't in that route.\ntry asking about another origin station"
-            var repromptText = "try asking about another origin station"
-            var header = "invalid start station"
         } else if (origin == destination){
             var speechOutput = "that origin and destination stations are the same.\ntry asking about another origin and destination"
             var repromptText = "try asking about another origin and destination"
             var header = "invalid start station is the same end way"
         } else {
-            var nameO = stations[origin].name 
-            var nameD = stations[destination].name 
+            
            
             var time ="";
-            var horas = horario(idO, idD);
+            var horas = horario(idO.toString(), idD.toString());
             var k = 0;
             while (k != horas.length){
                 var time = time + horas[k] + "\n"
@@ -812,7 +674,7 @@ function handleTripListResponse(intent, session, callback){
             }
 
             var stp = ""
-            var paragens = nextSops(idO, idD);
+            var paragens = nextSops(idO.toString(), idD.toString());
             var k = 0;
             while (k != paragens.length){
                 var stp = stp + paragens[k].toUpperCase() + "\n"
