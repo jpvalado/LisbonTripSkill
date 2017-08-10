@@ -13,11 +13,11 @@
       "slots": [
         {
           "name": "Origin",
-          "type": "LIST_OF_STATIONS"
+          "type": "AMAZON.NUMBER"
         },
         {
           "name": "Destination",
-          "type": "LIST_OF_STATIONS"
+          "type": "AMAZON.NUMBER"
         }
       ],
       "intent": "OriDestIntent"
@@ -26,11 +26,11 @@
       "slots": [
         {
           "name": "Origin",
-          "type": "LIST_OF_STATIONS"
+          "type": "AMAZON.NUMBER"
         },
         {
           "name": "Destination",
-          "type": "LIST_OF_STATIONS"
+          "type": "AMAZON.NUMBER"
         }
       ],
       "intent": "TripIntent"
@@ -39,11 +39,11 @@
       "slots": [
         {
           "name": "Origin",
-          "type": "LIST_OF_STATIONS"
+          "type": "AMAZON.NUMBER"
         },
         {
           "name": "Destination",
-          "type": "LIST_OF_STATIONS"
+          "type": "AMAZON.NUMBER"
         }
       ],
       "intent": "ListIntent"
@@ -51,11 +51,11 @@
       "slots": [
         {
           "name": "Origin",
-          "type": "LIST_OF_STATIONS"
+          "type": "AMAZON.NUMBER"
         },
         {
           "name": "Destination",
-          "type": "LIST_OF_STATIONS"
+          "type": "AMAZON.NUMBER"
         }
       ],
       "intent": "TripListIntent"
