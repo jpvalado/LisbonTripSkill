@@ -330,50 +330,56 @@ var now = new Date();
 
 
     var horario = [];
-    var k = 0;
-    while(k < trp.length){
-        var inicio = seconds(trp[k].arrival_time);
-        var tripId = parseInt(trp[k].trip_id);
+    if (trp.length == 0){
+        horario = [1]
+    }
+    else{
+
+        var k = 0;
+        while(k < trp.length){
+            var inicio = seconds(trp[k].arrival_time);
+            var tripId = parseInt(trp[k].trip_id);
         
-        var freq = _.where(frequencies, {trip_id: tripId});
+            var freq = _.where(frequencies, {trip_id: tripId});
 
-        var calnd = _.where(calendar, {service_id: parseInt(tripId)});
-        var exc = _.where(calendar_dates, {service_id: parseInt(tripId), date: date});
-        var validDate = dateCheck(convertData((calnd[0].start_date).toString()),convertData((calnd[0].end_date).toString()),convertData(date.toString()));
+            var calnd = _.where(calendar, {service_id: parseInt(tripId)});
+            var exc = _.where(calendar_dates, {service_id: parseInt(tripId), date: date});
+            var validDate = dateCheck(convertData((calnd[0].start_date).toString()),convertData((calnd[0].end_date).toString()),convertData(date.toString()));
 
-        if (  validDate == true &&  ((calnd[0][weekDay] == 1 && exc.length == 0) || (calnd[0][weekDay] == 0 && exc.length > 0))){
-            if (freq.length > 0){
-                var step = Number(freq[0].headway_secs)
+            if (  validDate == true &&  ((calnd[0][weekDay] == 1 && exc.length == 0) || (calnd[0][weekDay] == 0 && exc.length > 0))){
+                if (freq.length > 0){
+                    var step = Number(freq[0].headway_secs)
 
-                var end = Number(seconds(freq[0].end_time))
-                var start = Number(seconds(freq[0].start_time))
+                    var end = Number(seconds(freq[0].end_time))
+                    var start = Number(seconds(freq[0].start_time))
 
-                if( start <= actual && actual <= end + step){
-                    var next = inicio
+                    if( start <= actual && actual <= end + step){
+                        var next = inicio
 
-                    while(next <= actualfim && next <= end + step){
-                        next = next + step;
+                        while(next <= actualfim && next <= end + step){
+                            next = next + step;
 
-                        if (next>=actual){
+                            if (next>=actual){
 
-                            var a = horacompare(TimeFormat.fromS(actual, 'hh:mm:ss'), TimeFormat.fromS(actualfim, 'hh:mm:ss'), TimeFormat.fromS(next, 'hh:mm:ss'));
-                            if(a != null){ 
-                                horario.push(a)    
+                                var a = horacompare(TimeFormat.fromS(actual, 'hh:mm:ss'), TimeFormat.fromS(actualfim, 'hh:mm:ss'), TimeFormat.fromS(next, 'hh:mm:ss'));
+                                if(a != null){ 
+                                    horario.push(a)    
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            else if (inicio >=actual){
-                var a = horacompare(TimeFormat.fromS(actual, 'hh:mm:ss'), TimeFormat.fromS(actualfim, 'hh:mm:ss'), TimeFormat.fromS(inicio, 'hh:mm:ss'));
-                if(a != null){
-                    horario.push(a)    
+                else if (inicio >=actual){
+                    var a = horacompare(TimeFormat.fromS(actual, 'hh:mm:ss'), TimeFormat.fromS(actualfim, 'hh:mm:ss'), TimeFormat.fromS(inicio, 'hh:mm:ss'));
+                    if(a != null){
+                        horario.push(a)    
+                    }
                 }
             }
-        }
 
-        k = k+1 
+            k = k+1 
+        }
     }
     
     return(_.sortBy(horario));
@@ -392,56 +398,64 @@ function nextSops(origem_id, destino_id){
     var trpDest = _.where(stop_times, {stop_id: destino_id});
 
     var trp = []
-    
-    
-    var i = 0;
-    var j = 0;
 
-    while(i < trpDest.length){
-        while(j < trpOri.length){
-            if(_.isEqual(trpOri[j].trip_id, trpDest[i].trip_id)){
-                if(Number(trpOri[j].stop_sequence) < Number(trpDest[i].stop_sequence)){
-                    trp.push(trpDest[i])
+    var paragens = []
+    
+    if (trp.length == 0){
+        paragens = [1]
+    }
+
+    else{
+    
+        var i = 0;
+        var j = 0;
+
+        while(i < trpDest.length){
+            while(j < trpOri.length){
+                if(_.isEqual(trpOri[j].trip_id, trpDest[i].trip_id)){
+                    if(Number(trpOri[j].stop_sequence) < Number(trpDest[i].stop_sequence)){
+                        trp.push(trpDest[i])
+                    }
                 }
-            }
                
             
-            j = j+1
+                j = j+1
+            }
+            i = i+1
+            j = 0
         }
-        i = i+1
-        j = 0
-    }
 
       
-    var max = []
-    var i = 0
-    while(i < trp.length){
-        if(max.length == 0){
-            var max = trp[i]
-        }
+        var max = []
+        var i = 0
+        while(i < trp.length){
+            if(max.length == 0){
+                var max = trp[i]
+            }
 
-        else if(trp[i].stop_sequence > max.stop_sequence){
-           var max = trp[i]
+            else if(trp[i].stop_sequence > max.stop_sequence){
+               var max = trp[i]
+            }
+            i = i + 1
         }
-        i = i + 1
-    }
 
     
-    var tp_id =  max.trip_id
+        var tp_id =  max.trip_id
 
-    var min = _.where(stop_times, {trip_id: tp_id, stop_id: origem_id});
+        var min = _.where(stop_times, {trip_id: tp_id, stop_id: origem_id});
 
-    var j = Number(min[0].stop_sequence)
-    var paragens = []
-    j= j +1
+        var j = Number(min[0].stop_sequence)
+    
+        j= j +1
 
-    while(j < max.stop_sequence + 1){
-        var aux = _.where(stop_times, {trip_id: tp_id, stop_sequence: j})
-        var par = _.where(stops, {stop_id: aux[0].stop_id})
-        paragens.push(par[0].stop_name)
+        while(j < max.stop_sequence + 1){
+          var aux = _.where(stop_times, {trip_id: tp_id, stop_sequence: j})
+          var par = _.where(stops, {stop_id: aux[0].stop_id})
+          paragens.push(par[0].stop_name)
 
-        j=j+1
+            j=j+1
 
+        }
     }
 
     return paragens;    
@@ -538,31 +552,36 @@ function handleTripResponse(intent, session, callback){
             var repromptText = "try asking about another origin and destination"
             var header = "invalid start station is the same end way"
         } else {
-            //var nameO = stations[origin].name 
-            //var nameD = stations[destination].name 
-            //var idO = stations[origin].stop_id
-            //var idD = stations[destination].stop_id
+         
             var time ="";
             var horas = horario(idO.toString(), idD.toString());
-        
-            var k = 0;
-            while (k != horas.length){
-                var time = time + horas[k] + "\n"
-                var k = Number(k) + 1
+
+            if (horas[0] == 1){
+                var speechOutput =  "No routes available between your stations " + nameO.toUpperCase() + " and " +  nameD.toUpperCase()
+                var header = "No routes available"
             }
+
+            else{
         
-            var speechOutput =  nameO.toUpperCase() +  " " +"next trains to " + nameD.toUpperCase() + " are:\n" + time  + "\n for other route tell me the origin and destination, or change the service:" + srvlist + "Say the number"
+                var k = 0;
+                while (k != horas.length){
+                    var time = time + horas[k] + "\n"
+                    var k = Number(k) + 1
+                }
+        
+                var speechOutput =  nameO.toUpperCase() +  " " +"next trains to " + nameD.toUpperCase() + " are:\n" + time  + "\n for other route tell me the origin and destination, or change the service:" + srvlist + "Say the number"
 
-            //procura dos proximos horarios dada uma estação e sentido, query sobre o GTFS 
 
-            var repromptText = "for other route tell me the origin and destination, or change the service:" + srvlist + "Say the number"
-            var header = nameO.toUpperCase() + " " +  nameD.toUpperCase()
+                var header = nameO.toUpperCase() + " " +  nameD.toUpperCase()
+            }
         }
     }
 
     origin = []
     destination = []
 
+
+    var repromptText = "for other route tell me the origin and destination, or change the service:" + srvlist + "Say the number"
     var shouldEndSession = false
 
     callback(session.attributes, buildSpeechletResponse(header, speechOutput, repromptText, shouldEndSession))
@@ -605,22 +624,31 @@ function handleListResponse(intent, session, callback){
 
             var stp = ""
             var paragens = nextSops(idO.toString(), idD.toString());
-            var k = 0;
-            while (k != paragens.length){
-                var stp = stp + paragens[k].toUpperCase() + "\n"
-                var k = Number(k) + 1
+
+            if (paragens[0] == 1){
+                var speechOutput =  "No routes available between your stations " + nameO.toUpperCase() + " and " +  nameD.toUpperCase()
+                var header = "No routes available"
             }
+
+            else{
+
+                var k = 0;
+                while (k != paragens.length){
+                    var stp = stp + paragens[k].toUpperCase() + "\n"
+                    var k = Number(k) + 1
+                }
         
 
-            var speechOutput = nameO.toUpperCase() + " next stops to " + nameD.toUpperCase() + " are: \n" + stp + "\n for other route tell me the origin and destination, or change the service:" + srvlist + "Say the number"
+                var speechOutput = nameO.toUpperCase() + " next stops to " + nameD.toUpperCase() + " are: \n" + stp + "\n for other route tell me the origin and destination, or change the service:" + srvlist + "Say the number"
 
 
-            var repromptText = "for other route tell me the origin and destination, or change the service:" + srvlist + "Say the number"
-            var header = nameO.toUpperCase() + " next stops to " + nameD.toUpperCase()
+                var header = nameO.toUpperCase() + " next stops to " + nameD.toUpperCase()
+            }
         }
     }
     
 
+    var repromptText = "for other route tell me the origin and destination, or change the service:" + srvlist + "Say the number"
     var shouldEndSession = false
     origin = []
     destination = []
@@ -667,32 +695,38 @@ function handleTripListResponse(intent, session, callback){
            
             var time ="";
             var horas = horario(idO.toString(), idD.toString());
-            var k = 0;
-            while (k != horas.length){
-                var time = time + horas[k] + "\n"
-                var k = Number(k) + 1
+
+            if (horas[0] == 1){
+                var speechOutput =  "No routes available between your stations " + nameO.toUpperCase() + " and " +  nameD.toUpperCase()
+                var header = "No routes available"
             }
 
-            var stp = ""
-            var paragens = nextSops(idO.toString(), idD.toString());
-            var k = 0;
-            while (k != paragens.length){
-                var stp = stp + paragens[k].toUpperCase() + "\n"
-                var k = Number(k) + 1
-            }
+            else{
+
+
+                var k = 0;
+                while (k != horas.length){
+                    var time = time + horas[k] + "\n"
+                    var k = Number(k) + 1
+                }
+
+                var stp = ""
+                var paragens = nextSops(idO.toString(), idD.toString());
+                var k = 0;
+                while (k != paragens.length){
+                    var stp = stp + paragens[k].toUpperCase() + "\n"
+                    var k = Number(k) + 1
+                }
         
-            var speechOutput =  nameO.toUpperCase() +  " " +"next trains to " + nameD.toUpperCase() + " are:\n" + time + ".\n And next stop stations are: \n" + stp + "\n" + "for other route tell me the origin and destination, or change the service: \n 2 - Metro de Lisboa \n 3 - CP. \n Say the number"
-
-            //procura dos proximos horarios dada uma estação e sentido, query sobre o GTFS 
-
-            var repromptText = "for other route tell me the origin and destination, or change the service:" + srvlist + "Say the number"
-            var header = nameO.toUpperCase() + " " +  nameD.toUpperCase()
+                var speechOutput =  nameO.toUpperCase() +  " " +"next trains to " + nameD.toUpperCase() + " are:\n" + time + ".\n And next stop stations are: \n" + stp + "\n" + "for other route tell me the origin and destination, or change the service: \n 2 - Metro de Lisboa \n 3 - CP. \n Say the number"
+                var header = nameO.toUpperCase() + " " +  nameD.toUpperCase()
+            }
         }
     }
 
     origin = []
     destination = []
-
+    var repromptText = "for other route tell me the origin and destination, or change the service:" + srvlist + "Say the number"
     var shouldEndSession = false
 
     callback(session.attributes, buildSpeechletResponse(header, speechOutput, repromptText, shouldEndSession))
