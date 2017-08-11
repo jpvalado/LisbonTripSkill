@@ -51,6 +51,16 @@ function data(agency_nr){
         stop_times = JSON.parse(fs.readFileSync('data/CP/stop_times.json','utf8'));
         stops = JSON.parse(fs.readFileSync('data/CP/stops.json','utf8'));
         trips = JSON.parse(fs.readFileSync('data/CP/trips.json','utf8'));
+    }else if (agency_nr == 4){
+        agency = JSON.parse(fs.readFileSync('data/Transtejo/agency.json','utf8'));
+        calendar = JSON.parse(fs.readFileSync('data/Transtejo/calendar.json','utf8'));
+        calendar_dates = JSON.parse(fs.readFileSync('data/Transtejo/calendar_dates.json','utf8'));
+        frequencies = JSON.parse(fs.readFileSync('data/Transtejo/frequencies.json','utf8'));
+        routes = JSON.parse(fs.readFileSync('data/Transtejo/routes.json','utf8'));
+        shapes = JSON.parse(fs.readFileSync('data/Transtejo/shapes.json','utf8'));
+        stop_times = JSON.parse(fs.readFileSync('data/Transtejo/stop_times.json','utf8'));
+        stops = JSON.parse(fs.readFileSync('data/Transtejo/stops.json','utf8'));
+        trips = JSON.parse(fs.readFileSync('data/Transtejo/trips.json','utf8'));
     }else if (agency_nr == 13){
         agency = JSON.parse(fs.readFileSync('data/Fertagus/agency.json','utf8'));
         calendar = JSON.parse(fs.readFileSync('data/Fertagus/calendar.json','utf8'));
@@ -61,10 +71,21 @@ function data(agency_nr){
         stop_times = JSON.parse(fs.readFileSync('data/Fertagus/stop_times.json','utf8'));
         stops = JSON.parse(fs.readFileSync('data/Fertagus/stops.json','utf8'));
         trips = JSON.parse(fs.readFileSync('data/Fertagus/trips.json','utf8'));
+    }else if (agency_nr == 14){
+        agency = JSON.parse(fs.readFileSync('data/Soflusa/agency.json','utf8'));
+        calendar = JSON.parse(fs.readFileSync('data/Soflusa/calendar.json','utf8'));
+        calendar_dates = JSON.parse(fs.readFileSync('data/Soflusa/calendar_dates.json','utf8'));
+        frequencies = JSON.parse(fs.readFileSync('data/Soflusa/frequencies.json','utf8'));
+        routes = JSON.parse(fs.readFileSync('data/Soflusa/routes.json','utf8'));
+        shapes = JSON.parse(fs.readFileSync('data/Soflusa/shapes.json','utf8'));
+        stop_times = JSON.parse(fs.readFileSync('data/Soflusa/stop_times.json','utf8'));
+        stops = JSON.parse(fs.readFileSync('data/Soflusa/stops.json','utf8'));
+        trips = JSON.parse(fs.readFileSync('data/Soflusa/trips.json','utf8'));
     }
 }
 
-var srvlist = "\n 2 - Metro de Lisboa \n 3 - CP \n 13 - Fertagus.\n"
+var srvlist = "\n 2 - Metro de Lisboa \n 3 - CP \n 4 - Transtejo \n 13 - Fertagus \n 14 - Soflusa.\n"
+//var srvlist = "\n 2 - Metro de Lisboa \n 3 - CP \n 13 - Fertagus.\n"
 
 //porque não há PT-PT na alexa
 
@@ -315,7 +336,16 @@ var now = new Date();
     while(i < trpOri.length){
         while(j < trpDest.length){
             if(_.isEqual(trpOri[i].trip_id, trpDest[j].trip_id) && Number(trpOri[i].stop_sequence) < Number(trpDest[j].stop_sequence)){
-                trp.push(trpOri[i])
+
+                var calnd = _.where(calendar, {service_id: parseInt(trpOri[i].trip_id)});
+                var exc = _.where(calendar_dates, {service_id: parseInt(trpOri[i].trip_id), date: parseInt(date)});
+                var validDate = dateCheck(convertData((calnd[0].start_date).toString()),convertData((calnd[0].end_date).toString()),convertData(date.toString()));
+
+                if (  validDate == true &&  ((calnd[0][weekDay] == 1 && exc.length == 0) || (calnd[0][weekDay] == 0 && exc.length > 0))){
+
+                    trp.push(trpOri[i])
+                }
+                break
             }
 
             j = j+1
@@ -342,11 +372,12 @@ var now = new Date();
         
             var freq = _.where(frequencies, {trip_id: tripId});
 
-            var calnd = _.where(calendar, {service_id: parseInt(tripId)});
+            /*var calnd = _.where(calendar, {service_id: parseInt(tripId)});
             var exc = _.where(calendar_dates, {service_id: parseInt(tripId), date: date});
             var validDate = dateCheck(convertData((calnd[0].start_date).toString()),convertData((calnd[0].end_date).toString()),convertData(date.toString()));
 
-            if (  validDate == true &&  ((calnd[0][weekDay] == 1 && exc.length == 0) || (calnd[0][weekDay] == 0 && exc.length > 0))){
+            if (  validDate == true &&  ((calnd[0][weekDay] == 1 && exc.length == 0) || (calnd[0][weekDay] == 0 && exc.length > 0))){*/
+
                 if (freq.length > 0){
                     var step = Number(freq[0].headway_secs)
 
@@ -376,7 +407,7 @@ var now = new Date();
                         horario.push(a)    
                     }
                 }
-            }
+            //}
 
             k = k+1 
         }
@@ -401,29 +432,32 @@ function nextSops(origem_id, destino_id){
 
     var paragens = []
     
+   
+    
+    var i = 0;
+    var j = 0;
+
+    while(i < trpDest.length){
+        while(j < trpOri.length){
+            if(_.isEqual(trpOri[j].trip_id, trpDest[i].trip_id)){
+                if(Number(trpOri[j].stop_sequence) < Number(trpDest[i].stop_sequence)){
+                    trp.push(trpDest[i])
+                }
+            }
+               
+            
+            j = j+1
+        }
+        i = i+1
+        j = 0
+    }
+
+
     if (trp.length == 0){
         paragens = [1]
     }
 
     else{
-    
-        var i = 0;
-        var j = 0;
-
-        while(i < trpDest.length){
-            while(j < trpOri.length){
-                if(_.isEqual(trpOri[j].trip_id, trpDest[i].trip_id)){
-                    if(Number(trpOri[j].stop_sequence) < Number(trpDest[i].stop_sequence)){
-                        trp.push(trpDest[i])
-                    }
-                }
-               
-            
-                j = j+1
-            }
-            i = i+1
-            j = 0
-        }
 
       
         var max = []
@@ -498,7 +532,7 @@ function handleOriDest(intent, session, callback){
         initSt(origin, destination)
   
         if( o.length == 0 || d.length == 0){
-            var speechOutput = ori.length + "\n"+dest.length +"\n"+"that way isn't in that service. Try asking another one or change the service."
+            var speechOutput = "that way isn't in that service. Try asking another one or change the service."
             var repromptText = "try asking about another origin and destination station or change the service"
             var header = "invalid way"
         } else {
@@ -521,9 +555,14 @@ function handleOriDest(intent, session, callback){
 
 
 function handleTripResponse(intent, session, callback){
-    var originX = intent.slots.Origin.value
-    var destinationY = intent.slots.Destination.value
+    //function handleTripResponse(/*intent, session, callback*/){
+   var originX = intent.slots.Origin.value
+   var destinationY = intent.slots.Destination.value
 
+    //var originX = 125
+   //var destinationY = 126
+
+     
     
     if(originX !=null && destinationY != null ){
         origin = originX;
@@ -554,6 +593,7 @@ function handleTripResponse(intent, session, callback){
         } else {
          
             var time ="";
+
             var horas = horario(idO.toString(), idD.toString());
 
             if (horas[0] == 1){
@@ -583,7 +623,7 @@ function handleTripResponse(intent, session, callback){
 
     var repromptText = "for other route tell me the origin and destination, or change the service:" + srvlist + "Say the number"
     var shouldEndSession = false
-
+    //console.log(speechOutput)
     callback(session.attributes, buildSpeechletResponse(header, speechOutput, repromptText, shouldEndSession))
 }
 
@@ -591,6 +631,7 @@ function handleTripResponse(intent, session, callback){
 function handleListResponse(intent, session, callback){
     var originX = intent.slots.Origin.value
     var destinationY = intent.slots.Destination.value
+    
 
     
     if(originX !=null && destinationY != null ){
@@ -652,7 +693,7 @@ function handleListResponse(intent, session, callback){
     var shouldEndSession = false
     origin = []
     destination = []
-
+  
     callback(session.attributes, buildSpeechletResponse(header, speechOutput, repromptText, shouldEndSession))
 }
 
@@ -833,7 +874,7 @@ function capitalizeFirst(s) {
 
 //TESTES
 
-/*
+
 function nomes(origem_id, destino_id){
 
 var o = _.where(stops, {stop_id:  idCheck(origem_id)} );
@@ -856,12 +897,18 @@ var origem_ide = '11060004';
 var origem_idf = '11066076';
 var destino_idf= '11060004';
 
-var origem_id = stations["banana"].stop_id;
-var destino_id = stations["peach"].stop_id;
+var origem_id = '11060046';
+var destino_id = '11069260';
 
 var origem_idg = '11017228';
 var destino_idg= '11066076';
 
+var origem_idh = 'T05';
+var destino_idh= 'T04';
+var origem_idi = 'T05';
+var destino_idi= 'T08';
+
+/*
 data(2)
 nomes(origem_ida, destino_ida)
 console.log(horario(origem_ida, destino_ida))
@@ -886,8 +933,15 @@ data(13)
 nomes(origem_idg, destino_idg)
 console.log(horario(origem_idg, destino_idg))
 console.log(nextSops(origem_idg, destino_idg))
-*/
+data(04)
+nomes(origem_idh, destino_idh)
+console.log(horario(origem_idh, destino_idh))
+console.log(nextSops(origem_idh, destino_idh))
+nomes(origem_idi, destino_idi)
+console.log(horario(origem_idi, destino_idi))
+console.log(nextSops(origem_idi, destino_idi))
 
+*/
 
 /*
 
@@ -906,3 +960,13 @@ console.log(nameO)
 console.log(nameD)
 console.log(idO)
 console.log(idD) */
+/*
+data(3)
+var name = _.where(agency, {agency_id: parseInt(service)})[0].agency_name
+
+console.log(name)*/
+//data(4)
+//service = 4
+//origin = 125
+//destination = 126
+//handleTripResponse(/*intent, session, callback*/)

@@ -1,0 +1,24 @@
+[
+  {
+    "agency_id": 14,
+    "route_id": 863,
+    "route_short_name": "",
+    "route_long_name": "Barreiro",
+    "route_desc": "",
+    "route_type": 4,
+    "route_url": "",
+    "route_color": "",
+    "route_text_color": ""
+  },
+  {
+    "agency_id": 14,
+    "route_id": 864,
+    "route_short_name": "",
+    "route_long_name": "Terreiro de Paço",
+    "route_desc": "",
+    "route_type": 4,
+    "route_url": "",
+    "route_color": "",
+    "route_text_color": ""
+  }
+]

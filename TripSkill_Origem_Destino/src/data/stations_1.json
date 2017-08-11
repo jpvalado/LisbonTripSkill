@@ -613,5 +613,50 @@
     "stop_id": 11031377,
     "stop_name": "Vila Nova da Rainha",
     "id": 123
+  },
+  {
+    "stop_id": "T01",
+    "stop_name": "Belém",
+    "id": 124
+  },
+  {
+    "stop_id": "T05",
+    "stop_name": "Cacilhas",
+    "id": 125
+  },
+  {
+    "stop_id": "T04",
+    "stop_name": "Cais do Sodré",
+    "id": 126
+  },
+  {
+    "stop_id": "T14",
+    "stop_name": "Montijo - Seixalinho",
+    "id": 127
+  },
+  {
+    "stop_id": "T02",
+    "stop_name": "Porto Brandão",
+    "id": 128
+  },
+  {
+    "stop_id": "T09",
+    "stop_name": "Seixal",
+    "id": 129
+  },
+  {
+    "stop_id": "T08",
+    "stop_name": "Terreiro do Paço",
+    "id": 130
+  },
+  {
+    "stop_id": "T03",
+    "stop_name": "Trafaria",
+    "id": 131
+  },
+  {
+    "stop_id": "T29",
+    "stop_name": "Barreiro",
+    "id": 132
   }
 ]
