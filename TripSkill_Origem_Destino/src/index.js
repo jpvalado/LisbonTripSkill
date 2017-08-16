@@ -549,9 +549,14 @@ function handleNato(intent, session, callback){
     if(possibleNames.length == 0){
 
     } else if (possibleNames.length == 1){
+        if(origin_name == ""){
+            origin_name = possibleNames[0];
+        } else if (destination_name == ""){
+            destination_name == possibleNames[0];
+        }
 
     } else {
-        
+
     }
 
     
