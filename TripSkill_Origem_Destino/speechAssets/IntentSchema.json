@@ -12,6 +12,21 @@
     {
       "slots": [
         {
+          "name": "NatoA",
+          "type": "LIST_OF_NATO"
+        },{
+          "name": "NatoB",
+          "type": "LIST_OF_NATO"
+        },{
+          "name": "NatoC",
+          "type": "LIST_OF_NATO"
+        }
+      ],
+      "intent": "NatoIntent"
+    },
+    {
+      "slots": [
+        {
           "name": "Origin",
           "type": "AMAZON.NUMBER"
         },
@@ -47,7 +62,8 @@
         }
       ],
       "intent": "ListIntent"
-    },{
+    },
+    {
       "slots": [
         {
           "name": "Origin",

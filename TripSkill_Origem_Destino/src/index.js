@@ -157,6 +157,8 @@ function onIntent(intentRequest, session, callback) {
     // dispatch custom intents to handlers here
     if (intentName == "ServiceIntent"){
         handleServiceSelect(intent, session, callback)
+    } else if(intentName == "NatoIntent"){
+        handleNato(intent, session, callback)
     } else if(intentName == "OriDestIntent"){
         handleOriDest(intent, session, callback)
     } else if(intentName == "TripIntent") {
@@ -516,6 +518,56 @@ function handleServiceSelect(intent, session, callback){
     callback(session.attributes, buildSpeechletResponse(header, speechOutput, repromptText, shouldEndSession))
 }
 
+var origin_name = "";
+var destination_name = "";
+var possibleNames = []
+
+function handleNato(intent, session, callback){
+    var nato1 = intent.slots.NatoA.value.toString();
+    var nato2 = intent.slots.NatoB.value.toString();
+    var nato3 = intent.slots.NatoC.value.toString();
+
+    var a = nato1.charAt(0).toUpperCase()
+    var b = nato2.charAt(1).toUpperCase()
+    var c = nato3.charAt(2).toUpperCase()
+
+    var e;
+    var f;
+    var g;
+
+    var k = 0;
+    while(k < stops.length){
+        e =  stops[k].stop_name.charAt(0).toUpperCase()
+        f =  stops[k].stop_name.charAt(1).toUpperCase()
+        g =  stops[k].stop_name.charAt(2).toUpperCase()
+
+        if (a == e && b == f && c == g){
+            possibleNames.push(stops[k].stop_name)
+        }
+    }
+
+    if(possibleNames.length == 0){
+
+    } else if (possibleNames.length == 1){
+
+    } else {
+        
+    }
+
+    
+
+    
+    var speechOutput = nato1 +" "+nato2+" "+nato3
+
+    var repromptText = nato1 +" "+nato2+" "+nato3
+    var header = nato1 +" "+nato2+" "+nato3
+    
+    
+
+    var shouldEndSession = false
+
+    callback(session.attributes, buildSpeechletResponse(header, speechOutput, repromptText, shouldEndSession))
+}
 
 function handleOriDest(intent, session, callback){
 
@@ -873,7 +925,7 @@ function capitalizeFirst(s) {
 
 
 //TESTES
-
+/*
 
 function nomes(origem_id, destino_id){
 
@@ -908,7 +960,7 @@ var destino_idh= 'T04';
 var origem_idi = 'T05';
 var destino_idi= 'T08';
 
-/*
+
 data(2)
 nomes(origem_ida, destino_ida)
 console.log(horario(origem_ida, destino_ida))
@@ -940,8 +992,8 @@ console.log(nextSops(origem_idh, destino_idh))
 nomes(origem_idi, destino_idi)
 console.log(horario(origem_idi, destino_idi))
 console.log(nextSops(origem_idi, destino_idi))
-
 */
+
 
 /*
 

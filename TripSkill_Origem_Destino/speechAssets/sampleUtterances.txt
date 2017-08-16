@@ -1,6 +1,8 @@
 ServiceIntent {Service}
 ServiceIntent Service {Service}
 ServiceIntent Service number {Service}
+NatoIntent good morning {NatoA} {NatoB} {NatoC}
+NatoIntent {NatoA} {NatoB} {NatoC}
 OriDestIntent {Origin} {Destination}
 OriDestIntent {Origin} and {Destination}
 OriDestIntent from {Origin} to {Destination}
