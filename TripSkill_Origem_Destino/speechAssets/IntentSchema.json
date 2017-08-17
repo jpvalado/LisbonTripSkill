@@ -12,12 +12,23 @@
     {
       "slots": [
         {
+          "name": "Nr",
+          "type": "AMAZON.NUMBER"
+        }
+      ],
+      "intent": "SelectIntent"
+    },
+    {
+      "slots": [
+        {
           "name": "NatoA",
           "type": "LIST_OF_NATO"
-        },{
+        },
+        {
           "name": "NatoB",
           "type": "LIST_OF_NATO"
-        },{
+        },
+        {
           "name": "NatoC",
           "type": "LIST_OF_NATO"
         }

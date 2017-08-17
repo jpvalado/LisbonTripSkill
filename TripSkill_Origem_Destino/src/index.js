@@ -159,7 +159,9 @@ function onIntent(intentRequest, session, callback) {
         handleServiceSelect(intent, session, callback)
     } else if(intentName == "NatoIntent"){
         handleNato(intent, session, callback)
-    } else if(intentName == "OriDestIntent"){
+    } else if (intentName == "SelectIntent"){
+        handleSelect(intent, session, callback)
+   }  else if(intentName == "OriDestIntent"){
         handleOriDest(intent, session, callback)
     } else if(intentName == "TripIntent") {
         handleTripResponse(intent, session, callback)
@@ -230,6 +232,25 @@ function initSt(origin, destination){
         o = _.where(stops, {stop_id: idCheck(idO.toString())})
         d = _.where(stops, {stop_id: idCheck(idD.toString())})
 }
+
+
+function initSt2(origi, destinatio){
+        ori = _.where(stops, {stop_name: origi.toString()})
+        dest = _.where(stops, {stop_name: destinatio.toString()})
+        
+        
+        nameO = ori[0].stop_name
+ 
+        nameD = dest[0].stop_name 
+
+        idO =  ori[0].stop_id
+               
+        idD = dest[0].stop_id
+        
+        o = _.where(stops, {stop_id: idCheck(idO.toString())})
+        d = _.where(stops, {stop_id: idCheck(idD.toString())})
+}
+
 
 function seconds(time){
     var a = time.split(':');
@@ -497,6 +518,9 @@ function nextSops(origem_id, destino_id){
     return paragens;    
 }
 
+var origin_name = "";
+var destination_name = "";
+var possibleNames = []
 
 function handleServiceSelect(intent, session, callback){
 
@@ -506,11 +530,14 @@ function handleServiceSelect(intent, session, callback){
 
     var name = _.where(agency, {agency_id: parseInt(service)})[0].agency_name
     
-    var speechOutput = "You choose service number " + service + " " + name + ".\n" + "Now, what is your origin and destination stations?"
+    var speechOutput = "You choose service number " + service + " " + name + ".\n" + "Now, what is your departure and arrival stations?"
 
-    var repromptText = "what is your origin and destination stations?"
+    var repromptText = "what is your arrival and departure stations?"
     var header = "You choose service number " + service + " " + name
     
+    origin_name = "";
+    destination_name = "";
+    possibleNames = []
     
 
     var shouldEndSession = false
@@ -518,9 +545,7 @@ function handleServiceSelect(intent, session, callback){
     callback(session.attributes, buildSpeechletResponse(header, speechOutput, repromptText, shouldEndSession))
 }
 
-var origin_name = "";
-var destination_name = "";
-var possibleNames = []
+
 
 function handleNato(intent, session, callback){
     var nato1 = intent.slots.NatoA.value.toString();
@@ -528,12 +553,18 @@ function handleNato(intent, session, callback){
     var nato3 = intent.slots.NatoC.value.toString();
 
     var a = nato1.charAt(0).toUpperCase()
-    var b = nato2.charAt(1).toUpperCase()
-    var c = nato3.charAt(2).toUpperCase()
+    var b = nato2.charAt(0).toUpperCase()
+    var c = nato3.charAt(0).toUpperCase()
 
     var e;
     var f;
     var g;
+    
+    if(origin_name != "" && destination_name != ""){
+     origin_name = "";
+     destination_name = "";
+     possibleNames = []
+    }
 
     var k = 0;
     while(k < stops.length){
@@ -544,35 +575,83 @@ function handleNato(intent, session, callback){
         if (a == e && b == f && c == g){
             possibleNames.push(stops[k].stop_name)
         }
+        k= k+1
     }
 
     if(possibleNames.length == 0){
-
+        var header = "unavailable stations"
+        var speechOutput = "Stations unavailable. Try asking another one or change the service."
     } else if (possibleNames.length == 1){
         if(origin_name == ""){
             origin_name = possibleNames[0];
+            var header = "Departure"
+            var speechOutput = "Your departeur station is "+ origin_name + "\n Now, choose your arrival station."
+            possibleNames = []
         } else if (destination_name == ""){
-            destination_name == possibleNames[0];
+            destination_name = possibleNames[0];
+            var header = "Arrival"
+            var speechOutput = "Your arrival station is "+ destination_name +  "\n Now, you want, next times from origin, or the stations until destination, or both?"
+            origin = ["s"]
+            destination =  ["e"]
+             
+            initSt2(origin_name, destination_name)
+           
         }
-
     } else {
 
+        var speechOutput = ""
+        var i = 0;
+        while(i<possibleNames.length){
+            speechOutput = speechOutput + " " + (i+1)  + " " + possibleNames[i] + "\n" 
+            i = i+1
+        }
+
+         speechOutput = speechOutput + "choose the station number"
+
+         if(origin_name == ""){
+            var header = "choose your departure station"
+        } else if (destination_name == ""){
+            var header = "choose your arrival station"
+        }
+         
     }
 
+    var repromptText = speechOutput
     
-
-    
-    var speechOutput = nato1 +" "+nato2+" "+nato3
-
-    var repromptText = nato1 +" "+nato2+" "+nato3
-    var header = nato1 +" "+nato2+" "+nato3
-    
-    
-
     var shouldEndSession = false
 
     callback(session.attributes, buildSpeechletResponse(header, speechOutput, repromptText, shouldEndSession))
 }
+
+function handleSelect(intent, session, callback){
+    var nr = intent.slots.Nr.value;
+
+    if(possibleNames.length == 0){
+        var header = "unavailable stations"
+        var speechOutput = "Stations unavailable. Try asking another one or change the service."
+    } else if(origin_name.length == 0){
+        origin_name = possibleNames[nr-1];
+        var header = "Departure"
+        var speechOutput = "Your departeur station is "+ origin_name "\n Now, choose your arrival station."
+        possibleNames = []
+    } else if (destination_name.length == 0){
+        destination_name = possibleNames[nr-1];
+        var header = "Arrival"
+        var speechOutput = "Your arrival station is "+ destination_name   + "\n Now, you want, next times from origin, or the stations until destination, or both?"
+        origin = ["s"]
+        destination =  ["e"]
+        initSt2(origin_name, destination_name)
+        
+    }
+
+    var repromptText = speechOutput
+    
+    var shouldEndSession = false
+
+    callback(session.attributes, buildSpeechletResponse(header, speechOutput, repromptText, shouldEndSession))
+
+}
+
 
 function handleOriDest(intent, session, callback){
 
@@ -764,6 +843,8 @@ function handleTripListResponse(intent, session, callback){
     if(originX !=null && destinationY != null ){
         origin = originX;
         destination = destinationY;
+        initSt(origin, destination)
+
     }
 
         
@@ -778,8 +859,7 @@ function handleTripListResponse(intent, session, callback){
         var header = "invalid origin and destination"
     }
     else{
-        initSt(origin, destination)
-
+        
        if( o.length == 0 || d.length == 0){
             var speechOutput = "that way isn't in that service. Try asking another one or change the service."
             var repromptText = "try asking about another origin and destination station or change the service"
@@ -1027,3 +1107,35 @@ console.log(name)*/
 //origin = 125
 //destination = 126
 //handleTripResponse(/*intent, session, callback*/)
+/*data(3)
+console.log(stops[20].stop_name)
+
+var x = "ola"
+console.log(x.charAt(0).toUpperCase())
+
+var y = "Óle"
+console.log(y.charAt(0).toUpperCase())
+
+var z = x.charAt(0).toUpperCase()
+console.log(z)
+
+var w = y.charAt(0).toUpperCase()
+console.log(w)
+
+console.log(z == w)
+*/
+
+
+x = ""
+console.log(x.length)
+r="ola"
+console.log(r.length)
+
+var z = [1, 2, 3 ,4, 4]
+console.log(z.length)
+console.log(z)
+
+z.length = 0
+console.log(z.length)
+console.log(z)
+console.log(z == "")
