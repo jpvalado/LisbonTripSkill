@@ -2,8 +2,11 @@ var _ = require('underscore');
 var dateFormat = require('dateformat');
 const durastamp = require('time-funcs/durastamp')
 const timestamp = require('time-funcs/timestamp')
+const removeAccents = require('remove-accents-diacritics');
 var TimeFormat = require('hh-mm-ss')
 var fs = require('fs');
+
+
 
 var agency;
 var calendar;
@@ -572,7 +575,7 @@ function handleNato(intent, session, callback){
         f =  stops[k].stop_name.charAt(1).toUpperCase()
         g =  stops[k].stop_name.charAt(2).toUpperCase()
 
-        if (a == e && b == f && c == g){
+        if (removeAccents.remove(a) == removeAccents.remove(e) && removeAccents.remove(b) == removeAccents.remove(f) && removeAccents.remove(c) == removeAccents.remove(g)){
             possibleNames.push(stops[k].stop_name)
         }
         k= k+1
@@ -632,7 +635,7 @@ function handleSelect(intent, session, callback){
     } else if(origin_name.length == 0){
         origin_name = possibleNames[nr-1];
         var header = "Departure"
-        var speechOutput = "Your departeur station is "+ origin_name "\n Now, choose your arrival station."
+        var speechOutput = "Your departeur station is "+ origin_name + "\n Now, choose your arrival station."
         possibleNames = []
     } else if (destination_name.length == 0){
         destination_name = possibleNames[nr-1];
@@ -1139,3 +1142,8 @@ z.length = 0
 console.log(z.length)
 console.log(z)
 console.log(z == "")
+
+
+var t = "ÇÓ"
+var g = removeAccents.remove(t)
+console.log(g)
