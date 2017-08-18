@@ -776,14 +776,6 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
 var handlers = {
     'LaunchRequest': function () {
         this.emit('NewSession')
-       /* this.attributes['service'] = 0
-        var speechOutput = "Welcome Trip Skill! I can tell you a route from a origin to destination station.\n Please, first select the service:" + srvlist + "Say the number"
-        var repromptSpeech = "Please, first select the service: " + srvlist + "Say the number"
-        var header = "Trip Skill"
-        var imageObj = {}
-
-        this.emit(':askWithCard',  speechOutput, repromptSpeech, header, speechOutput, imageObj);*/
-
     }       
 };
 
