@@ -407,21 +407,37 @@ exports.handler = function(event, context, callback) {
 
     // alexa.dynamoDBTableName = 'YourTableName'; // creates new table for userid:session.attributes
 
-    alexa.registerHandlers(handlers);
+    alexa.registerHandlers(handlers, newSessionHandlers, startModeHandlers, selectModeHandlers, endModeHandlers);
     alexa.execute();
 };
 
-var handlers = {
-    'LaunchRequest': function () {
-        this.attributes['service'] = 0
+var states = {
+    STARTMODE: '_STARTMODE',
+    SELECTMODE: '_SELECTMODE',
+    ENDMODE: '_ENDMODE'
+};
+
+
+
+var newSessionHandlers = {
+
+     // This will short-cut any incoming intent or launch requests and route them to this handler.
+    'NewSession': function() {
+        if(Object.keys(this.attributes).length === 0) { // Check if it's the first time the skill has been invoked
+            this.attributes['service'] = 0;
+        }
+        this.handler.state = states.STARTMODE;
+
         var speechOutput = "Welcome Trip Skill! I can tell you a route from a origin to destination station.\n Please, first select the service:" + srvlist + "Say the number"
         var repromptSpeech = "Please, first select the service: " + srvlist + "Say the number"
         var header = "Trip Skill"
-        var imageObj = {}
+        var imageObj = {} 
 
-        this.emit(':askWithCard',  speechOutput, repromptSpeech, header, speechOutput, imageObj);
+         this.emit(':askWithCard',  speechOutput, repromptSpeech, header, speechOutput, imageObj);
+    }
+};
 
-    },
+var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
 
     'ServiceIntent': function () {
        
@@ -440,9 +456,6 @@ var handlers = {
     
 
     NatoIntent : function () {
-     /*   var nato1 = this.attributes['nato1'] = this.event.request.intent.slots.NatoA.value.toString();
-        var nato2 = this.attributes['nato2'] = this.event.request.intent.slots.NatoB.value.toString();
-        var nato3 = this.attributes['nato3'] = this.event.request.intent.slots.NatoC.value.toString();*/
 
         var nato1 = this.event.request.intent.slots.NatoA.value.toString();
         var nato2 = this.event.request.intent.slots.NatoB.value.toString();
@@ -499,7 +512,8 @@ var handlers = {
                     origin = ["s"]
                     destination =  ["e"]
                  
-                    initSt2(this.attributes['origin_name'], this.attributes['destination_name'])  
+                    initSt2(this.attributes['origin_name'], this.attributes['destination_name']) 
+                    this.handler.state = states.ENDMODE; 
                 }
             } else {
 
@@ -517,6 +531,7 @@ var handlers = {
                 } else if (destination_name == ""){
                     var header = "choose your arrival station"
                 }
+                this.handler.state = states.SELECTMODE; 
             }
         }
 
@@ -525,7 +540,11 @@ var handlers = {
         var imageObj = {};
        
         this.emit(':askWithCard', speechOutput, repromptSpeech, header, speechOutput, imageObj);  
-    },
+    }
+});
+
+
+var selectModeHandlers = Alexa.CreateStateHandler(states.SELECTMODE, {
 
     'SelectIntent' : function () {
         var nr = this.event.request.intent.slots.Nr.value;
@@ -539,6 +558,7 @@ var handlers = {
             var header = "Departure"
             var speechOutput = "Your departeur station is "+  this.attributes['origin_name'] + "\n Now, choose your arrival station."
             possibleNames = []
+            this.handler.state = states.STARTMODE;
         } else if (destination_name.length == 0){
             destination_name = possibleNames[nr-1];
             this.attributes['destination_name'] = destination_name
@@ -547,14 +567,19 @@ var handlers = {
             origin = ["s"]
             destination =  ["e"]
             initSt2(this.attributes['origin_name'], this.attributes['destination_name'])
+            this.handler.state = states.ENDMODE;
         }
         var repromptSpeech = speechOutput;
         var imageObj = {};
+
         this.emit(':askWithCard', speechOutput, repromptSpeech, header, speechOutput, imageObj);  
 
-    },
+    }
+});
 
-    'TripIntent' : function () {
+var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, { 
+
+ 'TripIntent' : function () {
 
 
        if(this.attributes['service'] == 0){
@@ -611,6 +636,7 @@ var handlers = {
 
 
         var imageObj = {};
+        this.handler.state = states.STARTMODE;
         this.emit(':askWithCard', speechOutput, repromptSpeech, header, speechOutput, imageObj);  
 
     },
@@ -672,6 +698,7 @@ var handlers = {
         destination = []
 
         var imageObj = {};
+        this.handler.state = states.STARTMODE;
         this.emit(':askWithCard', speechOutput, repromptSpeech, header, speechOutput, imageObj);  
     },
 
@@ -737,8 +764,30 @@ var handlers = {
         destination = []
 
         var imageObj = {};
+        this.handler.state = states.STARTMODE;
         this.emit(':askWithCard', speechOutput, repromptSpeech, header, speechOutput, imageObj);  
     }
 
+
+
+});
+
+
+var handlers = {
+    'LaunchRequest': function () {
+        this.emit('NewSession')
+       /* this.attributes['service'] = 0
+        var speechOutput = "Welcome Trip Skill! I can tell you a route from a origin to destination station.\n Please, first select the service:" + srvlist + "Say the number"
+        var repromptSpeech = "Please, first select the service: " + srvlist + "Say the number"
+        var header = "Trip Skill"
+        var imageObj = {}
+
+        this.emit(':askWithCard',  speechOutput, repromptSpeech, header, speechOutput, imageObj);*/
+
+    }       
 };
+
+
+
+
 
