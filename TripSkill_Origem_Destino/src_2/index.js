@@ -540,7 +540,14 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
         var imageObj = {};
        
         this.emit(':askWithCard', speechOutput, repromptSpeech, header, speechOutput, imageObj);  
+    },
+
+    'Unhandled': function () {
+        this.emit(':ask', 'I don\'t get it!', 'I don\'t get it!');
     }
+
+
+
 });
 
 
