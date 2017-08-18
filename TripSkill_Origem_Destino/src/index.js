@@ -30,6 +30,7 @@ var idD;
 var o;
 var d;
 
+
 function data(agency_nr){
     
     if (agency_nr == 1){
@@ -87,7 +88,7 @@ function data(agency_nr){
     }
 }
 
-var srvlist = "\n 2 - Metro de Lisboa \n 3 - CP \n 4 - Transtejo \n 13 - Fertagus \n 14 - Soflusa.\n"
+var srvlist = ".\n 2 - Metro de Lisboa. \n 3 - CP. \n 4 - Transtejo. \n 13 - Fertagus. \n 14 - Soflusa.\n"
 //var srvlist = "\n 2 - Metro de Lisboa \n 3 - CP \n 13 - Fertagus.\n"
 
 //porque não há PT-PT na alexa
@@ -154,17 +155,19 @@ function onLaunch(launchRequest, session, callback) {
  */
 function onIntent(intentRequest, session, callback) {
 
+    console.log("onIntent: " + intentRequest + ", " +  this.attributes["lastIntent"]);
+
     var intent = intentRequest.intent
     var intentName = intentRequest.intent.name;
 
     // dispatch custom intents to handlers here
     if (intentName == "ServiceIntent"){
-        handleServiceSelect(intent, session, callback)
+        handleServiceSelect(intent, session, callback);
     } else if(intentName == "NatoIntent"){
         handleNato(intent, session, callback)
     } else if (intentName == "SelectIntent"){
         handleSelect(intent, session, callback)
-   }  else if(intentName == "OriDestIntent"){
+    } else if(intentName == "OriDestIntent"){
         handleOriDest(intent, session, callback)
     } else if(intentName == "TripIntent") {
         handleTripResponse(intent, session, callback)
@@ -187,17 +190,44 @@ function onIntent(intentRequest, session, callback) {
     } else {
         throw "Invalid intent"
     }
+
+    this.attributes["lastIntent"] = intentName;
+
 }
+
+/*function handleNot(intent, session, callback){
+
+    callback(session.attributes, buildSpeechletResponse("voice not recognized, repeat please", "voice not recognized, repeat please", "voice not recognized, repeat please", false))
+}*/
+
 
 /**
  * Called when the user ends the session.
  * Is not called when the skill returns shouldEndSession=true.
  */
 function onSessionEnded(sessionEndedRequest, session) {
-
+    //getExitResponse(callback)
 }
 
 // ------- Skill specific logic -------
+
+/*function getExitResponse(callback) {
+    var speechOutput = "Trip Skill exit"
+
+    var reprompt = "Trip Skill exit"
+    var header = "Trip Skill exit"
+
+    var shouldEndSession = true
+
+    var sessionAttributes = {
+        "speechOutput" : speechOutput,
+        "repromptText" : reprompt
+    }
+
+    callback(sessionAttributes, buildSpeechletResponse(header, speechOutput, reprompt, shouldEndSession))
+}*/
+
+
 
 function getWelcomeResponse(callback) {
 
@@ -213,7 +243,8 @@ function getWelcomeResponse(callback) {
 
     var sessionAttributes = {
         "speechOutput" : speechOutput,
-        "repromptText" : reprompt
+        "repromptText" : reprompt,
+       // "lastintent" : ""
     }
 
     callback(sessionAttributes, buildSpeechletResponse(header, speechOutput, reprompt, shouldEndSession))
@@ -616,6 +647,8 @@ function handleNato(intent, session, callback){
         } else if (destination_name == ""){
             var header = "choose your arrival station"
         }
+
+       
          
     }
 
@@ -646,7 +679,7 @@ function handleSelect(intent, session, callback){
         initSt2(origin_name, destination_name)
         
     }
-
+     
     var repromptText = speechOutput
     
     var shouldEndSession = false
@@ -1129,21 +1162,3 @@ console.log(z == w)
 */
 
 
-x = ""
-console.log(x.length)
-r="ola"
-console.log(r.length)
-
-var z = [1, 2, 3 ,4, 4]
-console.log(z.length)
-console.log(z)
-
-z.length = 0
-console.log(z.length)
-console.log(z)
-console.log(z == "")
-
-
-var t = "ÇÓ"
-var g = removeAccents.remove(t)
-console.log(g)
