@@ -434,7 +434,26 @@ var newSessionHandlers = {
         var imageObj = {} 
 
          this.emit(':askWithCard',  speechOutput, repromptSpeech, header, speechOutput, imageObj);
-    }
+    },
+     'Unhandled': function () {
+        this.emit(':ask', 'I don\'t get it!', 'I don\'t get it!');
+    },
+
+
+     'AMAZON.HelpIntent': function () {    
+        var speechOutput = "i can tell you a route from one origin to destination station\n anytime, first you can choose the service:" + srvlist + "Next, choose origin and destination stations. \n In the end, schedule from departure stations or next stops until arrival station";
+        var repromptSpeech = speechOutput;
+
+        this.handler.state = states.STARTMODE;
+        this.emit(':ask', speechOutput, repromptSpeech); 
+    },
+
+    'AMAZON.CancelIntent': function () {
+        this.emit('NewSession') 
+    },
+    'AMAZON.StopIntent': function () {
+        this.emit('NewSession')  
+    } 
 };
 
 var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
@@ -544,10 +563,23 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
 
     'Unhandled': function () {
         this.emit(':ask', 'I don\'t get it!', 'I don\'t get it!');
-    }
+    },
 
 
+     'AMAZON.HelpIntent': function () {    
+        var speechOutput = "i can tell you a route from one origin to destination station\n anytime, first you can choose the service:" + srvlist + "Next, choose origin and destination stations. \n In the end, schedule from departure stations or next stops until arrival station";
+        var repromptSpeech = speechOutput;
 
+        this.handler.state = states.STARTMODE;
+        this.emit(':ask', speechOutput, repromptSpeech); 
+    },
+
+    'AMAZON.CancelIntent': function () {
+        this.emit('NewSession') 
+    },
+    'AMAZON.StopIntent': function () {
+        this.emit('NewSession')  
+    } 
 });
 
 
@@ -581,7 +613,27 @@ var selectModeHandlers = Alexa.CreateStateHandler(states.SELECTMODE, {
 
         this.emit(':askWithCard', speechOutput, repromptSpeech, header, speechOutput, imageObj);  
 
-    }
+    },
+
+     'Unhandled': function () {
+        this.emit(':ask', 'I don\'t get it!', 'I don\'t get it!');
+    },
+
+
+     'AMAZON.HelpIntent': function () {    
+        var speechOutput = "i can tell you a route from one origin to destination station\n anytime, first you can choose the service:" + srvlist + "Next, choose origin and destination stations. \n In the end, schedule from departure stations or next stops until arrival station";
+        var repromptSpeech = speechOutput;
+
+        this.handler.state = states.STARTMODE;
+        this.emit(':ask', speechOutput, repromptSpeech); 
+    },
+
+    'AMAZON.CancelIntent': function () {
+        this.emit('NewSession') 
+    },
+    'AMAZON.StopIntent': function () {
+        this.emit('NewSession')  
+    } 
 });
 
 var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, { 
@@ -773,17 +825,34 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
         var imageObj = {};
         this.handler.state = states.STARTMODE;
         this.emit(':askWithCard', speechOutput, repromptSpeech, header, speechOutput, imageObj);  
-    }
+    },
+     'Unhandled': function () {
+        this.emit(':ask', 'I don\'t get it!', 'I don\'t get it!');
+    },
 
 
+     'AMAZON.HelpIntent': function () {    
+        var speechOutput = "i can tell you a route from one origin to destination station\n anytime, first you can choose the service:" + srvlist + "Next, choose origin and destination stations. \n In the end, schedule from departure stations or next stops until arrival station";
+        var repromptSpeech = speechOutput;
 
+        this.handler.state = states.STARTMODE;
+        this.emit(':ask', speechOutput, repromptSpeech); 
+    },
+
+    'AMAZON.CancelIntent': function () {
+        this.emit('NewSession') 
+    },
+    'AMAZON.StopIntent': function () {
+        this.emit('NewSession')  
+    } 
 });
 
 
 var handlers = {
     'LaunchRequest': function () {
         this.emit('NewSession')
-    }       
+    }
+          
 };
 
 

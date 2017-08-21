@@ -1,6 +1,8 @@
+ServiceIntent service {Service}
 ServiceIntent {Service}
 NatoIntent {NatoA} {NatoB} {NatoC}
 SelectIntent {Nr}
+SelectIntent station {Nr}
 TripIntent times
 Tripntent schedule
 ListIntent stops
