@@ -99,7 +99,7 @@ function data(agency_nr){
 var srvlist = "\n 2 - Metro de Lisboa. \n 3 - CP. \n 4 - Transtejo. \n 13 - Fertagus. \n 14 - Soflusa.\n";
 //var srvlist = "\n 2 - Metro de Lisboa \n 3 - CP \n 13 - Fertagus.\n"
 
-
+/*
 function initSt(origin, destination){
         ori = _.where(stations, {id: parseInt(origin)});
         dest = _.where(stations, {id: parseInt(destination)});
@@ -116,23 +116,24 @@ function initSt(origin, destination){
         o = _.where(stops, {stop_id: idCheck(idO.toString())});
         d = _.where(stops, {stop_id: idCheck(idD.toString())});
 }
+*/
 
 
 function initSt2(origi, destinatio){
-        ori = _.where(stops, {stop_name: origi.toString()});
-        dest = _.where(stops, {stop_name: destinatio.toString()});
-        
-        
-        nameO = ori[0].stop_name;
- 
-        nameD = dest[0].stop_name;
+    ori = _.where(stops, {stop_name: origi.toString()});
+    dest = _.where(stops, {stop_name: destinatio.toString()});
+    
+    
+    nameO = ori[0].stop_name;
 
-        idO =  ori[0].stop_id;
-               
-        idD = dest[0].stop_id;
-        
-        o = _.where(stops, {stop_id: idCheck(idO.toString())});
-        d = _.where(stops, {stop_id: idCheck(idD.toString())});
+    nameD = dest[0].stop_name;
+
+    idO =  ori[0].stop_id;
+           
+    idD = dest[0].stop_id;
+    
+    o = _.where(stops, {stop_id: idCheck(idO.toString())});
+    d = _.where(stops, {stop_id: idCheck(idD.toString())});
 }
 
 
@@ -309,7 +310,6 @@ function horario(origem_id, destino_id){
                         horario.push(a);    
                     }
                 }
-
             k = k+1 
         }
     }
@@ -686,8 +686,7 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
                     var header = nameO.toUpperCase() + " to " +  nameD.toUpperCase()
                 }
 
-                var repromptSpeech = "for other route tell me the departure and arrival, or change the service:" + srvlist + "Say the number"
-
+                var repromptSpeech = "for other route tell me the departure and arrival, or change the service:" + srvlist + "Say the number";
             }
         }
 
@@ -748,7 +747,6 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
                 }
 
                 var repromptSpeech = "for other route tell me the departure and arrival, or change the service:" + srvlist + "Say the number"
-
             }
         }
     
@@ -815,8 +813,7 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
                     var speechOutput =  nameO.toUpperCase() +  " " +"next trains to " + nameD.toUpperCase() + " are:\n" + time + "\n And next stop stations are: \n" + stp + "\n" + "for other route tell me the departure and arrival, or change the service: \n 2 - Metro de Lisboa \n 3 - CP. \n Say the number"
                     var header = nameO.toUpperCase() + " to " +  nameD.toUpperCase()
                 }
-                var repromptSpeech = "for other route tell me the departure and destination, or change the service:" + srvlist + "Say the number"
-       
+                var repromptSpeech = "for other route tell me the departure and destination, or change the service:" + srvlist + "Say the number";
             }
         }
 
@@ -852,8 +849,7 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
 var handlers = {
     'LaunchRequest': function () {
         this.emit('NewSession')
-    }
-          
+    }        
 };
 
 
