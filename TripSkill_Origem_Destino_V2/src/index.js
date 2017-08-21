@@ -466,7 +466,7 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
         data(this.attributes['service']);
         this.attributes['serviceName'] = _.where(agency, {agency_id: this.attributes['service']})[0].agency_name
 
-        var speechOutput = "You choosen service number " + this.attributes['service'] + " " + this.attributes['serviceName'] + ".\n" + "Now, what is your departure station?"
+        var speechOutput = "You have choosen service number " + this.attributes['service'] + " " + this.attributes['serviceName'] + ".\n" + "Now, what is your departure station? Say the first three letters using Nato Phonetic Alphabet."
         var repromptSpeech = "what is your arrival and departure stations?"
         var header = "You choosen service number " + this.attributes['service'] + " " + this.attributes['serviceName']
         var imageObj = {};
@@ -522,7 +522,7 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
                     origin_name = possibleNames[0];
                     this.attributes['origin_name'] = origin_name
                     var header = "Departure"
-                    var speechOutput = "Your departure station is "+ this.attributes['origin_name'] + ".\n Now, choose your arrival station."
+                    var speechOutput = "Your departure station is "+ this.attributes['origin_name'] + ".\n Now, choose your arrival station. Say the first three letters using Nato Phonetic Alphabet."
                     possibleNames = []
                 } else if (destination_name == ""){
                     destination_name = possibleNames[0];
@@ -544,7 +544,7 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
                     i = i+1
                 }
 
-                speechOutput = speechOutput + "choose the station numbr"
+                speechOutput = speechOutput + "choose the station number"
 
                 if(origin_name == ""){
                     var header = "choose your departure station"
@@ -596,7 +596,7 @@ var selectModeHandlers = Alexa.CreateStateHandler(states.SELECTMODE, {
             origin_name = possibleNames[nr-1];
              this.attributes['origin_name'] = origin_name
             var header = "Departure"
-            var speechOutput = "Your departure station is "+  this.attributes['origin_name'] + "\n Now, choose your arrival station."
+            var speechOutput = "Your departure station is "+  this.attributes['origin_name'] + "\n Now, choose your arrival station. Say the first three letters using Nato Phonetic Alphabet."
             possibleNames = []
             this.handler.state = states.STARTMODE;
         } else if (destination_name.length == 0){
