@@ -465,7 +465,6 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
 
     'AllIntent': function () {
 
-        console.log("ola");
 
         if (this.event.request.intent.slots.Service.value != null){
 
