@@ -1,6 +1,12 @@
+AllIntent From {NatoA} {NatoB} {NatoC} to {NatoD} {NatoE} {NatoF} in service {Service}
+AllIntent From {NatoA} {NatoB} {NatoC} to {NatoD} {NatoE} {NatoF}
+AllIntent From {NatoA} {NatoB} {NatoC} to {NatoD} {NatoE} {NatoF} in service {Service} {ActionA}
+AllIntent From {NatoA} {NatoB} {NatoC} to {NatoD} {NatoE} {NatoF} in service {Service} {ActionB}
+AllIntent From {NatoA} {NatoB} {NatoC} to {NatoD} {NatoE} {NatoF} in service {Service} {ActionA} and {ActionB}
 ServiceIntent {Service}
 NatoIntent {NatoA} {NatoB} {NatoC}
 SelectIntent {Nr}
+AllSelectIntent {Nr}
 TripIntent times
 TripIntent schedule
 ListIntent stops

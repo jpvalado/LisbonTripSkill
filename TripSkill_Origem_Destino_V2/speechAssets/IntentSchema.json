@@ -3,6 +3,47 @@
     {
       "slots": [
         {
+          "name": "NatoA",
+          "type": "LIST_OF_NATO"
+        },
+        {
+          "name": "NatoB",
+          "type": "LIST_OF_NATO"
+        },
+        {
+          "name": "NatoC",
+          "type": "LIST_OF_NATO"
+        },
+        {
+          "name": "NatoD",
+          "type": "LIST_OF_NATO"
+        },
+        {
+          "name": "NatoE",
+          "type": "LIST_OF_NATO"
+        },
+        {
+          "name": "NatoF",
+          "type": "LIST_OF_NATO"
+        },
+        {
+          "name": "ActionA",
+          "type": "LIST_OF_ACTIONA"
+        },
+        {
+          "name": "ActionB",
+          "type": "LIST_OF_ACTIONB"
+        },
+        {
+          "name": "Service",
+          "type": "AMAZON.NUMBER"
+        }
+      ],
+      "intent": "AllIntent"
+    },
+    {
+      "slots": [
+        {
           "name": "Service",
           "type": "AMAZON.NUMBER"
         }
@@ -34,6 +75,15 @@
         }
       ],
       "intent": "SelectIntent"
+    },
+    {
+      "slots": [
+        {
+          "name": "Nr",
+          "type": "AMAZON.NUMBER"
+        }
+      ],
+      "intent": "AllSelectIntent"
     },
     {
       "intent": "TripIntent"

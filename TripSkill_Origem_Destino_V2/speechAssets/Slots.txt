@@ -31,3 +31,17 @@ LIST_OF_NATO: {
 	Zulu
 	Dash
 }
+
+LIST_OF_ACTIONA: {
+	times
+	schedule
+}
+
+LIST_OF_ACTIONB: {
+	stops
+	stations
+}
+
+
+
+
