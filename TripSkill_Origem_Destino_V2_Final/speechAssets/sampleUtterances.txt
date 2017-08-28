@@ -1,0 +1,14 @@
+ServiceIntent {Service}
+NatoIntent {NatoA} {NatoB} {NatoC}
+SelectIntent {Nr}
+TripIntent times
+TripIntent schedule
+ListIntent stops
+ListIntent stations
+TripListIntent times and stops
+TripListIntent times and stations
+TripListIntent stops and times
+TripListIntent stops and schedule
+TripListIntent stations and schedule
+TripListIntent schedule and stations
+TripListIntent both

@@ -1,0 +1,662 @@
+[
+  {
+    "stop_id": "M49",
+    "stop_name": "AEROPORTO",
+    "id": 1
+  },
+  {
+    "stop_id": 11061002,
+    "stop_name": "Agualva-Cacém",
+    "id": 2
+  },
+  {
+    "stop_id": "M23",
+    "stop_name": "ALAMEDA",
+    "id": 3
+  },
+  {
+    "stop_id": 11067025,
+    "stop_name": "Alcântara",
+    "id": 4
+  },
+  {
+    "stop_id": 11069039,
+    "stop_name": "Alcântara-Mar",
+    "id": 5
+  },
+  {
+    "stop_id": "M43",
+    "stop_name": "ALFORNELOS",
+    "id": 6
+  },
+  {
+    "stop_id": 11069088,
+    "stop_name": "Algés",
+    "id": 7
+  },
+  {
+    "stop_id": 11061069,
+    "stop_name": "Algueirão",
+    "id": 8
+  },
+  {
+    "stop_id": 11031237,
+    "stop_name": "Alhandra",
+    "id": 9
+  },
+  {
+    "stop_id": 11095075,
+    "stop_name": "Alhos Vedros",
+    "id": 10
+  },
+  {
+    "stop_id": "M04",
+    "stop_name": "ALTO DOS MOINHOS",
+    "id": 11
+  },
+  {
+    "stop_id": "M20",
+    "stop_name": "ALVALADE",
+    "id": 12
+  },
+  {
+    "stop_id": 11031187,
+    "stop_name": "Alverca",
+    "id": 13
+  },
+  {
+    "stop_id": 11060087,
+    "stop_name": "Amadora",
+    "id": 14
+  },
+  {
+    "stop_id": "M44",
+    "stop_name": "AMADORA ESTE",
+    "id": 15
+  },
+  {
+    "stop_id": "M40",
+    "stop_name": "AMEIXOEIRA",
+    "id": 16
+  },
+  {
+    "stop_id": "M25",
+    "stop_name": "ANJOS",
+    "id": 17
+  },
+  {
+    "stop_id": "M22",
+    "stop_name": "AREEIRO",
+    "id": 18
+  },
+  {
+    "stop_id": "M24",
+    "stop_name": "ARROIOS",
+    "id": 19
+  },
+  {
+    "stop_id": "M11",
+    "stop_name": "AVENidA",
+    "id": 20
+  },
+  {
+    "stop_id": 11033001,
+    "stop_name": "Azambuja",
+    "id": 21
+  },
+  {
+    "stop_id": 11095059,
+    "stop_name": "Baixa da Banheira",
+    "id": 22
+  },
+  {
+    "stop_id": "M29",
+    "stop_name": "BAIXA-CHIADO",
+    "id": 23
+  },
+  {
+    "stop_id": 11095000,
+    "stop_name": "Barreiro",
+    "id": 24
+  },
+  {
+    "stop_id": 11095026,
+    "stop_name": "Barreiro A",
+    "id": 25
+  },
+  {
+    "stop_id": "M32",
+    "stop_name": "BELA VISTA",
+    "id": 26
+  },
+  {
+    "stop_id": 11069054,
+    "stop_name": "Belém",
+    "id": 27
+  },
+  {
+    "stop_id": 11060046,
+    "stop_name": "Benfica",
+    "id": 28
+  },
+  {
+    "stop_id": 11031070,
+    "stop_name": "Bobadela",
+    "id": 29
+  },
+  {
+    "stop_id": 11031005,
+    "stop_name": "Braço de Prata",
+    "id": 30
+  },
+  {
+    "stop_id": "M35",
+    "stop_name": "CABO RUIVO",
+    "id": 31
+  },
+  {
+    "stop_id": "M30",
+    "stop_name": "CAIS DO SODRE",
+    "id": 32
+  },
+  {
+    "stop_id": 11069005,
+    "stop_name": "Cais do Sodré",
+    "id": 33
+  },
+  {
+    "stop_id": "M13",
+    "stop_name": "CAMPO GRANDE",
+    "id": 34
+  },
+  {
+    "stop_id": "M16",
+    "stop_name": "CAMPO PEQUENO",
+    "id": 35
+  },
+  {
+    "stop_id": 11060004,
+    "stop_name": "Campolide",
+    "id": 36
+  },
+  {
+    "stop_id": 11069187,
+    "stop_name": "Carcavelos",
+    "id": 37
+  },
+  {
+    "stop_id": "M02",
+    "stop_name": "CARNidE",
+    "id": 38
+  },
+  {
+    "stop_id": 11031336,
+    "stop_name": "Carregado",
+    "id": 39
+  },
+  {
+    "stop_id": 11069260,
+    "stop_name": "Cascais",
+    "id": 40
+  },
+  {
+    "stop_id": 11031310,
+    "stop_name": "Castanheira do Ribatejo",
+    "id": 41
+  },
+  {
+    "stop_id": 11069120,
+    "stop_name": "Caxias",
+    "id": 42
+  },
+  {
+    "stop_id": "M33",
+    "stop_name": "CHELAS",
+    "id": 43
+  },
+  {
+    "stop_id": "M14",
+    "stop_name": "CidADE UNIVERSITÁRIA",
+    "id": 44
+  },
+  {
+    "stop_id": 11017228,
+    "stop_name": "Coina",
+    "id": 45
+  },
+  {
+    "stop_id": "M03",
+    "stop_name": "COLÉGIO MILITAR-LUZ",
+    "id": 46
+  },
+  {
+    "stop_id": 11017137,
+    "stop_name": "Corroios",
+    "id": 47
+  },
+  {
+    "stop_id": 11069104,
+    "stop_name": "Cruz Quebrada",
+    "id": 48
+  },
+  {
+    "stop_id": "M48",
+    "stop_name": "ENCARNAÇÃO",
+    "id": 49
+  },
+  {
+    "stop_id": 11066050,
+    "stop_name": "Entrecampos",
+    "id": 50
+  },
+  {
+    "stop_id": "M15",
+    "stop_name": "ENTRECAMPOS",
+    "id": 51
+  },
+  {
+    "stop_id": 11031401,
+    "stop_name": "Espadanal de Azambuja",
+    "id": 52
+  },
+  {
+    "stop_id": 11069245,
+    "stop_name": "Estoril",
+    "id": 53
+  },
+  {
+    "stop_id": 11017186,
+    "stop_name": "Fogueteiro",
+    "id": 54
+  },
+  {
+    "stop_id": 11017152,
+    "stop_name": "Foros de Amora",
+    "id": 55
+  },
+  {
+    "stop_id": "M26",
+    "stop_name": "INTENDENTE",
+    "id": 56
+  },
+  {
+    "stop_id": "M06",
+    "stop_name": "JARDIM ZOOLÓGICO",
+    "id": 57
+  },
+  {
+    "stop_id": "M05",
+    "stop_name": "LARANJEIRAS",
+    "id": 58
+  },
+  {
+    "stop_id": 11095042,
+    "stop_name": "Lavradio",
+    "id": 59
+  },
+  {
+    "stop_id": "M39",
+    "stop_name": "LUMIAR",
+    "id": 60
+  },
+  {
+    "stop_id": "M10",
+    "stop_name": "MARQUÊS DE POMBAL",
+    "id": 61
+  },
+  {
+    "stop_id": "M27",
+    "stop_name": "MARTIM MONIZ",
+    "id": 62
+  },
+  {
+    "stop_id": 11066019,
+    "stop_name": "Marvila",
+    "id": 63
+  },
+  {
+    "stop_id": 11060137,
+    "stop_name": "Massamá-Barcarena",
+    "id": 64
+  },
+  {
+    "stop_id": 11061051,
+    "stop_name": "Mercês",
+    "id": 65
+  },
+  {
+    "stop_id": 11062042,
+    "stop_name": "Mira Sintra-Meleças",
+    "id": 66
+  },
+  {
+    "stop_id": 11095109,
+    "stop_name": "Moita",
+    "id": 67
+  },
+  {
+    "stop_id": 11060111,
+    "stop_name": "Monte Abraão",
+    "id": 68
+  },
+  {
+    "stop_id": 11069252,
+    "stop_name": "Monte Estoril",
+    "id": 69
+  },
+  {
+    "stop_id": 11031047,
+    "stop_name": "Moscavide",
+    "id": 70
+  },
+  {
+    "stop_id": "M47",
+    "stop_name": "MOSCAVidE",
+    "id": 71
+  },
+  {
+    "stop_id": "M42",
+    "stop_name": "ODIVELAS",
+    "id": 72
+  },
+  {
+    "stop_id": 11069179,
+    "stop_name": "Oeiras",
+    "id": 73
+  },
+  {
+    "stop_id": "M31",
+    "stop_name": "OLAIAS",
+    "id": 74
+  },
+  {
+    "stop_id": "M34",
+    "stop_name": "OLIVAIS",
+    "id": 75
+  },
+  {
+    "stop_id": 11031039,
+    "stop_name": "Oriente",
+    "id": 76
+  },
+  {
+    "stop_id": "M36",
+    "stop_name": "ORIENTE",
+    "id": 77
+  },
+  {
+    "stop_id": 11069146,
+    "stop_name": "Paço de Arcos",
+    "id": 78
+  },
+  {
+    "stop_id": 11068080,
+    "stop_name": "Palmela",
+    "id": 79
+  },
+  {
+    "stop_id": 11069203,
+    "stop_name": "Parede",
+    "id": 80
+  },
+  {
+    "stop_id": "M09",
+    "stop_name": "PARQUE",
+    "id": 81
+  },
+  {
+    "stop_id": 11017095,
+    "stop_name": "Penalva",
+    "id": 82
+  },
+  {
+    "stop_id": 11095125,
+    "stop_name": "Penteado",
+    "id": 83
+  },
+  {
+    "stop_id": "M18",
+    "stop_name": "PICOAS",
+    "id": 84
+  },
+  {
+    "stop_id": 11068007,
+    "stop_name": "Pinhal Novo",
+    "id": 85
+  },
+  {
+    "stop_id": "M01",
+    "stop_name": "PONTINHA",
+    "id": 86
+  },
+  {
+    "stop_id": 11061093,
+    "stop_name": "Portela de Sintra",
+    "id": 87
+  },
+  {
+    "stop_id": 11031146,
+    "stop_name": "Póvoa",
+    "id": 88
+  },
+  {
+    "stop_id": "M07",
+    "stop_name": "PRAÇA DE ESPANHA",
+    "id": 89
+  },
+  {
+    "stop_id": 11068130,
+    "stop_name": "Praça do Quebedo",
+    "id": 90
+  },
+  {
+    "stop_id": 11017087,
+    "stop_name": "Pragal",
+    "id": 91
+  },
+  {
+    "stop_id": 11091058,
+    "stop_name": "Praias do Sado A",
+    "id": 92
+  },
+  {
+    "stop_id": 11060103,
+    "stop_name": "Queluz-Belas",
+    "id": 93
+  },
+  {
+    "stop_id": "M38",
+    "stop_name": "QUINTA DAS CONCHAS",
+    "id": 94
+  },
+  {
+    "stop_id": "M19",
+    "stop_name": "RATO",
+    "id": 95
+  },
+  {
+    "stop_id": 11060095,
+    "stop_name": "Reboleira",
+    "id": 96
+  },
+  {
+    "stop_id": "M50",
+    "stop_name": "REBOLEIRA",
+    "id": 97
+  },
+  {
+    "stop_id": "M12",
+    "stop_name": "RESTAURADORES",
+    "id": 98
+  },
+  {
+    "stop_id": 11061044,
+    "stop_name": "Rio de Mouro",
+    "id": 99
+  },
+  {
+    "stop_id": "M21",
+    "stop_name": "ROMA",
+    "id": 100
+  },
+  {
+    "stop_id": 11066035,
+    "stop_name": "Roma-Areeiro",
+    "id": 101
+  },
+  {
+    "stop_id": 11059006,
+    "stop_name": "Rossio",
+    "id": 102
+  },
+  {
+    "stop_id": "M28",
+    "stop_name": "ROSSIO",
+    "id": 103
+  },
+  {
+    "stop_id": 11031062,
+    "stop_name": "Sacavém",
+    "id": 104
+  },
+  {
+    "stop_id": "M17",
+    "stop_name": "SALDANHA",
+    "id": 105
+  },
+  {
+    "stop_id": 11030007,
+    "stop_name": "Santa Apolónia",
+    "id": 106
+  },
+  {
+    "stop_id": "M46",
+    "stop_name": "SANTA APOLÓNIA",
+    "id": 107
+  },
+  {
+    "stop_id": 11060038,
+    "stop_name": "Santa Cruz/Damaia",
+    "id": 108
+  },
+  {
+    "stop_id": 11031112,
+    "stop_name": "Santa Iria",
+    "id": 109
+  },
+  {
+    "stop_id": 11069161,
+    "stop_name": "Santo Amaro de Oeiras",
+    "id": 110
+  },
+  {
+    "stop_id": 11069013,
+    "stop_name": "Santos",
+    "id": 111
+  },
+  {
+    "stop_id": 11069237,
+    "stop_name": "São João do Estoril",
+    "id": 112
+  },
+  {
+    "stop_id": 11069229,
+    "stop_name": "São Pedro do Estoril",
+    "id": 113
+  },
+  {
+    "stop_id": "M08",
+    "stop_name": "SÃO SEBASTIÃO",
+    "id": 114
+  },
+  {
+    "stop_id": 11066076,
+    "stop_name": "Sete Rios",
+    "id": 115
+  },
+  {
+    "stop_id": 11068122,
+    "stop_name": "Setúbal",
+    "id": 116
+  },
+  {
+    "stop_id": 11061101,
+    "stop_name": "Sintra",
+    "id": 117
+  },
+  {
+    "stop_id": "M41",
+    "stop_name": "SR. ROUBADO",
+    "id": 118
+  },
+  {
+    "stop_id": "M37",
+    "stop_name": "TELHEIRAS",
+    "id": 119
+  },
+  {
+    "stop_id": "M45",
+    "stop_name": "TERREIRO DO PAÇO",
+    "id": 120
+  },
+  {
+    "stop_id": 11068049,
+    "stop_name": "Venda do Alcaide",
+    "id": 121
+  },
+  {
+    "stop_id": 11031278,
+    "stop_name": "Vila Franca de Xira",
+    "id": 122
+  },
+  {
+    "stop_id": 11031377,
+    "stop_name": "Vila Nova da Rainha",
+    "id": 123
+  },
+  {
+    "stop_id": "T01",
+    "stop_name": "Belém",
+    "id": 124
+  },
+  {
+    "stop_id": "T05",
+    "stop_name": "Cacilhas",
+    "id": 125
+  },
+  {
+    "stop_id": "T04",
+    "stop_name": "Cais do Sodré",
+    "id": 126
+  },
+  {
+    "stop_id": "T14",
+    "stop_name": "Montijo - Seixalinho",
+    "id": 127
+  },
+  {
+    "stop_id": "T02",
+    "stop_name": "Porto Brandão",
+    "id": 128
+  },
+  {
+    "stop_id": "T09",
+    "stop_name": "Seixal",
+    "id": 129
+  },
+  {
+    "stop_id": "T08",
+    "stop_name": "Terreiro do Paço",
+    "id": 130
+  },
+  {
+    "stop_id": "T03",
+    "stop_name": "Trafaria",
+    "id": 131
+  },
+  {
+    "stop_id": "T29",
+    "stop_name": "Barreiro",
+    "id": 132
+  }
+]
