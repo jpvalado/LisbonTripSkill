@@ -1,4 +1,4 @@
-ServiceIntent {Service}
+ServiceIntent service {Service}
 NatoIntent {NatoA} {NatoB} {NatoC}
 SelectIntent {Nr}
 TripIntent times
