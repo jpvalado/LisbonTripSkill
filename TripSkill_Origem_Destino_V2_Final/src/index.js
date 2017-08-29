@@ -97,7 +97,9 @@ function data(agency_nr){
 
 
 //var srvlist = "\n 2 - Metro de Lisboa. \n 3 - CP. \n 4 - Transtejo. \n 13 - Fertagus. \n 14 - Soflusa.\n";
-var srvlist = "\n 2 - Metro de Lisboa \n 3 - CP \n 13 - Fertagus.\n"
+//var srvlist = "\n 2 - Metro de Lisboa. \n 3 - CP. \n 13 - Fertagus.\n"
+var srvlist = "\n A - Metro de Lisboa. \n B - CP. \n C - Fertagus.\n"
+
 
 
 function initSt2(origi, destinatio){
@@ -446,8 +448,19 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
     
 
     'ServiceIntent': function () {
-       
-        this.attributes['service'] = parseInt(this.event.request.intent.slots.Service.value);
+
+        var letter = this.event.request.intent.slots.Service.value.toString();
+
+
+        if(letter == 'a'){
+            this.attributes['service'] = 2;
+        } else if(letter == 'b'){
+            this.attributes['service'] = 3;
+        } else if(letter == 'c'){
+            this.attributes['service'] = 4;
+        }
+        
+
     
         data(this.attributes['service']);
         this.attributes['serviceName'] = _.where(agency, {agency_id: this.attributes['service']})[0].agency_name
