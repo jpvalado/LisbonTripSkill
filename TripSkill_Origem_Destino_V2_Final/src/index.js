@@ -439,26 +439,26 @@ exports.handler = function(event, context, callback) {
 
     // alexa.dynamoDBTableName = 'YourTableName'; // creates new table for userid:session.attributes
 
-    alexa.registerHandlers( newSessionHandlers, startModeHandlers, endModeHandlers);
+    alexa.registerHandlers( handlers);
     alexa.execute();
 };
 
-//states defenition
-var states = {
-    STARTMODE: '_STARTMODE',
-    ENDMODE: '_ENDMODE'
-};
 
 
 //handlers for start new session
-var newSessionHandlers = {
+var handlers = {
+
+    'LaunchRequest': function () {
+        this.emit('NewSession');
+    },
 
      // This will short-cut any incoming intent or launch requests and route them to this handler.
     'NewSession': function() {
         if(Object.keys(this.attributes).length === 0) { // Check if it's the first time the skill has been invoked
             this.attributes['service'] = 0;
-        }
-        this.handler.state = states.STARTMODE;
+    }
+        
+       
         this.attributes['lastMode'] = 'NORMAL'
 
         var speechOutput = "Welcome to Lisbon Trip Skill! I can tell you a route from a departure to arrival station.\n Please, first select the service:" + srvlist + "Say service and number"
@@ -470,33 +470,6 @@ var newSessionHandlers = {
     },
 
 
-    
-    //handler to return information when the system don t understand
-    'Unhandled': function () {
-        this.emit(':ask', 'I don\'t get it! Or the command is not supported!', 'I don\'t get it! Or the command is not supported!');
-    },
-
-    //handler to ask help
-    'AMAZON.HelpIntent': function () {    
-        var speechOutput = "i can tell you a route from one departure to arrival station\n anytime, first you can choose the service:" + srvlist + "Next, choose departure and arrival stations. \n In the end, schedule from departure stations or next stops until arrival station";
-        var repromptSpeech = speechOutput;
-
-        this.handler.state = states.STARTMODE;
-        this.emit(':ask', speechOutput, repromptSpeech); 
-    },
-
-    //handler to cancel and restar skill
-    'AMAZON.CancelIntent': function () {
-        this.emit('NewSession') 
-    },
-
-    //handler to stop and restar skill
-    'AMAZON.StopIntent': function () {
-        this.emit('NewSession')  
-    } 
-};
-
-var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
 
 
     //handler to select service or statin if has multiple options
@@ -542,7 +515,8 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
 	            var header = "Departure"
 	            var speechOutput = "Your departure station is "+  this.attributes['origin_name'] + "\n Now, choose your arrival station. Say the first three letters using Nato Phonetic Alphabet."
 	            possibleNames = []
-
+                // set last mode to "NORMAL"
+                this.attributes['lastMode'] = 'NORMAL'
 
 	        } else if (destination_name.length == 0) {
 
@@ -561,8 +535,7 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
                 // set last mode to "NORMAL"
 	            this.attributes['lastMode'] = 'NORMAL'
 
-                // set next stat to ENDMODE
-	            this.handler.state = states.ENDMODE;
+                
 	        }
 	        var repromptSpeech = speechOutput;
 	        var imageObj = {};
@@ -574,6 +547,14 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
         }
 
         else if (this.attributes['lastMode'] == 'NORMAL'){
+
+            origin = [];
+            destination = [];
+
+            origin_name = "";
+            destination_name = "";
+            possibleNames = [];
+
 
             //
             // last state == "NORMAL" so select station
@@ -690,8 +671,7 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
                     // set last mode to "NORMAL"
                     this.attributes['lastMode'] = 'NORMAL'
 
-                    // set next stat to ENDMODE
-                    this.handler.state = states.ENDMODE; 
+                     
                 }
             } else {
 
@@ -735,39 +715,8 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
         this.emit(':askWithCard', speechOutput, repromptSpeech, header, speechOutput, imageObj);  
     },
 
-    //handler to return information when the system don t understand
-    'Unhandled': function () {
-        this.emit(':ask', 'I don\'t get it! Or the command is not supported!', 'I don\'t get it! Or the command is not supported!');
-    },
-
-    //handler to ask help
-    'AMAZON.HelpIntent': function () {    
-        var speechOutput = "i can tell you a route from one departure to arrival station\n anytime, first you can choose the service:" + srvlist + "Next, choose departure and arrival stations. \n In the end, schedule from departure stations or next stops until arrival station";
-        var repromptSpeech = speechOutput;
-
-        this.handler.state = states.STARTMODE;
-        this.emit(':ask', speechOutput, repromptSpeech); 
-    },
-
-    //handler to cancel and restar skill
-    'AMAZON.CancelIntent': function () {
-        this.emit('NewSession') 
-    },
-
-    //handler to stop and restar skill
-    'AMAZON.StopIntent': function () {
-        this.emit('NewSession')  
-    } 
-});
 
 
-
-
-
-
-
-
-var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, { 
 
 
     //handler to invoke function to calculate next times from origin to destinantion stop
@@ -840,8 +789,7 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
         destination = []
         var imageObj = {};
 
-        // set next stat to STARTMODE
-        this.handler.state = states.STARTMODE;
+       
 
         //return information
         this.emit(':askWithCard', speechOutput, repromptSpeech, header, speechOutput, imageObj);  
@@ -919,11 +867,7 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
         origin = []
         destination = []
 
-        var imageObj = {};.
-
-
-         // set next stat to STARTMODE
-        this.handler.state = states.STARTMODE;
+        var imageObj = {};
 
         //return nesponse
         this.emit(':askWithCard', speechOutput, repromptSpeech, header, speechOutput, imageObj);  
@@ -1009,8 +953,6 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
 
         var imageObj = {};
 
-        // set next stat to STARTMODE
-        this.handler.state = states.STARTMODE;
 
         //return response
         this.emit(':askWithCard', speechOutput, repromptSpeech, header, speechOutput, imageObj);  
@@ -1027,7 +969,7 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
         var speechOutput = "i can tell you a route from one departure to arrival station\n anytime, first you can choose the service:" + srvlist + "Next, choose departure and arrival stations. \n In the end, schedule from departure stations or next stops until arrival station";
         var repromptSpeech = speechOutput;
 
-        this.handler.state = states.STARTMODE;
+     
         this.emit(':ask', speechOutput, repromptSpeech); 
     },
 
@@ -1040,7 +982,7 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
     'AMAZON.StopIntent': function () {
         this.emit('NewSession')  
     } 
-});
+};
 
 
 
