@@ -1,4 +1,5 @@
 
+/***************Libraries*****************/ 
 var Alexa = require('alexa-sdk');
 var _ = require('underscore');
 var dateFormat = require('dateformat');
@@ -9,7 +10,7 @@ var TimeFormat = require('hh-mm-ss');
 var fs = require('fs');
 
 
-/********************************************/ 
+/****************Variables*****************/ 
 
 var agency;
 var calendar;
@@ -37,7 +38,10 @@ var origin_name = "";
 var destination_name = "";
 var possibleNames = [];
 
+/******************Functions******************/ 
 
+
+//function to load data for selected service
 function data(agency_nr){
     
     /*if (agency_nr == 1){
@@ -100,6 +104,7 @@ function data(agency_nr){
 var srvlist = "\n 2 - Metro de Lisboa \n 3 - CP \n 13 - Fertagus.\n"
 
 
+//function to set origin and departure stops
 function initSt2(origi, destinatio){
     ori = _.where(stops, {stop_name: origi.toString()});
     dest = _.where(stops, {stop_name: destinatio.toString()});
@@ -117,6 +122,8 @@ function initSt2(origi, destinatio){
     d = _.where(stops, {stop_id: idCheck(idD.toString())});
 }
 
+
+//function to compare and save stations name with intial letter compatible with spoken nato letters
 function natoCompare(a, b, c){
 
 	var e;
@@ -136,7 +143,7 @@ function natoCompare(a, b, c){
     }
 }
 
-
+//function to convert time to seconds
 function seconds(time){
     var a = time.split(':');
     var seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]); 
@@ -144,7 +151,7 @@ function seconds(time){
 }
 
 
-
+//function to convert string to data fromat
 function convertData(dateString){    
     var year = dateString.substring(0,4);
     var month = dateString.substring(4,6);
@@ -156,7 +163,7 @@ function convertData(dateString){
     return date;
 }
 
-
+//function to check date in interval
 function dateCheck(from,to,check) {
     var now = new Date();
     var fDate,lDate,cDate;
@@ -172,7 +179,7 @@ function dateCheck(from,to,check) {
     
 }
 
-
+//function to check hours in interval
 function horacompare(actual, actualfim, compare){
     var a = actual.toString();
     var ahh = actual.substring(0,2);
@@ -211,6 +218,8 @@ function horacompare(actual, actualfim, compare){
     }   
 }
 
+
+//function to check if string has only numbers and convert to integer
 function idCheck(str){
 
     if (!str.match(/[a-z]/i)) {
@@ -220,6 +229,8 @@ function idCheck(str){
     return str;
 }
 
+
+//function to calculate next avaliable times from origin to destination
 function horario(origem_id, destino_id){
 
 
@@ -241,6 +252,8 @@ function horario(origem_id, destino_id){
     var i = 0;
     var j = 0;
 
+
+    // found in origin and destination stops lists trips where both are consecutives and if trip is in valid date add to list trp
     while(i < trpOri.length){
         while(j < trpDest.length){
             if(_.isEqual(trpOri[i].trip_id, trpDest[j].trip_id) && Number(trpOri[i].stop_sequence) < Number(trpDest[j].stop_sequence)){
@@ -263,18 +276,26 @@ function horario(origem_id, destino_id){
     }
 
 
+    //set actual time to seconds
     var actual = seconds(time.toString());
+    //set time interval to 1hour, 3600seconds
     var actualfim = actual + 3600;
 
 
     var horario = [];
     if (trp.length == 0){
+        //
+        //no tips, verification
         horario = [1];
     }
     else{
 
         var k = 0;
         while(k < trp.length){
+
+            //
+            // for existing trips, with start time, end time and actual time and actualfim time calculate next times from origin and add to horario
+
             var inicio = seconds(trp[k].arrival_time);
             var tripId = parseInt(trp[k].trip_id);
         
@@ -313,12 +334,14 @@ function horario(origem_id, destino_id){
             k = k+1 
         }
     }
+
+    //resonse
     
     return(_.sortBy(horario));
 }
 
 
-
+//function to check next stops from origin to destination
 function nextSops(origem_id, destino_id){
 
     var origem_id = idCheck(origem_id);
@@ -338,6 +361,9 @@ function nextSops(origem_id, destino_id){
     var i = 0;
     var j = 0;
 
+
+    // found in origin and destination stops lists trips where both are consecutives and add to list trp
+
     while(i < trpDest.length){
         while(j < trpOri.length){
             if(_.isEqual(trpOri[j].trip_id, trpDest[i].trip_id)){
@@ -355,6 +381,8 @@ function nextSops(origem_id, destino_id){
 
 
     if (trp.length == 0){
+        //
+        //no tips, verification
         paragens = [1];
     }
 
@@ -364,6 +392,8 @@ function nextSops(origem_id, destino_id){
         var max = [];
         var i = 0;
         while(i < trp.length){
+
+            // found trip where diference stop number origin destination is max
             if(max.length == 0){
                 var max = trp[i];
             }
@@ -384,6 +414,7 @@ function nextSops(origem_id, destino_id){
         j= j +1;
 
         while(j < max.stop_sequence + 1){
+            // for max diference stops number trip, add between stops to output, paragens
           var aux = _.where(stop_times, {trip_id: tp_id, stop_sequence: j});
           var par = _.where(stops, {stop_id: aux[0].stop_id});
           paragens.push(par[0].stop_name);
@@ -393,6 +424,7 @@ function nextSops(origem_id, destino_id){
         }
     }
 
+    //response
     return paragens;    
 }
 
@@ -401,7 +433,7 @@ function nextSops(origem_id, destino_id){
 
 /********************************************/
  
-
+//handlers groups defenition and registering
 exports.handler = function(event, context, callback) {
     var alexa = Alexa.handler(event, context);
 
@@ -411,13 +443,14 @@ exports.handler = function(event, context, callback) {
     alexa.execute();
 };
 
+//states defenition
 var states = {
     STARTMODE: '_STARTMODE',
     ENDMODE: '_ENDMODE'
 };
 
 
-
+//handlers for start new session
 var newSessionHandlers = {
 
      // This will short-cut any incoming intent or launch requests and route them to this handler.
@@ -428,7 +461,7 @@ var newSessionHandlers = {
         this.handler.state = states.STARTMODE;
         this.attributes['lastMode'] = 'NORMAL'
 
-        var speechOutput = "Welcome Trip Skill! I can tell you a route from a departure to arrival station.\n Please, first select the service:" + srvlist + "Say service and number"
+        var speechOutput = "Welcome to Lisbon Trip Skill! I can tell you a route from a departure to arrival station.\n Please, first select the service:" + srvlist + "Say service and number"
         var repromptSpeech = "Please, first select the service: " + srvlist + "Say service and number"
         var header = "Trip Skill"
         var imageObj = {} 
@@ -438,12 +471,12 @@ var newSessionHandlers = {
 
 
     
-    
+    //handler to return information when the system don t understand
     'Unhandled': function () {
         this.emit(':ask', 'I don\'t get it! Or the command is not supported!', 'I don\'t get it! Or the command is not supported!');
     },
 
-
+    //handler to ask help
     'AMAZON.HelpIntent': function () {    
         var speechOutput = "i can tell you a route from one departure to arrival station\n anytime, first you can choose the service:" + srvlist + "Next, choose departure and arrival stations. \n In the end, schedule from departure stations or next stops until arrival station";
         var repromptSpeech = speechOutput;
@@ -452,9 +485,12 @@ var newSessionHandlers = {
         this.emit(':ask', speechOutput, repromptSpeech); 
     },
 
+    //handler to cancel and restar skill
     'AMAZON.CancelIntent': function () {
         this.emit('NewSession') 
     },
+
+    //handler to stop and restar skill
     'AMAZON.StopIntent': function () {
         this.emit('NewSession')  
     } 
@@ -462,15 +498,24 @@ var newSessionHandlers = {
 
 var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
 
-    
 
+    //handler to select service or statin if has multiple options
     'ServiceIntent': function () {
 
         if (this.attributes['lastMode'] == 'NATO'){
 
+            //
+            // last state == "NATO" so select station
+
+
+            // get selected number
             var nr = parseInt(this.event.request.intent.slots.Service.value);
 
-            if (nr < 1 || nr > possibleNames.length + 1){
+            if (nr < 1 || nr > possibleNames.length + 1) {
+
+                //
+                // invalid selectd station 
+
             	var header = "unavailable station number"
 	            var speechOutput = "Station number is unavailable. Try asking another one. \n"
                 var i = 0;
@@ -478,22 +523,32 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
                     speechOutput = speechOutput + " " + (i+1)  + " " + possibleNames[i] + "\n" 
                     i = i+1
                 }
-
                 speechOutput = speechOutput + "say the number."
+                
+            } else if(possibleNames.length == 0) {
 
-            } else if(possibleNames.length == 0){
+                //
+                // no stations found
+
 	            var header = "unavailable stations"
 	            var speechOutput = "Stations unavailable. Try asking another one or change the service."
+	        } else if(origin_name.length == 0) {
 
-	        } else if(origin_name.length == 0){
+                //
+                // origin station selection
+
 	            origin_name = possibleNames[nr-1];
 	             this.attributes['origin_name'] = origin_name
 	            var header = "Departure"
 	            var speechOutput = "Your departure station is "+  this.attributes['origin_name'] + "\n Now, choose your arrival station. Say the first three letters using Nato Phonetic Alphabet."
 	            possibleNames = []
-	            this.handler.state = states.STARTMODE;
 
-	        } else if (destination_name.length == 0){
+
+	        } else if (destination_name.length == 0) {
+
+                //
+                // destination station selection
+
 	            destination_name = possibleNames[nr-1];
 	            this.attributes['destination_name'] = destination_name
 	            var header = "Arrival"
@@ -502,11 +557,17 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
 	            destination =  ["e"]
 	            initSt2(this.attributes['origin_name'], this.attributes['destination_name'])
 	              possibleNames = [];
+
+                // set last mode to "NORMAL"
 	            this.attributes['lastMode'] = 'NORMAL'
+
+                // set next stat to ENDMODE
 	            this.handler.state = states.ENDMODE;
 	        }
 	        var repromptSpeech = speechOutput;
 	        var imageObj = {};
+
+            //emit the response
 
 	        this.emit(':askWithCard', speechOutput, repromptSpeech, header, speechOutput, imageObj);  
 
@@ -514,11 +575,17 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
 
         else if (this.attributes['lastMode'] == 'NORMAL'){
 
+            //
+            // last state == "NORMAL" so select station
+
 	        this.attributes['service'] = parseInt(this.event.request.intent.slots.Service.value);
 
 	       
 
 	        if (this.attributes['service'] == 2 || this.attributes['service'] == 3 || this.attributes['service'] == 13){
+
+                //
+                // select availiable service
 	    
 		        data(this.attributes['service']);
 		        this.attributes['serviceName'] = _.where(agency, {agency_id: this.attributes['service']})[0].agency_name
@@ -529,20 +596,25 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
 	    	}
 
 	    	 else{
+
+                //
+                // invalid service service
 	        	var speechOutput = "Invalid service number. " + "Available services are:" + srvlist + "Say service and number";
 	        	var repromptSpeech = "Invalid service number";
 	        	var header = "Invalid service number";
 	        }
 
 	        var imageObj = {};
+
+            //emit the response
 	       
 	        this.emit(':askWithCard', speechOutput, repromptSpeech, header, speechOutput, imageObj);
 	    }
     },
     
-
+    //handler receive and compare Nato Phonetic Alphabet letter with service stations and give the matches
     NatoIntent : function () {
-
+        //nato letters received 
         var nato1 = this.event.request.intent.slots.NatoA.value.toString();
         var nato2 = this.event.request.intent.slots.NatoB.value.toString();
         var nato3 = this.event.request.intent.slots.NatoC.value.toString();
@@ -551,33 +623,57 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
         var b = nato2.charAt(0).toUpperCase()
         var c = nato3.charAt(0).toUpperCase()
 
+    
+       
+
         if (this.attributes['service'] == 0){
+            //
+            //service existence virification
             var speechOutput = "please first select your service:" + srvlist + "Say service and number"
             var header = "invalid service"
         }
 
         else{
-    
+            
+            
             if(origin_name != "" && destination_name != ""){
+                //
+                //garantee clean variables
                 origin_name = "";
                 destination_name = "";
                 possibleNames = []
             }
 
-
+            //match station names with nato letters
+     
             natoCompare(a, b, c);
 
+
+
+        
             if(possibleNames.length == 0){
+
+                //
+                // no stations found 
                 var header = "unavailable stations"
                 var speechOutput = "Stations unavailable. Try asking another one or change the service."
             } else if (possibleNames.length == 1){
+                //
+                // if only one name matches
+
                 if(origin_name == ""){
+
+                    //
+                    // if name for departure
+
                     origin_name = possibleNames[0];
                     this.attributes['origin_name'] = origin_name
                     var header = "Departure"
                     var speechOutput = "Your departure station is "+ this.attributes['origin_name'] + ".\n Now, choose your arrival station. Say the first three letters using Nato Phonetic Alphabet."
                     possibleNames = []
                 } else if (destination_name == ""){
+                    //
+                    // if name for arrival
                     destination_name = possibleNames[0];
                     this.attributes['destination_name'] = destination_name
                     var header = "Arrival"
@@ -585,28 +681,44 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
                     origin = ["s"]
                     destination =  ["e"]
                  
+                    // Load Departure and Arrival stops
                     initSt2(this.attributes['origin_name'], this.attributes['destination_name']) 
+
                     possibleNames = [];
+
+
+                    // set last mode to "NORMAL"
                     this.attributes['lastMode'] = 'NORMAL'
 
+                    // set next stat to ENDMODE
                     this.handler.state = states.ENDMODE; 
                 }
             } else {
 
+                //
+                // more than one name matches
+
                 var speechOutput = ""
                 var i = 0;
                 while(i<possibleNames.length){
+                    //
+                    // create output information
                     speechOutput = speechOutput + " " + (i+1)  + " " + possibleNames[i] + "\n" 
                     i = i+1
                 }
 
                 speechOutput = speechOutput + "choose the station number"
 
+
+                //select origin or destination to set station 
+
                 if(origin_name == ""){
                     var header = "choose your departure station"
                 } else if (destination_name == ""){
                     var header = "choose your arrival station"
                 }
+
+                // set last mode to "NATO"
                 this.attributes['lastMode'] = 'NATO';
 
                 //this.handler.state = states.SELECTMODE; 
@@ -616,15 +728,19 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
         
         var repromptSpeech = speechOutput;
         var imageObj = {};
+
+
+        //emit response
        
         this.emit(':askWithCard', speechOutput, repromptSpeech, header, speechOutput, imageObj);  
     },
 
+    //handler to return information when the system don t understand
     'Unhandled': function () {
         this.emit(':ask', 'I don\'t get it! Or the command is not supported!', 'I don\'t get it! Or the command is not supported!');
     },
 
-
+    //handler to ask help
     'AMAZON.HelpIntent': function () {    
         var speechOutput = "i can tell you a route from one departure to arrival station\n anytime, first you can choose the service:" + srvlist + "Next, choose departure and arrival stations. \n In the end, schedule from departure stations or next stops until arrival station";
         var repromptSpeech = speechOutput;
@@ -633,25 +749,40 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
         this.emit(':ask', speechOutput, repromptSpeech); 
     },
 
+    //handler to cancel and restar skill
     'AMAZON.CancelIntent': function () {
         this.emit('NewSession') 
     },
+
+    //handler to stop and restar skill
     'AMAZON.StopIntent': function () {
         this.emit('NewSession')  
     } 
 });
 
 
+
+
+
+
+
+
 var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, { 
 
- 'TripIntent' : function () {
+
+    //handler to invoke function to calculate next times from origin to destinantion stop
+    'TripIntent' : function () {
 
 
        if(this.attributes['service'] == 0){
+            //
+            //service existence virification
             var speechOutput = "please first select your service:" + srvlist + "Say service and number"
             var repromptSpeech = speechOutput
             var header = "invalid service"
         } else if(destination.length == 0 && origin.length == 0){
+            //
+            //departure and arrival existence virification
             var speechOutput = "please first select your departure and arrival stations"
             var repromptSpeech = speechOutput
             var header = "invalid departure and arrival"
@@ -659,10 +790,14 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
         else{
             
             if( o.length == 0 || d.length == 0){
+                //
+                //available routes verifications
                 var speechOutput = "that way isn't in that service. Try asking another one or change the service."
                 var repromptSpeech = "try asking about another departure and arrival station or change the service"
                 var header = "invalid way"
             }  else if (origin == destination){
+                //
+                //same arrival and destination verification
                 var speechOutput = "that departure and arrival stations are the same.\ntry asking about another departure and arrival"
                 var repromptSpeech = "try asking about another departure and arrival"
                 var header = "invalid start station is the same end way"
@@ -670,9 +805,12 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
              
                 var time ="";
 
+                //invoke function to calculate next times 
                 var horas = horario(idO.toString(), idD.toString());
 
                 if (horas[0] == 1){
+                    //
+                    //times existence verification
                     var speechOutput =  "No routes available between your stations " + nameO.toUpperCase() + " and " +  nameD.toUpperCase()
                     var header = "No routes available"
                 }
@@ -681,6 +819,8 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
             
                     var k = 0;
                     while (k != horas.length){
+                        //
+                        // format times to output
                         var time = time + horas[k] + "\n"
                         var k = Number(k) + 1
                     }
@@ -695,21 +835,31 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
             }
         }
 
+        //reset variables
         origin = []
         destination = []
-
         var imageObj = {};
+
+        // set next stat to STARTMODE
         this.handler.state = states.STARTMODE;
+
+        //return information
         this.emit(':askWithCard', speechOutput, repromptSpeech, header, speechOutput, imageObj);  
 
     },
 
+
+    //handler to invoke function to calculate next stops from origin to destinantion stop
     'ListIntent' : function () {
         if(this.attributes['service'] == 0){
+            //
+            //service existence virification
             var speechOutput = "please first select your service:" + srvlist + "Say service and number"
             var repromptSpeech = speechOutput
             var header = "invalid service"
         } else if(destination.length == 0 && origin.length == 0){
+            //
+            //departure and arrival existence virification
             var speechOutput = "please first select your departure and arrival stations"
             var repromptSpeech = speechOutput
             var header = "invalid departure and arrival"
@@ -717,10 +867,14 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
         else{
            
            if( o.length == 0 || d.length == 0){
+                //
+                //available routes verifications
                 var speechOutput = "that way isn't in that service. Try asking another one or change the service."
                 var repromptSpeech = "try asking about another departure and arrival station or change the service"
                 var header = "invalid way"
             } else if (origin == destination){
+                 //
+                //same arrival and destination verification
                 var speechOutput = "that departure and arrival stations are the same.\ntry asking about another departure and arrival"
                 var repromptSpeech = "try asking about another departure and arrival"
                 var header = "invalid start station is the same end way"
@@ -728,9 +882,13 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
                
 
                 var stp = ""
+
+                //invoke function to check nest stops
                 var paragens = nextSops(idO.toString(), idD.toString());
 
                 if (paragens[0] == 1){
+                    //
+                    //stops existence verification
                     var speechOutput =  "No routes available between your stations " + nameO.toUpperCase() + " and " +  nameD.toUpperCase()
                     var header = "No routes available"
                 }
@@ -739,6 +897,8 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
 
                     var k = 0;
                     while (k != paragens.length){
+                        //
+                        // format stops to output
                         var stp = stp + paragens[k].toUpperCase() + "\n"
                         var k = Number(k) + 1
                     }
@@ -754,23 +914,34 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
             }
         }
     
-    
+
+        //Reset Variables
         origin = []
         destination = []
 
-        var imageObj = {};
+        var imageObj = {};.
+
+
+         // set next stat to STARTMODE
         this.handler.state = states.STARTMODE;
+
+        //return nesponse
         this.emit(':askWithCard', speechOutput, repromptSpeech, header, speechOutput, imageObj);  
     },
 
 
+    //handler to invoke functions to calculate next times and stops from origin to destinantion stop
     'TripListIntent' : function () {
         if(this.attributes['service'] == 0){
+            //
+            //service existence virification
             var speechOutput = "please first select your service:" + srvlist + "Say service and number"
             var repromptSpeech = speechOutput
             var header = "invalid service"
 
         } else if(destination.length == 0 && origin.length == 0){
+            //
+            //departure and arrival existence virification
             var speechOutput = "please first select your departure and arrival stations"
             var repromptSpeech = speechOutput
             var header = "invalid departure and destination"
@@ -778,10 +949,14 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
         else{
             
            if( o.length == 0 || d.length == 0){
+                //
+                //available routes verifications
                 var speechOutput = "that way isn't in that service. Try asking another one or change the service."
                 var repromptSpeech = "try asking about another departure and arrival station or change the service"
                 var header = "invalid way"
             } else if (origin == destination){
+                //
+                //same arrival and destination verification
                 var speechOutput = "that departure and arrival stations are the same.\ntry asking about another departure and arrival"
                 var repromptSpeech = "try asking about another departure and destination"
                 var header = "invalid start station is the same end way"
@@ -789,9 +964,13 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
                 
                
                 var time ="";
+
+                //invoke function to calculate next times 
                 var horas = horario(idO.toString(), idD.toString());
 
                 if (horas[0] == 1){
+                    //
+                    //times existence verification
                     var speechOutput =  "No routes available between your stations " + nameO.toUpperCase() + " and " +  nameD.toUpperCase()
                     var header = "No routes available"
                 }
@@ -801,6 +980,8 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
 
                     var k = 0;
                     while (k != horas.length){
+                         //
+                        // format times to output
                         var time = time + horas[k] + ".\n"
                         var k = Number(k) + 1
                     }
@@ -809,6 +990,8 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
                     var paragens = nextSops(idO.toString(), idD.toString());
                     var k = 0;
                     while (k != paragens.length){
+                        //
+                        // format stops to output
                         var stp = stp + paragens[k].toUpperCase() + ".\n"
                         var k = Number(k) + 1
                     }
@@ -820,18 +1003,26 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
             }
         }
 
+        //reset variables
         origin = []
         destination = []
 
         var imageObj = {};
+
+        // set next stat to STARTMODE
         this.handler.state = states.STARTMODE;
+
+        //return response
         this.emit(':askWithCard', speechOutput, repromptSpeech, header, speechOutput, imageObj);  
     },
+
+
+   //handler to return information when the system don t understand
     'Unhandled': function () {
         this.emit(':ask', 'I don\'t get it! Or the command is not supported!', 'I don\'t get it! Or the command is not supported!');
     },
 
-
+    //handler to ask help
     'AMAZON.HelpIntent': function () {    
         var speechOutput = "i can tell you a route from one departure to arrival station\n anytime, first you can choose the service:" + srvlist + "Next, choose departure and arrival stations. \n In the end, schedule from departure stations or next stops until arrival station";
         var repromptSpeech = speechOutput;
@@ -840,9 +1031,12 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
         this.emit(':ask', speechOutput, repromptSpeech); 
     },
 
+    //handler to cancel and restar skill
     'AMAZON.CancelIntent': function () {
         this.emit('NewSession') 
     },
+
+    //handler to stop and restar skill
     'AMAZON.StopIntent': function () {
         this.emit('NewSession')  
     } 

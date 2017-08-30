@@ -1,6 +1,5 @@
-ServiceIntent service {Service}
+ServiceIntent {Service}
 NatoIntent {NatoA} {NatoB} {NatoC}
-SelectIntent {Nr}
 TripIntent times
 TripIntent schedule
 ListIntent stops
