@@ -36,7 +36,7 @@ var d;
 var origin_name = "";
 var destination_name = "";
 var possibleNames = [];
-var possibleNames2 = [];
+
 
 function data(agency_nr){
     
@@ -115,6 +115,25 @@ function initSt2(origi, destinatio){
     
     o = _.where(stops, {stop_id: idCheck(idO.toString())});
     d = _.where(stops, {stop_id: idCheck(idD.toString())});
+}
+
+function natoCompare(a, b, c){
+
+	var e;
+    var f;
+    var g;
+
+	var k = 0;
+    while(k < stops.length){
+        e =  stops[k].stop_name.charAt(0).toUpperCase()
+        f =  stops[k].stop_name.charAt(1).toUpperCase()
+        g =  stops[k].stop_name.charAt(2).toUpperCase()
+
+        if (removeAccents.remove(a) == removeAccents.remove(e) && removeAccents.remove(b) == removeAccents.remove(f) && removeAccents.remove(c) == removeAccents.remove(g)){
+            possibleNames.push(stops[k].stop_name)
+        }
+        k= k+1
+    }
 }
 
 
@@ -451,9 +470,21 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
 
             var nr = parseInt(this.event.request.intent.slots.Service.value);
 
-	        if(possibleNames.length == 0){
+            if (nr < 1 || nr > possibleNames.length + 1){
+            	var header = "unavailable station number"
+	            var speechOutput = "Station number is unavailable. Try asking another one. \n"
+                var i = 0;
+                while(i<possibleNames.length){
+                    speechOutput = speechOutput + " " + (i+1)  + " " + possibleNames[i] + "\n" 
+                    i = i+1
+                }
+
+                speechOutput = speechOutput + "say the number."
+
+            } else if(possibleNames.length == 0){
 	            var header = "unavailable stations"
 	            var speechOutput = "Stations unavailable. Try asking another one or change the service."
+
 	        } else if(origin_name.length == 0){
 	            origin_name = possibleNames[nr-1];
 	             this.attributes['origin_name'] = origin_name
@@ -461,6 +492,7 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
 	            var speechOutput = "Your departure station is "+  this.attributes['origin_name'] + "\n Now, choose your arrival station. Say the first three letters using Nato Phonetic Alphabet."
 	            possibleNames = []
 	            this.handler.state = states.STARTMODE;
+
 	        } else if (destination_name.length == 0){
 	            destination_name = possibleNames[nr-1];
 	            this.attributes['destination_name'] = destination_name
@@ -482,15 +514,26 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
 
         else if (this.attributes['lastMode'] == 'NORMAL'){
 
-
 	        this.attributes['service'] = parseInt(this.event.request.intent.slots.Service.value);
-	    
-	        data(this.attributes['service']);
-	        this.attributes['serviceName'] = _.where(agency, {agency_id: this.attributes['service']})[0].agency_name
 
-	        var speechOutput = "You have choosen service number " + this.attributes['service'] + " " + this.attributes['serviceName'] + ".\n" + "Now, what is your departure station? Say the first three letters using Nato Phonetic Alphabet."
-	        var repromptSpeech = "what is your arrival and departure stations?"
-	        var header = "You choosen service number " + this.attributes['service'] + " " + this.attributes['serviceName']
+	       
+
+	        if (this.attributes['service'] == 2 || this.attributes['service'] == 3 || this.attributes['service'] == 13){
+	    
+		        data(this.attributes['service']);
+		        this.attributes['serviceName'] = _.where(agency, {agency_id: this.attributes['service']})[0].agency_name
+
+		        var speechOutput = "You have choosen service number " + this.attributes['service'] + " " + this.attributes['serviceName'] + ".\n" + "Now, what is your departure station? Say the first three letters using Nato Phonetic Alphabet."
+		        var repromptSpeech = "what is your arrival and departure stations?"
+		        var header = "You choosen service number " + this.attributes['service'] + " " + this.attributes['serviceName']
+	    	}
+
+	    	 else{
+	        	var speechOutput = "Invalid service number. " + "Available services are:" + srvlist + "Say service and number";
+	        	var repromptSpeech = "Invalid service number";
+	        	var header = "Invalid service number";
+	        }
+
 	        var imageObj = {};
 	       
 	        this.emit(':askWithCard', speechOutput, repromptSpeech, header, speechOutput, imageObj);
@@ -508,10 +551,6 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
         var b = nato2.charAt(0).toUpperCase()
         var c = nato3.charAt(0).toUpperCase()
 
-        var e;
-        var f;
-        var g;
-
         if (this.attributes['service'] == 0){
             var speechOutput = "please first select your service:" + srvlist + "Say service and number"
             var header = "invalid service"
@@ -525,17 +564,8 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
                 possibleNames = []
             }
 
-            var k = 0;
-            while(k < stops.length){
-                e =  stops[k].stop_name.charAt(0).toUpperCase()
-                f =  stops[k].stop_name.charAt(1).toUpperCase()
-                g =  stops[k].stop_name.charAt(2).toUpperCase()
 
-                if (removeAccents.remove(a) == removeAccents.remove(e) && removeAccents.remove(b) == removeAccents.remove(f) && removeAccents.remove(c) == removeAccents.remove(g)){
-                    possibleNames.push(stops[k].stop_name)
-                }
-                k= k+1
-            }
+            natoCompare(a, b, c);
 
             if(possibleNames.length == 0){
                 var header = "unavailable stations"
@@ -612,12 +642,6 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
 });
 
 
-
-
-
-
-
-
 var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, { 
 
  'TripIntent' : function () {
@@ -673,7 +697,6 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
 
         origin = []
         destination = []
-
 
         var imageObj = {};
         this.handler.state = states.STARTMODE;
@@ -731,7 +754,6 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
             }
         }
     
-
     
         origin = []
         destination = []
