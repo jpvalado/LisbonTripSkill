@@ -97,9 +97,7 @@ function data(agency_nr){
 
 
 //var srvlist = "\n 2 - Metro de Lisboa. \n 3 - CP. \n 4 - Transtejo. \n 13 - Fertagus. \n 14 - Soflusa.\n";
-//var srvlist = "\n 2 - Metro de Lisboa. \n 3 - CP. \n 13 - Fertagus.\n"
-var srvlist = "\n A - Metro de Lisboa. \n B - CP. \n C - Fertagus.\n"
-
+var srvlist = "\n 2 - Metro de Lisboa \n 3 - CP \n 13 - Fertagus.\n"
 
 
 function initSt2(origi, destinatio){
@@ -390,13 +388,12 @@ exports.handler = function(event, context, callback) {
 
     // alexa.dynamoDBTableName = 'YourTableName'; // creates new table for userid:session.attributes
 
-    alexa.registerHandlers( newSessionHandlers, startModeHandlers, selectModeHandlers, endModeHandlers);
+    alexa.registerHandlers( newSessionHandlers, startModeHandlers, endModeHandlers);
     alexa.execute();
 };
 
 var states = {
     STARTMODE: '_STARTMODE',
-    SELECTMODE: '_SELECTMODE',
     ENDMODE: '_ENDMODE'
 };
 
@@ -410,9 +407,10 @@ var newSessionHandlers = {
             this.attributes['service'] = 0;
         }
         this.handler.state = states.STARTMODE;
+        this.attributes['lastMode'] = 'NORMAL'
 
-        var speechOutput = "Welcome Trip Skill! I can tell you a route from a departure to arrival station.\n Please, first select the service:" + srvlist + "Say service letter"
-        var repromptSpeech = "Please, first select the service: " + srvlist + "Say service letter"
+        var speechOutput = "Welcome Trip Skill! I can tell you a route from a departure to arrival station.\n Please, first select the service:" + srvlist + "Say service and number"
+        var repromptSpeech = "Please, first select the service: " + srvlist + "Say service and number"
         var header = "Trip Skill"
         var imageObj = {} 
 
@@ -449,28 +447,54 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
 
     'ServiceIntent': function () {
 
-        var letter = this.event.request.intent.slots.Service.value.toString();
+        if (this.attributes['lastMode'] == 'NATO'){
 
+            var nr = parseInt(this.event.request.intent.slots.Service.value);
 
-        if(letter == 'a'){
-            this.attributes['service'] = 2;
-        } else if(letter == 'b'){
-            this.attributes['service'] = 3;
-        } else if(letter == 'c'){
-            this.attributes['service'] = 4;
+	        if(possibleNames.length == 0){
+	            var header = "unavailable stations"
+	            var speechOutput = "Stations unavailable. Try asking another one or change the service."
+	        } else if(origin_name.length == 0){
+	            origin_name = possibleNames[nr-1];
+	             this.attributes['origin_name'] = origin_name
+	            var header = "Departure"
+	            var speechOutput = "Your departure station is "+  this.attributes['origin_name'] + "\n Now, choose your arrival station. Say the first three letters using Nato Phonetic Alphabet."
+	            possibleNames = []
+	            this.handler.state = states.STARTMODE;
+	        } else if (destination_name.length == 0){
+	            destination_name = possibleNames[nr-1];
+	            this.attributes['destination_name'] = destination_name
+	            var header = "Arrival"
+	            var speechOutput = "Your arrival station is "+  this.attributes['destination_name']   + "\n Now, you want, next times from departure, or the stations until arrival, or both?"
+	            origin = ["s"]
+	            destination =  ["e"]
+	            initSt2(this.attributes['origin_name'], this.attributes['destination_name'])
+	              possibleNames = [];
+	            this.attributes['lastMode'] = 'NORMAL'
+	            this.handler.state = states.ENDMODE;
+	        }
+	        var repromptSpeech = speechOutput;
+	        var imageObj = {};
+
+	        this.emit(':askWithCard', speechOutput, repromptSpeech, header, speechOutput, imageObj);  
+
         }
-        
 
-    
-        data(this.attributes['service']);
-        this.attributes['serviceName'] = _.where(agency, {agency_id: this.attributes['service']})[0].agency_name
+        else if (this.attributes['lastMode'] == 'NORMAL'){
 
-        var speechOutput = "You have choosen service letter " + this.attributes['service'] + " " + this.attributes['serviceName'] + ".\n" + "Now, what is your departure station? Say the first three letters using Nato Phonetic Alphabet."
-        var repromptSpeech = "what is your arrival and departure stations?"
-        var header = "You choosen service letter " + this.attributes['service'] + " " + this.attributes['serviceName']
-        var imageObj = {};
-       
-        this.emit(':askWithCard', speechOutput, repromptSpeech, header, speechOutput, imageObj);
+
+	        this.attributes['service'] = parseInt(this.event.request.intent.slots.Service.value);
+	    
+	        data(this.attributes['service']);
+	        this.attributes['serviceName'] = _.where(agency, {agency_id: this.attributes['service']})[0].agency_name
+
+	        var speechOutput = "You have choosen service number " + this.attributes['service'] + " " + this.attributes['serviceName'] + ".\n" + "Now, what is your departure station? Say the first three letters using Nato Phonetic Alphabet."
+	        var repromptSpeech = "what is your arrival and departure stations?"
+	        var header = "You choosen service number " + this.attributes['service'] + " " + this.attributes['serviceName']
+	        var imageObj = {};
+	       
+	        this.emit(':askWithCard', speechOutput, repromptSpeech, header, speechOutput, imageObj);
+	    }
     },
     
 
@@ -489,7 +513,7 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
         var g;
 
         if (this.attributes['service'] == 0){
-            var speechOutput = "please first select your service:" + srvlist + "Say "
+            var speechOutput = "please first select your service:" + srvlist + "Say service and number"
             var header = "invalid service"
         }
 
@@ -532,6 +556,9 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
                     destination =  ["e"]
                  
                     initSt2(this.attributes['origin_name'], this.attributes['destination_name']) 
+                    possibleNames = [];
+                    this.attributes['lastMode'] = 'NORMAL'
+
                     this.handler.state = states.ENDMODE; 
                 }
             } else {
@@ -550,7 +577,9 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
                 } else if (destination_name == ""){
                     var header = "choose your arrival station"
                 }
-                this.handler.state = states.SELECTMODE; 
+                this.attributes['lastMode'] = 'NATO';
+
+                //this.handler.state = states.SELECTMODE; 
             }
         }
 
@@ -583,58 +612,6 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
 });
 
 
-var selectModeHandlers = Alexa.CreateStateHandler(states.SELECTMODE, {
-
-    'SelectIntent' : function () {
-        var nr = this.event.request.intent.slots.Nr.value;
-
-        if(possibleNames.length == 0){
-            var header = "unavailable stations"
-            var speechOutput = "Stations unavailable. Try asking another one or change the service."
-        } else if(origin_name.length == 0){
-            origin_name = possibleNames[nr-1];
-             this.attributes['origin_name'] = origin_name
-            var header = "Departure"
-            var speechOutput = "Your departure station is "+  this.attributes['origin_name'] + "\n Now, choose your arrival station. Say the first three letters using Nato Phonetic Alphabet."
-            possibleNames = []
-            this.handler.state = states.STARTMODE;
-        } else if (destination_name.length == 0){
-            destination_name = possibleNames[nr-1];
-            this.attributes['destination_name'] = destination_name
-            var header = "Arrival"
-            var speechOutput = "Your arrival station is "+  this.attributes['destination_name']   + "\n Now, you want, next times from departure, or the stations until arrival, or both?"
-            origin = ["s"]
-            destination =  ["e"]
-            initSt2(this.attributes['origin_name'], this.attributes['destination_name'])
-            this.handler.state = states.ENDMODE;
-        }
-        var repromptSpeech = speechOutput;
-        var imageObj = {};
-
-        this.emit(':askWithCard', speechOutput, repromptSpeech, header, speechOutput, imageObj);  
-
-    },
-
-    'Unhandled': function () {
-        this.emit(':ask', 'I don\'t get it! Or the command is not supported!', 'I don\'t get it! Or the command is not supported!');
-    },
-
-
-    'AMAZON.HelpIntent': function () {    
-        var speechOutput = "i can tell you a route from one departure to arrival station\n anytime, first you can choose the service:" + srvlist + "Next, choose departure and arrival stations. \n In the end, schedule from departure stations or next stops until arrival station";
-        var repromptSpeech = speechOutput;
-
-        this.handler.state = states.STARTMODE;
-        this.emit(':ask', speechOutput, repromptSpeech); 
-    },
-
-    'AMAZON.CancelIntent': function () {
-        this.emit('NewSession') 
-    },
-    'AMAZON.StopIntent': function () {
-        this.emit('NewSession')  
-    } 
-});
 
 
 
@@ -647,7 +624,7 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
 
 
        if(this.attributes['service'] == 0){
-            var speechOutput = "please first select your service:" + srvlist + "Say service letter"
+            var speechOutput = "please first select your service:" + srvlist + "Say service and number"
             var repromptSpeech = speechOutput
             var header = "invalid service"
         } else if(destination.length == 0 && origin.length == 0){
@@ -684,13 +661,13 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
                         var k = Number(k) + 1
                     }
             
-                    var speechOutput =  nameO.toUpperCase() +  " " +"next trains to " + nameD.toUpperCase() + " are:\n" + time  + "\n for other route tell me the departure and arrival, or change the service:" + srvlist + "Say service letter"
+                    var speechOutput =  nameO.toUpperCase() +  " " +"next trains to " + nameD.toUpperCase() + " are:\n" + time  + "\n for other route tell me the departure and arrival, or change the service:" + srvlist + "Say service and number"
 
 
                     var header = nameO.toUpperCase() + " to " +  nameD.toUpperCase()
                 }
 
-                var repromptSpeech = "for other route tell me the departure and arrival, or change the service:" + srvlist + "Say service letter";
+                var repromptSpeech = "for other route tell me the departure and arrival, or change the service:" + srvlist + "Say service and number";
             }
         }
 
@@ -706,7 +683,7 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
 
     'ListIntent' : function () {
         if(this.attributes['service'] == 0){
-            var speechOutput = "please first select your service:" + srvlist + "Say service letter"
+            var speechOutput = "please first select your service:" + srvlist + "Say service and number"
             var repromptSpeech = speechOutput
             var header = "invalid service"
         } else if(destination.length == 0 && origin.length == 0){
@@ -744,13 +721,13 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
                     }
             
 
-                    var speechOutput = nameO.toUpperCase() + " next stops to " + nameD.toUpperCase() + " are: \n" + stp + "\n for other route tell me the departure and arrival, or change the service:" + srvlist + "Say service letter"
+                    var speechOutput = nameO.toUpperCase() + " next stops to " + nameD.toUpperCase() + " are: \n" + stp + "\n for other route tell me the departure and arrival, or change the service:" + srvlist + "Say service and number"
 
 
                     var header = nameO.toUpperCase() + " next stops to " + nameD.toUpperCase()
                 }
 
-                var repromptSpeech = "for other route tell me the departure and arrival, or change the service:" + srvlist + "Say service letter"
+                var repromptSpeech = "for other route tell me the departure and arrival, or change the service:" + srvlist + "Say service and number"
             }
         }
     
@@ -767,7 +744,7 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
 
     'TripListIntent' : function () {
         if(this.attributes['service'] == 0){
-            var speechOutput = "please first select your service:" + srvlist + "Say service letter"
+            var speechOutput = "please first select your service:" + srvlist + "Say service and number"
             var repromptSpeech = speechOutput
             var header = "invalid service"
 
@@ -814,10 +791,10 @@ var endModeHandlers = Alexa.CreateStateHandler(states.ENDMODE, {
                         var k = Number(k) + 1
                     }
             
-                    var speechOutput =  nameO.toUpperCase() +  " " +"next trains to " + nameD.toUpperCase() + " are:\n" + time + "\n And next stop stations are: \n" + stp + "\n" + "for other route tell me the departure and arrival, or change the service:" +  srvlist + "Say service letter"
+                    var speechOutput =  nameO.toUpperCase() +  " " +"next trains to " + nameD.toUpperCase() + " are:\n" + time + "\n And next stop stations are: \n" + stp + "\n" + "for other route tell me the departure and arrival, or change the service:" +  srvlist + "Say service and number"
                     var header = nameO.toUpperCase() + " to " +  nameD.toUpperCase()
                 }
-                var repromptSpeech = "for other route tell me the departure and destination, or change the service:" + srvlist + "Say service letter";
+                var repromptSpeech = "for other route tell me the departure and destination, or change the service:" + srvlist + "Say service and number";
             }
         }
 
