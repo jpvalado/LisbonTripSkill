@@ -101,7 +101,7 @@ function data(agency_nr){
 
 
 //var srvlist = "\n 2 - Metro de Lisboa. \n 3 - CP. \n 4 - Transtejo. \n 13 - Fertagus. \n 14 - Soflusa.\n";
-var srvlist = "\n 2 - Metro de Lisboa \n 3 - CP \n 13 - Fertagus.\n"
+var srvlist = "\n 2 - Metro de Lisboa. \n 3 - CP. \n 13 - Fertagus.\n"
 
 
 //function to set origin and departure stops
