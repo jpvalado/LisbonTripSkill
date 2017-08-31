@@ -463,7 +463,7 @@ var handlers = {
 
         var speechOutput = "Welcome to Lisbon Trip Skill! I can tell you a route from a departure to arrival station.\n Please, first select the service:" + srvlist + "Say service and number"
         var repromptSpeech = "Please, first select the service: " + srvlist + "Say service and number"
-        var header = "Trip Skill"
+        var header = "Lisbon Trip Skill"
         var imageObj = {} 
 
          this.emit(':askWithCard',  speechOutput, repromptSpeech, header, speechOutput, imageObj);
@@ -512,7 +512,7 @@ var handlers = {
 
 	            origin_name = possibleNames[nr-1];
 	             this.attributes['origin_name'] = origin_name
-	            var header = "Departure"
+	            var header = "Departure " + this.attributes['origin_name']
 	            var speechOutput = "Your departure station is "+  this.attributes['origin_name'] + "\n Now, choose your arrival station. Say the first three letters using Nato Phonetic Alphabet."
 	            possibleNames = []
                 // set last mode to "NORMAL"
@@ -525,7 +525,7 @@ var handlers = {
 
 	            destination_name = possibleNames[nr-1];
 	            this.attributes['destination_name'] = destination_name
-	            var header = "Arrival"
+	             var header = "Arrival " + this.attributes['destination_name']
 	            var speechOutput = "Your arrival station is "+  this.attributes['destination_name']   + "\n Now, you want, next times from departure, or the stations until arrival, or both?"
 	            origin = ["s"]
 	            destination =  ["e"]
@@ -649,7 +649,7 @@ var handlers = {
 
                     origin_name = possibleNames[0];
                     this.attributes['origin_name'] = origin_name
-                    var header = "Departure"
+                     var header = "Departure " + this.attributes['origin_name']
                     var speechOutput = "Your departure station is "+ this.attributes['origin_name'] + ".\n Now, choose your arrival station. Say the first three letters using Nato Phonetic Alphabet."
                     possibleNames = []
                 } else if (destination_name == ""){
@@ -657,7 +657,7 @@ var handlers = {
                     // if name for arrival
                     destination_name = possibleNames[0];
                     this.attributes['destination_name'] = destination_name
-                    var header = "Arrival"
+                    var header = "Arrival " + this.attributes['destination_name']
                     var speechOutput = "Your arrival station is "+ this.attributes['destination_name']  +  ".\n Now, you want, next times from departure, or the stations until arrival, or both?"
                     origin = ["s"]
                     destination =  ["e"]
@@ -777,7 +777,7 @@ var handlers = {
                     var speechOutput =  nameO.toUpperCase() +  " " +"next trains to " + nameD.toUpperCase() + " are:\n" + time  + "\n for other route tell me the departure and arrival, or change the service:" + srvlist + "Say service and number"
 
 
-                    var header = nameO.toUpperCase() + " to " +  nameD.toUpperCase()
+                    var header = nameO.toUpperCase() + " to " +  nameD.toUpperCase() + " schedule."
                 }
 
                 var repromptSpeech = "for other route tell me the departure and arrival, or change the service:" + srvlist + "Say service and number";
@@ -941,7 +941,7 @@ var handlers = {
                     }
             
                     var speechOutput =  nameO.toUpperCase() +  " " +"next trains to " + nameD.toUpperCase() + " are:\n" + time + "\n And next stop stations are: \n" + stp + "\n" + "for other route tell me the departure and arrival, or change the service:" +  srvlist + "Say service and number"
-                    var header = nameO.toUpperCase() + " to " +  nameD.toUpperCase()
+                    var header = nameO.toUpperCase() + " to " +  nameD.toUpperCase() + " schedule and stops."
                 }
                 var repromptSpeech = "for other route tell me the departure and destination, or change the service:" + srvlist + "Say service and number";
             }
