@@ -1,0 +1,98 @@
+[
+  {
+    "stop_id": "T01",
+    "stop_code": "",
+    "stop_name": "Belém",
+    "stop_desc": "",
+    "stop_lat": 38.69442,
+    "stop_lon": -9.19836,
+    "zone_id": "",
+    "stop_url": "",
+    "location_type": "",
+    "parent_station": ""
+  },
+  {
+    "stop_id": "T05",
+    "stop_code": "",
+    "stop_name": "Cacilhas",
+    "stop_desc": "",
+    "stop_lat": 38.68847,
+    "stop_lon": -9.14736,
+    "zone_id": "",
+    "stop_url": "",
+    "location_type": "",
+    "parent_station": ""
+  },
+  {
+    "stop_id": "T04",
+    "stop_code": "",
+    "stop_name": "Cais do Sodré",
+    "stop_desc": "",
+    "stop_lat": 38.70509,
+    "stop_lon": -9.14625,
+    "zone_id": "",
+    "stop_url": "",
+    "location_type": "",
+    "parent_station": ""
+  },
+  {
+    "stop_id": "T14",
+    "stop_code": "",
+    "stop_name": "Montijo - Seixalinho",
+    "stop_desc": "",
+    "stop_lat": 38.70025,
+    "stop_lon": -9.00558,
+    "zone_id": "",
+    "stop_url": "",
+    "location_type": "",
+    "parent_station": ""
+  },
+  {
+    "stop_id": "T02",
+    "stop_code": "",
+    "stop_name": "Porto Brandão",
+    "stop_desc": "",
+    "stop_lat": 38.67815,
+    "stop_lon": -9.20694,
+    "zone_id": "",
+    "stop_url": "",
+    "location_type": "",
+    "parent_station": ""
+  },
+  {
+    "stop_id": "T09",
+    "stop_code": "",
+    "stop_name": "Seixal",
+    "stop_desc": "",
+    "stop_lat": 38.64716,
+    "stop_lon": -9.09568,
+    "zone_id": "",
+    "stop_url": "",
+    "location_type": "",
+    "parent_station": ""
+  },
+  {
+    "stop_id": "T08",
+    "stop_code": "",
+    "stop_name": "Terreiro do Paço",
+    "stop_desc": "",
+    "stop_lat": 38.70684,
+    "stop_lon": -9.13455,
+    "zone_id": "",
+    "stop_url": "",
+    "location_type": "",
+    "parent_station": ""
+  },
+  {
+    "stop_id": "T03",
+    "stop_code": "",
+    "stop_name": "Trafaria",
+    "stop_desc": "",
+    "stop_lat": 38.67477,
+    "stop_lon": -9.23808,
+    "zone_id": "",
+    "stop_url": "",
+    "location_type": "",
+    "parent_station": ""
+  }
+]

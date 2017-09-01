@@ -1,0 +1,85 @@
+session["contextGoalIntent"] = "IntentNextStops";
+session["service"] = "three";
+session["from"] = "12364";
+session["to"] = "54321";
+
+
+
+IntentNextStops Get me next stops for {service} from {NATO1} {NATO2} {NATO3} to {NATO4} {NATO5} {NATO6}
+IntentNextStops Get me next stops for {service}
+IntentNextStops Get me next stops
+
+IntentNextTimetables Get me next timetables for {service} from {NATO1} {NATO2} {NATO3} to {NATO4} {NATO5} {NATO6}
+IntentNextTimetables Get me next timetables for {service}
+IntentNextTimetables Get me next timetables
+
+IntentService For {Service}
+IntentService {Service}
+IntentNato From {NATO1} {NATO2} {NATO3}
+IntentNato To {NATO4} {NATO5} {NATO6}
+IntentNato {NATO1} {NATO2} {NATO3}
+
+
+
+
+IntentNextStops Get me next stops 
+                IntentService For {Service} 
+                IntentNato From {NATO1} {NATO2} {NATO3}
+                IntentNato To {NATO4} {NATO5} {NATO6}
+
+
+
+
+
+
+IntentNextStops Get me next {action} for {service} from {NATO1} {NATO2} {NATO3} to {NATO4} {NATO5} {NATO6}
+IntentNextStops Get me next {action1} and {action2} for {service} from {NATO1} {NATO2} {NATO3} to {NATO4} {NATO5} {NATO6}
+
+
+
+{
+  "intents": [
+    
+    {
+      "slots": [
+      	{
+          "name": "Service",
+          "type": "AMAZON.NUMBER"
+        },
+        {
+          "name": "NatoA",
+          "type": "LIST_OF_NATO"
+        },
+        {
+          "name": "NatoB",
+          "type": "LIST_OF_NATO"
+        },
+        {
+          "name": "NatoC",
+          "type": "LIST_OF_NATO"
+        }
+        {
+          "name": "NatoD",
+          "type": "LIST_OF_NATO"
+        },
+        {
+          "name": "NatoE",
+          "type": "LIST_OF_NATO"
+        },
+        {
+          "name": "NatoF",
+          "type": "LIST_OF_NATO"
+        },
+        {
+          "name": "ActionA",
+          "type": "LIST_OF_ACTION"
+        },
+        {
+          "name": "ActionB",
+          "type": "LIST_OF_ACTION"
+        }
+      ],
+      "intent": "x"
+    }
+  ]
+}
