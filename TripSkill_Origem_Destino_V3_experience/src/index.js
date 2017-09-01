@@ -42,12 +42,7 @@ var possibleNames = [];
 
 
 var service = 0
-var nato1 = ''
-var nato2 = ''
-var nato3 = ''
-var nato4 = ''
-var nato5 = ''
-var nato6 = ''
+
 var action1 =''
 var action2 =''
 // state i, o, d, a1, a2, b
@@ -834,10 +829,7 @@ var handlers = {
 				}
 			}
 
-			
-
-
-
+	
     },
 
 
