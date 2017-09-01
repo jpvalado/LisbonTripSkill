@@ -27,15 +27,6 @@
       "intent": "NatoIntent"
     },
     {
-      "slots": [
-        {
-          "name": "Nr",
-          "type": "AMAZON.NUMBER"
-        }
-      ],
-      "intent": "SelectIntent"
-    },
-    {
       "intent": "TripIntent"
     },
     {
@@ -43,6 +34,12 @@
     },
     {
       "intent": "TripListIntent"
+    },
+    {
+      "intent": "Presentation"
+    },
+    {
+      "intent": "Conclusion"
     },
     {
       "intent": "AMAZON.HelpIntent"

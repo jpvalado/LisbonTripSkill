@@ -448,9 +448,9 @@ exports.handler = function(event, context, callback) {
 //handlers for start new session
 var handlers = {
 
-    'LaunchRequest': function () {
+  /*  'LaunchRequest': function () {
         this.emit('NewSession');
-    },
+    },*/
 
      // This will short-cut any incoming intent or launch requests and route them to this handler.
     'NewSession': function() {
@@ -461,8 +461,8 @@ var handlers = {
        
         this.attributes['lastMode'] = 'NORMAL'
 
-        var speechOutput = "Welcome to Lisbon Trip Skill! I can tell you a route from a departure to arrival station.\n Please, first select the service:" + srvlist + "Say service and number"
-        var repromptSpeech = "Please, first select the service: " + srvlist + "Say service and number"
+        var speechOutput = "Welcome to Lisbon Trip Skill! I can tell you a route from a departure to arrival station.\n Please, first select the service:" + srvlist + "Say service's number"
+        var repromptSpeech = "Please, first select the service: " + srvlist + "Say service's number"
         var header = "Lisbon Trip Skill"
         var imageObj = {} 
 
@@ -580,7 +580,7 @@ var handlers = {
 
                 //
                 // invalid service service
-	        	var speechOutput = "Invalid service number. " + "Available services are:" + srvlist + "Say service and number";
+	        	var speechOutput = "Invalid service number. " + "Available services are:" + srvlist + "Say service's number";
 	        	var repromptSpeech = "Invalid service number";
 	        	var header = "Invalid service number";
 	        }
@@ -610,7 +610,7 @@ var handlers = {
         if (this.attributes['service'] == 0){
             //
             //service existence virification
-            var speechOutput = "please first select your service:" + srvlist + "Say service and number"
+            var speechOutput = "please first select your service:" + srvlist + "Say service's number"
             var header = "invalid service"
         }
 
@@ -726,7 +726,7 @@ var handlers = {
        if(this.attributes['service'] == 0){
             //
             //service existence virification
-            var speechOutput = "please first select your service:" + srvlist + "Say service and number"
+            var speechOutput = "please first select your service:" + srvlist + "Say service's number"
             var repromptSpeech = speechOutput
             var header = "invalid service"
         } else if(destination.length == 0 && origin.length == 0){
@@ -774,13 +774,13 @@ var handlers = {
                         var k = Number(k) + 1
                     }
             
-                    var speechOutput =  nameO.toUpperCase() +  " " +"next trains to " + nameD.toUpperCase() + " are:\n" + time  + "\n for other route tell me the departure and arrival, or change the service:" + srvlist + "Say service and number"
+                    var speechOutput =  nameO.toUpperCase() +  " " +"next trains to " + nameD.toUpperCase() + " are:\n" + time  + "\n for other route tell me the departure and arrival, or change the service:" + srvlist + "Say service's number"
 
 
                     var header = nameO.toUpperCase() + " to " +  nameD.toUpperCase() + " schedule."
                 }
 
-                var repromptSpeech = "for other route tell me the departure and arrival, or change the service:" + srvlist + "Say service and number";
+                var repromptSpeech = "for other route tell me the departure and arrival, or change the service:" + srvlist + "Say service's number";
             }
         }
 
@@ -802,7 +802,7 @@ var handlers = {
         if(this.attributes['service'] == 0){
             //
             //service existence virification
-            var speechOutput = "please first select your service:" + srvlist + "Say service and number"
+            var speechOutput = "please first select your service:" + srvlist + "Say service's number"
             var repromptSpeech = speechOutput
             var header = "invalid service"
         } else if(destination.length == 0 && origin.length == 0){
@@ -852,13 +852,13 @@ var handlers = {
                     }
             
 
-                    var speechOutput = nameO.toUpperCase() + " next stops to " + nameD.toUpperCase() + " are: \n" + stp + "\n for other route tell me the departure and arrival, or change the service:" + srvlist + "Say service and number"
+                    var speechOutput = nameO.toUpperCase() + " next stops to " + nameD.toUpperCase() + " are: \n" + stp + "\n for other route tell me the departure and arrival, or change the service:" + srvlist + "Say service's number"
 
 
                     var header = nameO.toUpperCase() + " next stops to " + nameD.toUpperCase()
                 }
 
-                var repromptSpeech = "for other route tell me the departure and arrival, or change the service:" + srvlist + "Say service and number"
+                var repromptSpeech = "for other route tell me the departure and arrival, or change the service:" + srvlist + "Say service's number"
             }
         }
     
@@ -879,7 +879,7 @@ var handlers = {
         if(this.attributes['service'] == 0){
             //
             //service existence virification
-            var speechOutput = "please first select your service:" + srvlist + "Say service and number"
+            var speechOutput = "please first select your service:" + srvlist + "Say service's number"
             var repromptSpeech = speechOutput
             var header = "invalid service"
 
@@ -940,10 +940,10 @@ var handlers = {
                         var k = Number(k) + 1
                     }
             
-                    var speechOutput =  nameO.toUpperCase() +  " " +"next trains to " + nameD.toUpperCase() + " are:\n" + time + "\n And next stop stations are: \n" + stp + "\n" + "for other route tell me the departure and arrival, or change the service:" +  srvlist + "Say service and number"
+                    var speechOutput =  nameO.toUpperCase() +  " " +"next trains to " + nameD.toUpperCase() + " are:\n" + time + "\n And next stop stations are: \n" + stp + "\n" + "for other route tell me the departure and arrival, or change the service:" +  srvlist + "Say service's number"
                     var header = nameO.toUpperCase() + " to " +  nameD.toUpperCase() + " schedule and stops."
                 }
-                var repromptSpeech = "for other route tell me the departure and destination, or change the service:" + srvlist + "Say service and number";
+                var repromptSpeech = "for other route tell me the departure and destination, or change the service:" + srvlist + "Say service's number";
             }
         }
 
@@ -981,7 +981,32 @@ var handlers = {
     //handler to stop and restar skill
     'AMAZON.StopIntent': function () {
         this.emit('NewSession')  
-    } 
+    }, 
+
+
+     'Presentation': function () {    
+        var speechOutput = "Hello.\n" + 
+"My name is Alexa and I'll be presenting the results of João Rodrigues's summer internship at Link Consulting. The objective of his work was to create a virtual assistant from available transit open data, General Transit Feed Specification - GTFS, that could be usable on a non-supported language. The chosen platform, Amazon’s Alexa, only supports English (United States and United Kingdom) and German, so as expected using it with Portuguese train stations was a challenge. Other objectives included getting acquainted with the capabilities and limitations of this virtual assistant, architectural models, session management and the business models that will drive these implementations.\n"+
+"From the first tests it was clear that presently Alexa had an hard time recognizing Portuguese names, getting less than 5 pwe hit rate, so I’ve decided to try out the NATO Phonetic Alphabet on Alexa. This alphabet, first introduced in the military but now present in many other areas, is used to disambiguate letters over a voice communication channel. The results: over 95% hit rate, which I’d say is an interesting result for non-English speakers.\n"+
+"The chosen scenario exposes Lisbon public transportation operators timetables as a virtual assistant, allowing someone with an Amazon Echo to ask for the next train stops while having breakfast.\n"+
+
+"Let’s give it a try:";
+        var repromptSpeech = speechOutput;
+
+     
+        this.emit(':tell', speechOutput, repromptSpeech); 
+    },
+    'Conclusion': function () {    
+        var speechOutput = "This virtual assistants, although still recent, have great potential and applications, from answering trivial questions to more complex scenarios like shopping and home automation. The Alexa development environment proved very simple to use and without costs for the developer.\n"+
+"The lack of support for Portuguese language was successfully circumvented by using NATO Phonetic Alphabet, though is more likely for a British or an American to know such an alphabet than for a Portuguese.\n"+
+"Session management was simple to implement, though maintaining a conversation context over this session was somehow challenging as Alexa doesn’t provide native conversation support for it, leaving this responsibility to the developer.\n"+
+"Regarding business model Amazon is trying out a rewarding model for successful Skills to attract traffic to their ecosystem, so fill free to try your luck."
+
+        var repromptSpeech = speechOutput;
+
+     
+        this.emit(':tell', speechOutput, repromptSpeech); 
+    }
 };
 
 
