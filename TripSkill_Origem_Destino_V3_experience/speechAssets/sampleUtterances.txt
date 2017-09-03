@@ -2,8 +2,9 @@ ServiceIntent {Service}
 NatoIntent {NatoA} {NatoB} {NatoC}
 TripIntent times
 TripIntent schedule
-ListIntent stops
-ListIntent stations
+IntentNextAction Get me next stops for {Service}
+IntentNextAction Get me next stops for {Service} from {NatoA} {NatoB} {NatoC}
+IntentNextAction Get me next stops
 TripListIntent times and stops
 TripListIntent times and stations
 TripListIntent stops and times

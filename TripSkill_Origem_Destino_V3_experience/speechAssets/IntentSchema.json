@@ -30,7 +30,25 @@
       "intent": "TripIntent"
     },
     {
-      "intent": "ListIntent"
+      "slots": [
+        {
+          "name": "Service",
+          "type": "AMAZON.NUMBER"
+        },
+        {
+          "name": "NatoA",
+          "type": "LIST_OF_NATO"
+        },
+        {
+          "name": "NatoB",
+          "type": "LIST_OF_NATO"
+        },
+        {
+          "name": "NatoC",
+          "type": "LIST_OF_NATO"
+        }
+      ],
+      "intent": "IntentNextAction"
     },
     {
       "intent": "TripListIntent"
