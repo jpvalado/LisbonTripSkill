@@ -1,0 +1,63 @@
+/*****************************************************************************/
+//
+// Summer Internship at Link Consulting
+// Skills development -  Amazon Akexa
+// Joao Rodrigues
+// July - September 2017
+//
+/*****************************************************************************/
+
+{
+  "intents": [
+    {
+      "slots": [
+        {
+          "name": "Service",
+          "type": "AMAZON.NUMBER"
+        }
+      ],
+      "intent": "ServiceIntent"
+    },
+    {
+      "slots": [
+        {
+          "name": "NatoA",
+          "type": "LIST_OF_NATO"
+        },
+        {
+          "name": "NatoB",
+          "type": "LIST_OF_NATO"
+        },
+        {
+          "name": "NatoC",
+          "type": "LIST_OF_NATO"
+        }
+      ],
+      "intent": "NatoIntent"
+    },
+    {
+      "intent": "TripIntent"
+    },
+    {
+      "intent": "ListIntent"
+    },
+    {
+      "intent": "TripListIntent"
+    },
+    {
+      "intent": "Presentation"
+    },
+    {
+      "intent": "Conclusion"
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    },
+    {
+      "intent": "AMAZON.StopIntent"
+    },
+    {
+      "intent": "AMAZON.CancelIntent"
+    }
+  ]
+}
