@@ -1,7 +1,7 @@
 /*****************************************************************************/
 //
 // Summer Internship at Link Consulting
-// Skills development -  Amazon Akexa
+// Skills development -  Amazon Alexa
 // Joao Rodrigues
 // July - September 2017
 //
